@@ -7,6 +7,7 @@ import com.ekko.eyepetizer.page.viewholder.CommunityPgcVideoViewHolder
 import com.ekko.eyepetizer.page.viewholder.DefaultViewHolder
 import com.ekko.eyepetizer.page.viewholder.FeedCoverLargeViewHolder
 import com.ekko.eyepetizer.page.viewholder.FeedCoverSmallViewHolder
+import com.ekko.eyepetizer.page.viewholder.IconGridViewHolder
 import com.ekko.eyepetizer.page.viewholder.PageViewHolder
 import com.ekko.eyepetizer.page.viewholder.SlideCoverWithFooterViewHolder
 import com.ekko.eyepetizer.page.viewholder.ViewType
@@ -18,12 +19,14 @@ import com.ekko.eyepetizer.page.viewholder.WaterfallCoverSmallVideoViewHolder
  * @Author Ekkoe
  * @Date 2023/9/28 15:14
  */
-class PageAdapter() : PagingDataAdapter<ItemCard, PageViewHolder>(COMPARATOR) {
+class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCard, PageViewHolder>(
+    COMPARATOR
+) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): PageViewHolder = ViewHolderFactory.create(viewType, parent)
+    ): PageViewHolder = ViewHolderFactory.create(viewType, parent, jump)
 
     override fun onBindViewHolder(
         holder: PageViewHolder,
@@ -46,11 +49,13 @@ class PageAdapter() : PagingDataAdapter<ItemCard, PageViewHolder>(COMPARATOR) {
             CardType.WATERFALL_COVER_SMALL_IMAGE -> ViewType.WATERFALL_COVER_SMALL_IMAGE
             CardType.WATERFALL_COVER_SMALL_VIDEO -> ViewType.WATERFALL_COVER_SMALL_VIDEO
             CardType.FEED_ITEM_DETAIL -> ViewType.FEED_ITEM_DETAIL
+            CardType.ICON_GRID -> ViewType.ICON_GRID
             else -> ViewType.DEFAULT
         }
     }
 
     fun convertViewType2SpanSize(position: Int): Int {
+        if (position >= itemCount) return 1
         return when (getItemViewType(position)) {
             ViewType.WATERFALL_COVER_SMALL_IMAGE, ViewType.WATERFALL_COVER_SMALL_VIDEO -> 1
             else -> 2
@@ -78,19 +83,31 @@ class PageAdapter() : PagingDataAdapter<ItemCard, PageViewHolder>(COMPARATOR) {
 
 object ViewHolderFactory {
 
-    fun create(viewType: Int, parent: ViewGroup): PageViewHolder {
+    fun create(
+        viewType: Int,
+        parent: ViewGroup,
+        jump: (String) -> Unit
+    ): PageViewHolder {
         return when (viewType) {
-            ViewType.FEED_COVER_LARGE_VIDEO -> FeedCoverLargeViewHolder.create(parent)
-            ViewType.FEED_COVER_SMALL_VIDEO -> FeedCoverSmallViewHolder.create(parent)
-            ViewType.SLIDE_COVER_IMAGE_WITH_FOOTER -> SlideCoverWithFooterViewHolder.create(parent)
-            ViewType.WATERFALL_COVER_SMALL_IMAGE -> WaterfallCoverSmallImageViewHolder.create(parent)
-            ViewType.WATERFALL_COVER_SMALL_VIDEO -> WaterfallCoverSmallVideoViewHolder.create(parent)
-            ViewType.FEED_ITEM_DETAIL -> CommunityPgcVideoViewHolder.create(parent)
+            ViewType.FEED_COVER_LARGE_VIDEO -> FeedCoverLargeViewHolder.create(parent, jump)
+            ViewType.FEED_COVER_SMALL_VIDEO -> FeedCoverSmallViewHolder.create(parent, jump)
+            ViewType.SLIDE_COVER_IMAGE_WITH_FOOTER -> SlideCoverWithFooterViewHolder.create(
+                parent, jump
+            )
+
+            ViewType.WATERFALL_COVER_SMALL_IMAGE -> WaterfallCoverSmallImageViewHolder.create(
+                parent, jump
+            )
+
+            ViewType.WATERFALL_COVER_SMALL_VIDEO -> WaterfallCoverSmallVideoViewHolder.create(
+                parent, jump
+            )
+
+            ViewType.FEED_ITEM_DETAIL -> CommunityPgcVideoViewHolder.create(parent, jump)
+            ViewType.ICON_GRID -> IconGridViewHolder.create(parent, jump)
             else -> DefaultViewHolder.create(parent)
         }
     }
-
-
 }
 
 

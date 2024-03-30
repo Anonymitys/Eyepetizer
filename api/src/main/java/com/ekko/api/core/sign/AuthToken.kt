@@ -1,4 +1,4 @@
-package com.ekko.repository.model
+package com.ekko.api.core.sign
 
 import kotlinx.serialization.Serializable
 

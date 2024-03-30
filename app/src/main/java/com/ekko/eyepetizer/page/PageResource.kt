@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ekko.repository.IPageRepository
 import com.ekko.repository.model.CardList
+import com.ekko.repository.model.Layout
 import com.ekko.repository.model.Metro
 import com.ekko.repository.model.MetroCard
 import kotlinx.serialization.json.jsonPrimitive
@@ -24,26 +25,29 @@ class PageResource(
         return try {
             val pair = if (request.url.contains(CALL_METRO_LIST)) {
                 val metro = repository.getPageMetroData(request.url, request.params)
-                Pair(
+                val requestParams = metro.last_item_id.takeIf { it > 0 }?.let {
                     PageRequest(request.url, HashMap<String, Any>().apply {
                         putAll(request.params)
-                        metro.last_item_id.takeIf { it > 0 }?.let { put(LAST_ITEM_ID, it) }
-                    }), getList(metro = metro)
-                )
-
+                        put(LAST_ITEM_ID, it)
+                    })
+                }
+                Pair(requestParams, getList(metro = metro))
             } else {
                 val card = repository.getPageCardData(request.url, request.params)
                 val apiRequest = card.list?.last()?.card_data?.body?.api_request
                 val paramsField = apiRequest?.params?.mapValues { it.value.jsonPrimitive.content }
-                    ?: request.params
-                Pair(
-                    PageRequest(url = apiRequest?.url ?: request.url,
+                val requestParams = paramsField?.let {
+                    PageRequest(url = apiRequest.url,
                         params = HashMap<String, Any>().apply {
                             putAll(paramsField)
-                            card.last_item_id.takeIf { it > 0 }?.let { put(LAST_ITEM_ID, it) }
-                        }),
-                    getList(card = card)
-                )
+                        })
+                } ?: card.last_item_id.takeIf { it > 0 }?.let { lastItemId ->
+                    PageRequest(url = request.url,
+                        params = request.params.also {
+                            it[LAST_ITEM_ID] = lastItemId
+                        })
+                }
+                Pair(requestParams, getList(card = card))
             }
             LoadResult.Page(data = pair.second, prevKey = null, nextKey = pair.first)
         } catch (e: Exception) {
@@ -62,27 +66,37 @@ class PageResource(
         }
     }
 
-    private fun getList(metro: Metro? = null, card: CardList? = null): List<ItemCard> {
+    override val keyReuseSupported: Boolean
+        get() = true
+
+    private fun getList(
+        metro: Metro? = null,
+        card: CardList? = null
+    ): List<ItemCard> {
         return card?.list?.filter { it.card_data?.body?.api_request == null }?.flatMap {
-            if (it.interaction?.scroll == Scroll.HORIZONTAL) {
+            val bodyList = if (it.interaction?.scroll == Scroll.HORIZONTAL) {
                 listOf(
                     ItemCard(
                         it.card_data?.body?.metro_list?.get(0)?.style?.tpl_label ?: "",
                         Scroll.HORIZONTAL,
+                        it.card_data?.header,
                         it.card_data?.body?.metro_list ?: listOf()
                     )
                 )
             } else {
                 it.card_data?.body?.metro_list?.map { metroCard ->
                     ItemCard(
-                        metroCard.style?.tpl_label ?: "", Scroll.VERTICAL, listOf(metroCard)
+                        metroCard.style?.tpl_label ?: "", Scroll.VERTICAL, it.card_data?.header,
+                        listOf(metroCard)
                     )
                 } ?: listOf()
             }
+            bodyList
         } ?: metro?.item_list?.map {
             ItemCard(
                 it.style?.tpl_label ?: "",
                 Scroll.VERTICAL,
+                null,
                 listOf(it)
             )
         }
@@ -92,12 +106,13 @@ class PageResource(
     companion object {
         const val LAST_ITEM_ID = "last_item_id"
         const val CALL_METRO_LIST = "call_metro_list"
+        const val GET_PAGE = "card/page/get_page"
     }
 }
-
 
 data class ItemCard(
     val type: String,
     val scroll: String,
+    val header: Layout?,
     val data: List<MetroCard>,
 )

@@ -19,9 +19,11 @@ import com.ekko.repository.model.SlideCover
 import com.to.aboomy.pager2banner.IndicatorView
 import kotlinx.serialization.json.decodeFromJsonElement
 
-
-class SlideCoverWithFooterViewHolder(private val binding: SlideCoverWithFooterItemBinding) :
-    PageViewHolder(binding) {
+class SlideCoverWithFooterViewHolder(
+    private val binding: SlideCoverWithFooterItemBinding,
+    private val jump: (String) -> Unit
+) :
+    PageViewHolder(binding, jump) {
 
     override fun bind(card: ItemCard) {
         val list = card.data.map { json.decodeFromJsonElement<SlideCover>(it.metro_data) }
@@ -47,42 +49,49 @@ class SlideCoverWithFooterViewHolder(private val binding: SlideCoverWithFooterIt
                 jump("${item.footer?.left?.link}")
             }
         }
-
-    }
-
-    private fun jump(route: String) {
-        Toast.makeText(itemView.context, route, Toast.LENGTH_SHORT)
-            .show()
     }
 
     companion object {
-        fun create(parent: ViewGroup): SlideCoverWithFooterViewHolder {
+        fun create(
+            parent: ViewGroup,
+            jump: (String) -> Unit
+        ): SlideCoverWithFooterViewHolder {
             val binding =
                 SlideCoverWithFooterItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-            return SlideCoverWithFooterViewHolder(binding)
+            return SlideCoverWithFooterViewHolder(binding, jump)
         }
     }
-
 }
 
-class BannerAdapter(private val list: List<SlideCover>, private val jump: () -> Unit) :
+class BannerAdapter(
+    private val list: List<SlideCover>,
+    private val jump: () -> Unit
+) :
     RecyclerView.Adapter<BannerViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BannerViewHolder =
         BannerViewHolder.create(parent, jump)
 
-    override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: BannerViewHolder,
+        position: Int
+    ) {
         holder.bind(list[position])
     }
 
     override fun getItemCount(): Int = list.size
 }
 
-
-class BannerViewHolder(private val view: ImageView, jump: () -> Unit) : ViewHolder(view) {
+class BannerViewHolder(
+    private val view: ImageView,
+    jump: () -> Unit
+) : ViewHolder(view) {
 
     init {
         itemView.setOnClickListener { jump() }
@@ -94,9 +103,11 @@ class BannerViewHolder(private val view: ImageView, jump: () -> Unit) : ViewHold
         }
     }
 
-
     companion object {
-        fun create(parent: ViewGroup, jump: () -> Unit): BannerViewHolder {
+        fun create(
+            parent: ViewGroup,
+            jump: () -> Unit
+        ): BannerViewHolder {
             val imageView =
                 ImageView(parent.context).also {
                     it.scaleType = ImageView.ScaleType.CENTER_CROP

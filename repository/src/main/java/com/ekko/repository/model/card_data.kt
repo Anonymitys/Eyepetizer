@@ -48,6 +48,7 @@ data class CardData(
 data class Layout(
     val style: Style? = null,
     val left: List<MetroCard>? = null,
+    val right: List<MetroCard>? = null,
     val center: List<MetroCard>? = null,
     val bottom: List<MetroCard>? = null,
 )

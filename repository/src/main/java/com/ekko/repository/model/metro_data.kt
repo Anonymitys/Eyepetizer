@@ -23,6 +23,7 @@ data class MetroCard(
     val style: Style? = null,
     val metro_unique_id: String = "",
     val metro_data: JsonObject,
+    val link: String = ""
 )
 
 @Serializable

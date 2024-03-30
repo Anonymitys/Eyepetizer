@@ -1,7 +1,11 @@
 package com.ekko.api.core
 
+import android.content.Context
 import android.os.Build
 import android.os.Build.VERSION
+import com.ekko.api.core.header.HeaderStorage
+import com.ekko.base.versionCode
+import com.ekko.base.versionName
 import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -12,22 +16,24 @@ import okhttp3.Response
  * @Author Ekkoe
  * @Date 2023/2/2 11:19
  */
-class RequestInterceptor : Interceptor {
+class RequestInterceptor(
+    context: Context,
+    private val headerStorage: HeaderStorage
+) : Interceptor {
+
     private val commonParams by lazy {
-        mutableMapOf(
-          //  "udid" to "4054e3beaad24d56b8f474ed1fbb21f7c3d6c7f8",
-            "x-api-key" to "0530ee4341324ce2b26c23fcece80ea2",
+        mutableMapOf<String,String>(
+            "udid" to headerStorage.udId,
             "deviceModel" to Build.MODEL,
             "system_version_code" to VERSION.SDK_INT.toString(),
-            "vc" to "7060900",
-            "vn" to "7.6.900"
+            "vc" to context.versionCode.toString(),
+            "vn" to context.versionName
         )
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val requestBuilder = request.newBuilder()
-        addHeader(requestBuilder)
         when (request.method()) {
             "GET" -> addCommonParamToUrl(request, requestBuilder)
             "POST" -> addCommonParamToBody(request, requestBuilder)
@@ -35,23 +41,6 @@ class RequestInterceptor : Interceptor {
             }
         }
         return chain.proceed(requestBuilder.build())
-    }
-
-    private fun addHeader(requestBuilder: Request.Builder) {
-        requestBuilder.header(
-            "User-Agent",
-            "EYEPETIZER/7060900 (16 X;android;8.1.0;zh_CN;android;7.6.900;cn-bj;yingyongbao;3aa53faf2838e22251dccfc906d8b7b3;WIFI;1080*2070) native/1.0"
-        )
-        requestBuilder.header(
-            "X-THEFAIR-UA",
-            "EYEPETIZER/7060900 (16 X;android;8.1.0;zh_CN;android;7.6.900;cn-bj;yingyongbao;3aa53faf2838e22251dccfc906d8b7b3;WIFI;1080*2070) native/1.0"
-        )
-        requestBuilder.header("X-THEFAIR_CID", "3aa53faf2838e22251dccfc906d8b7b3")
-        requestBuilder.header(
-            "X-THEFAIR-AUTH",
-            "gaxzhbHdEYXPcS2vygoCN8izfa1WNbmtwsb6raMZLUKSsje5gm8Eey1dCNfq/BDRMDG9KgLyB1wIKH8ZXRykNZx4QrG+m+Y15fKjiLPyX49pf9K8RPnDEhKOfcm7E9poHwP6MYNWTGVjn0F6x2BVRNRRz8z0t7+ShsVOYg77HRckxnyItnGNkfyCWcbb78z/zYuTucv78w9tuH8CWHjGgyf8AYo7Po/HFkjlKoH3yMwxdy4Ul+Es9yaAV6q3eeZF3jpQVcl5Cydhh3hPh6loRQ=="
-        )
-        requestBuilder.header("X-THEFAIR-APPID", "ahpagrcrf2p7m6rg")
     }
 
     private fun addCommonParamToUrl(

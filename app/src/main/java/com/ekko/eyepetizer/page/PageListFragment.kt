@@ -2,6 +2,7 @@ package com.ekko.eyepetizer.page
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,9 @@ import kotlinx.coroutines.launch
 abstract class PageListFragment : Fragment() {
 
     private val model: PageViewModel by viewModels()
-    private val pageAdapter = PageAdapter()
+    private val pageAdapter = PageAdapter() {
+        Log.e("huqiang", "jump: $it")
+    }
     private lateinit var binding: FragmentPageListBinding
 
     override fun onCreateView(
@@ -39,7 +42,10 @@ abstract class PageListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         binding.list.apply {
             layoutManager = GridLayoutManager(context, 2).also {
                 it.spanSizeLookup = object : SpanSizeLookup() {
@@ -70,9 +76,6 @@ abstract class PageListFragment : Fragment() {
             }
         }
     }
-
-
-
 
     /**
      * first:pageType

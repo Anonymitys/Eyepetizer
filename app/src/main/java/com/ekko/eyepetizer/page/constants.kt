@@ -13,4 +13,5 @@ object CardType {
     const val WATERFALL_COVER_SMALL_IMAGE = "waterfall_cover_small_image"
     const val WATERFALL_COVER_SMALL_VIDEO = "waterfall_cover_small_video"
     const val FEED_ITEM_DETAIL = "feed_item_detail"
+    const val ICON_GRID = "icon_grid"
 }

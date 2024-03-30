@@ -4,45 +4,26 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import androidx.window.layout.WindowMetricsCalculator
 
 val Context.screenWidth: Int
     get() {
-        val bounds by lazy(LazyThreadSafetyMode.NONE) {
-            WindowMetricsCalculator.getOrCreate()
-                .computeCurrentWindowMetrics(activity).bounds
+        val wm by lazy(LazyThreadSafetyMode.NONE) {
+            getSystemService(Context.WINDOW_SERVICE) as WindowManager
         }
-        return bounds.width()
+        val metrics = DisplayMetrics()
+        wm.defaultDisplay.getMetrics(metrics)
+        return metrics.widthPixels
     }
 
 val Context.screenHeight: Int
     get() {
-        val metrics by lazy(LazyThreadSafetyMode.NONE) {
-            WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
+        val wm by lazy(LazyThreadSafetyMode.NONE) {
+            getSystemService(Context.WINDOW_SERVICE) as WindowManager
         }
-        return metrics.bounds.height()
-    }
-
-
-val Int.dp: Int
-    get() {
-        return (0.5 + this.times(Resources.getSystem().displayMetrics.density)).toInt()
-    }
-
-
-private val Context.activity: Activity
-    get() {
-        return when (this) {
-            is Activity -> {
-                this
-            }
-
-            is ContextWrapper -> {
-                this.baseContext as Activity
-            }
-
-            else -> {
-                throw IllegalArgumentException("illegal context")
-            }
-        }
+        val metrics = DisplayMetrics()
+        wm.defaultDisplay.getMetrics(metrics)
+        return metrics.heightPixels
     }

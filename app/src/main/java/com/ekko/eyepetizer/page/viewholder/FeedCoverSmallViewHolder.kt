@@ -12,8 +12,11 @@ import com.ekko.eyepetizer.page.ItemCard
 import com.ekko.repository.model.FeedCoverVideo
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class FeedCoverSmallViewHolder(private val binding: FeedCoverSmallItemBinding) :
-    PageViewHolder(binding) {
+class FeedCoverSmallViewHolder(
+    private val binding: FeedCoverSmallItemBinding,
+    private val jump: (String) -> Unit
+) :
+    PageViewHolder(binding, jump) {
 
     override fun bind(card: ItemCard) {
         val data = json.decodeFromJsonElement<FeedCoverVideo>(card.data[0].metro_data)
@@ -32,17 +35,22 @@ class FeedCoverSmallViewHolder(private val binding: FeedCoverSmallItemBinding) :
         binding.title.text = data.title
         binding.tag.text = data.tags?.joinToString { it.title }
         binding.duration.text = data.duration?.text?.trim()
+        binding.root.setOnClickListener {
+            jump.invoke(card.data[0].link)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup): FeedCoverSmallViewHolder {
+        fun create(
+            parent: ViewGroup,
+            jump: (String) -> Unit
+        ): FeedCoverSmallViewHolder {
             val binding = FeedCoverSmallItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return FeedCoverSmallViewHolder(binding)
+            return FeedCoverSmallViewHolder(binding, jump)
         }
     }
-
 }

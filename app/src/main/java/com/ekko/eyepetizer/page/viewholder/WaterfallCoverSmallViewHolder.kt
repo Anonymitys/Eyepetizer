@@ -12,8 +12,11 @@ import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.WaterfallCoverImage
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class WaterfallCoverSmallImageViewHolder(private val binding: WaterfallCoverSmallBinding) :
-    PageViewHolder(binding) {
+class WaterfallCoverSmallImageViewHolder(
+    private val binding: WaterfallCoverSmallBinding,
+    private val jump: (String) -> Unit
+) :
+    PageViewHolder(binding, jump) {
 
     override fun bind(card: ItemCard) {
         val waterfallCoverImage =
@@ -30,22 +33,31 @@ class WaterfallCoverSmallImageViewHolder(private val binding: WaterfallCoverSmal
             transformations(CircleCropTransformation())
         }
         binding.nickName.text = waterfallCoverImage.author?.nick
+        binding.root.setOnClickListener {
+            jump.invoke(card.data[0].link)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup?): WaterfallCoverSmallImageViewHolder {
+        fun create(
+            parent: ViewGroup?,
+            jump: (String) -> Unit
+        ): WaterfallCoverSmallImageViewHolder {
             val binding = WaterfallCoverSmallBinding.inflate(
                 LayoutInflater.from(parent?.context),
                 parent,
                 false
             )
-            return WaterfallCoverSmallImageViewHolder(binding)
+            return WaterfallCoverSmallImageViewHolder(binding, jump)
         }
     }
 }
 
-class WaterfallCoverSmallVideoViewHolder(private val binding: WaterfallCoverSmallBinding) :
-    PageViewHolder(binding) {
+class WaterfallCoverSmallVideoViewHolder(
+    private val binding: WaterfallCoverSmallBinding,
+    private val jump: (String) -> Unit
+) :
+    PageViewHolder(binding, jump) {
 
     override fun bind(card: ItemCard) {
         val waterfallCoverVideo =
@@ -62,16 +74,22 @@ class WaterfallCoverSmallVideoViewHolder(private val binding: WaterfallCoverSmal
             transformations(CircleCropTransformation())
         }
         binding.nickName.text = waterfallCoverVideo.author?.nick
+        binding.root.setOnClickListener {
+            jump.invoke(card.data[0].link)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup?): WaterfallCoverSmallVideoViewHolder {
+        fun create(
+            parent: ViewGroup?,
+            jump: (String) -> Unit
+        ): WaterfallCoverSmallVideoViewHolder {
             val binding = WaterfallCoverSmallBinding.inflate(
                 LayoutInflater.from(parent?.context),
                 parent,
                 false
             )
-            return WaterfallCoverSmallVideoViewHolder(binding)
+            return WaterfallCoverSmallVideoViewHolder(binding, jump)
         }
     }
 }
