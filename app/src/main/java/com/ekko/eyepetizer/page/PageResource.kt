@@ -106,7 +106,6 @@ class PageResource(
     companion object {
         const val LAST_ITEM_ID = "last_item_id"
         const val CALL_METRO_LIST = "call_metro_list"
-        const val GET_PAGE = "card/page/get_page"
     }
 }
 

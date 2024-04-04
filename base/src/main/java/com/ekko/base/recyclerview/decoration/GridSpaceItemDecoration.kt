@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-class SpaceItemDecoration(
+class GridSpaceItemDecoration(
     private val spanCount: Int,
     private val space: Int
 ) : ItemDecoration() {

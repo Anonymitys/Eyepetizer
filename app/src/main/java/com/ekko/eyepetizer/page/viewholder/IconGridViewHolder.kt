@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ekko.base.dp
 import com.ekko.base.json
-import com.ekko.base.recyclerview.decoration.SpaceItemDecoration
+import com.ekko.base.recyclerview.decoration.GridSpaceItemDecoration
 import com.ekko.eyepetizer.databinding.LayoutIconGridItemBinding
 import com.ekko.eyepetizer.databinding.LayoutIconItemBinding
 import com.ekko.eyepetizer.page.ItemCard
@@ -40,7 +40,7 @@ class IconGridViewHolder(
 
         }
         if (binding.iconGrid.itemDecorationCount<=0){
-            binding.iconGrid.addItemDecoration(SpaceItemDecoration(3, 10.dp))
+            binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))
         }
         binding.iconGrid.adapter = IconAdapter(list, jump)
     }

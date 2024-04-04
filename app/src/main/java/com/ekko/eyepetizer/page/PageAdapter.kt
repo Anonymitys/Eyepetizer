@@ -10,6 +10,8 @@ import com.ekko.eyepetizer.page.viewholder.FeedCoverSmallViewHolder
 import com.ekko.eyepetizer.page.viewholder.IconGridViewHolder
 import com.ekko.eyepetizer.page.viewholder.PageViewHolder
 import com.ekko.eyepetizer.page.viewholder.SlideCoverWithFooterViewHolder
+import com.ekko.eyepetizer.page.viewholder.TopicSquareViewHolder
+import com.ekko.eyepetizer.page.viewholder.TopicsListViewHolder
 import com.ekko.eyepetizer.page.viewholder.ViewType
 import com.ekko.eyepetizer.page.viewholder.WaterfallCoverSmallImageViewHolder
 import com.ekko.eyepetizer.page.viewholder.WaterfallCoverSmallVideoViewHolder
@@ -50,12 +52,14 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
             CardType.WATERFALL_COVER_SMALL_VIDEO -> ViewType.WATERFALL_COVER_SMALL_VIDEO
             CardType.FEED_ITEM_DETAIL -> ViewType.FEED_ITEM_DETAIL
             CardType.ICON_GRID -> ViewType.ICON_GRID
+            CardType.SLIDE_COVER_IMAGE_WITH_TITLE, CardType.SLIDE_COVER_IMAGE -> ViewType.SLIDE_COVER_IMAGE_WITH_TITLE
+            CardType.STACKED_SLIDE_COVER_IMAGE -> ViewType.STACKED_SLIDE_COVER_IMAGE
             else -> ViewType.DEFAULT
         }
     }
 
     fun convertViewType2SpanSize(position: Int): Int {
-        if (position >= itemCount) return 1
+        if (position >= itemCount) return 2
         return when (getItemViewType(position)) {
             ViewType.WATERFALL_COVER_SMALL_IMAGE, ViewType.WATERFALL_COVER_SMALL_VIDEO -> 1
             else -> 2
@@ -105,6 +109,12 @@ object ViewHolderFactory {
 
             ViewType.FEED_ITEM_DETAIL -> CommunityPgcVideoViewHolder.create(parent, jump)
             ViewType.ICON_GRID -> IconGridViewHolder.create(parent, jump)
+            ViewType.SLIDE_COVER_IMAGE_WITH_TITLE -> TopicsListViewHolder.create(
+                parent, jump
+            )
+
+            ViewType.STACKED_SLIDE_COVER_IMAGE -> TopicSquareViewHolder.create(parent, jump)
+
             else -> DefaultViewHolder.create(parent)
         }
     }

@@ -11,15 +11,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ekko.eyepetizer.MainActivity
 import com.ekko.eyepetizer.R
 import com.ekko.eyepetizer.databinding.FragmentPageListBinding
 import com.ekko.eyepetizer.page.viewholder.ViewType
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
@@ -31,7 +34,7 @@ abstract class PageListFragment : Fragment() {
     private val pageAdapter = PageAdapter() {
         Log.e("huqiang", "jump: $it")
     }
-    private lateinit var binding: FragmentPageListBinding
+    protected lateinit var binding: FragmentPageListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,9 +73,10 @@ abstract class PageListFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                pageAdapter.loadStateFlow.collectLatest {
-                    binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
-                }
+                pageAdapter.loadStateFlow
+                    .collectLatest {
+                        binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
+                    }
             }
         }
     }

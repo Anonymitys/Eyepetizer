@@ -24,6 +24,8 @@ object ViewType {
     const val WATERFALL_COVER_SMALL_VIDEO = 1005
     const val FEED_ITEM_DETAIL = 1006
     const val ICON_GRID = 1007
+    const val SLIDE_COVER_IMAGE_WITH_TITLE = 1008
+    const val STACKED_SLIDE_COVER_IMAGE = 1009
     const val DEFAULT = 100000
 }
 

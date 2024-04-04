@@ -7,4 +7,14 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
+
+
+    <style name="Theme.AppScreenStart"
+        parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#3DDC84</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Eyepetizer</item>
+    </style>
+
+
 </resources>
