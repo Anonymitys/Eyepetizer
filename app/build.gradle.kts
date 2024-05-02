@@ -1,21 +1,18 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.eyepetizer.android.application)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
     namespace = "com.ekko.eyepetizer"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.ekko.eyepetizer"
-        minSdk = 27
         targetSdk = 34
-        versionCode = 7070004
-        versionName = "7.7.4"
+        versionCode = providers.gradleProperty("version.code").get().toInt()
+        versionName = providers.gradleProperty("version.name").get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -31,13 +28,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -50,27 +41,21 @@ android {
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("io.coil-kt:coil:2.6.0")
-    // implementation("com.facebook.fresco:fresco:3.1.3")
-    implementation("io.github.zguop:pager2Banner:1.0.5")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation(project(mapOf("path" to ":repository")))
-    implementation(project(mapOf("path" to ":base")))
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-}
-
-kapt {
-    correctErrorTypes = true
+    implementation(libs.core.ktx)
+    implementation(libs.material)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.hilt.android)
+    implementation(libs.paging.runtime.ktx)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.fragment.ktx)
+    implementation(libs.swiperefreshlayout)
+    implementation(libs.coil)
+    implementation(libs.pager2Banner)
+    implementation(libs.core.splashscreen)
+    implementation(projects.core.repository)
+    implementation(projects.core.base)
+    ksp(libs.hilt.android.compiler)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

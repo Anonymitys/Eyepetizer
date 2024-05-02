@@ -1,0 +1,65 @@
+[versions]
+activityCompose = "1.9.0"
+androidGradlePlugin = "8.3.2"
+appcompat = "1.6.1"
+coil = "2.6.0"
+coreKtx = "1.13.0"
+coreSplashscreen = "1.0.1"
+cronetOkhttp = "0.1.0"
+espressoCore = "3.5.1"
+fragmentKtx = "1.6.2"
+hiltAndroid = "2.51"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+kotlin = "1.9.23"
+kotlinxSerializationJson = "1.6.3"
+lifecycleRuntimeKtx = "2.7.0"
+material = "1.11.0"
+pager2banner = "1.0.5"
+pagingRuntimeKtx = "3.2.1"
+playServicesCronet = "18.0.1"
+retrofit = "2.9.0"
+swiperefreshlayout = "1.1.0"
+window = "1.2.0"
+ksp = "1.9.23-1.0.20"
+
+androidTools = "31.3.2"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 'kotlin' }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = 'kotlin' }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+
+eyepetizer-android-application = { id = "eyepetizer.android.application", version = 'unspecified' }
+eyepetizer-android-library = { id = "eyepetizer.android.library", version = 'unspecified' }
+
+[libraries]
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+cronet-okhttp = { module = "com.google.net.cronet:cronet-okhttp", version.ref = "cronetOkhttp" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+pager2Banner = { module = "io.github.zguop:pager2Banner", version.ref = "pager2banner" }
+paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
+play-services-cronet = { module = "com.google.android.gms:play-services-cronet", version.ref = "playServicesCronet" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+window = { module = "androidx.window:window", version.ref = "window" }
+
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

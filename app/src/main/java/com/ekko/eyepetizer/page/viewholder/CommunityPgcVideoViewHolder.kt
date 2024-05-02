@@ -2,7 +2,6 @@ package com.ekko.eyepetizer.page.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.core.view.isVisible
 import coil.load
 import coil.transform.CircleCropTransformation

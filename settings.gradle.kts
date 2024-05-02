@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -14,7 +15,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Eyepetizer"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
-include(":api")
-include(":repository")
-include(":base")
+include(":core:api")
+include(":core:repository")
+include(":core:base")
+include(":app-compose")

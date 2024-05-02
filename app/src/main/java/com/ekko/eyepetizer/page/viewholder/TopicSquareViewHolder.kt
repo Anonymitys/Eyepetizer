@@ -9,8 +9,6 @@ import coil.load
 import com.ekko.base.dp
 import com.ekko.base.json
 import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
-import com.ekko.eyepetizer.databinding.LayoutTopicsItemBinding
-import com.ekko.eyepetizer.databinding.LayoutTopicsListBinding
 import com.ekko.eyepetizer.databinding.LayoutTopicsSquareBinding
 import com.ekko.eyepetizer.databinding.LayoutTopicsSquareItemBinding
 import com.ekko.eyepetizer.page.ItemCard
