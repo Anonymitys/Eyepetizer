@@ -1,4 +1,4 @@
-package com.ekko.eyepetizer.ui.home
+package com.ekko.page.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -12,27 +12,29 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ekko.eyepetizer.databinding.FragmentSearchBinding
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import com.ekko.page.databinding.FragmentPageListBinding
 import com.ekko.page.viewmodel.PageViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class SearchFragment() : Fragment() {
+/**
+ * 通用列表Fragment
+ */
+abstract class PageListFragment : Fragment() {
 
     private val model: PageViewModel by viewModels()
-    private val pageAdapter = com.ekko.page.adapter.PageAdapter {
+    private val pageAdapter = com.ekko.page.adapter.PageAdapter() {
         Log.e("huqiang", "jump: $it")
     }
-    private lateinit var binding: FragmentSearchBinding
+    protected lateinit var binding: FragmentPageListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+    ): View? {
+        binding = FragmentPageListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +44,7 @@ class SearchFragment() : Fragment() {
     ) {
         binding.list.apply {
             layoutManager = GridLayoutManager(context, 2).also {
-                it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                it.spanSizeLookup = object : SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return pageAdapter.convertViewType2SpanSize(position)
                     }
@@ -64,13 +66,17 @@ class SearchFragment() : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                pageAdapter.loadStateFlow.collectLatest {
-                    binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
-                }
+                pageAdapter.loadStateFlow
+                    .collectLatest {
+                        binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
+                    }
             }
         }
     }
 
-    private val pageParams: Pair<String, String>
-        get() = Pair("card", "discover_v2")
+    /**
+     * first:pageType
+     * second:pageLabel
+     */
+    abstract val pageParams: Pair<String, String>
 }

@@ -1,6 +1,6 @@
 package com.ekko.eyepetizer.ui.home
 
-import com.ekko.eyepetizer.page.PageListFragment
+import com.ekko.page.fragment.PageListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

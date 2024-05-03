@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.hilt.android)
-    implementation(projects.core.api)
+    implementation(projects.core.network)
     implementation(libs.retrofit)
     ksp(libs.hilt.android.compiler)
     implementation(libs.kotlinx.serialization.json)
