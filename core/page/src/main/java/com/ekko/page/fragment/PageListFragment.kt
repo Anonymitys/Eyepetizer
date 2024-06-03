@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import com.ekko.page.adapter.PageAdapter
+import com.ekko.page.adapter.PageLoadStateAdapter
 import com.ekko.page.databinding.FragmentPageListBinding
 import com.ekko.page.viewmodel.PageViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 abstract class PageListFragment : Fragment() {
 
     private val model: PageViewModel by viewModels()
-    private val pageAdapter = com.ekko.page.adapter.PageAdapter() {
+    private val pageAdapter = PageAdapter() {
         Log.e("huqiang", "jump: $it")
     }
     protected lateinit var binding: FragmentPageListBinding
@@ -51,7 +53,7 @@ abstract class PageListFragment : Fragment() {
                 }
             }
             adapter = pageAdapter.withLoadStateFooter(
-                footer = com.ekko.page.adapter.PageLoadStateAdapter(pageAdapter)
+                footer = PageLoadStateAdapter(pageAdapter)
             )
         }
         binding.refresh.setOnRefreshListener { pageAdapter.refresh() }

@@ -7,9 +7,15 @@ import com.ekko.page.CardType
 import com.ekko.page.ViewType
 import com.ekko.page.model.ItemCard
 import com.ekko.page.viewholder.CommunityPgcVideoViewHolder
+import com.ekko.page.viewholder.DefaultViewHolder
 import com.ekko.page.viewholder.FeedCoverLargeViewHolder
 import com.ekko.page.viewholder.FeedCoverSmallViewHolder
+import com.ekko.page.viewholder.FeedCoverTopicsViewHolder
+import com.ekko.page.viewholder.FeedTextViewHolder
+import com.ekko.page.viewholder.FeedUserViewHolder
+import com.ekko.page.viewholder.GraphicViewHolder
 import com.ekko.page.viewholder.IconGridViewHolder
+import com.ekko.page.viewholder.PageViewHolder
 import com.ekko.page.viewholder.SlideCoverWithFooterViewHolder
 import com.ekko.page.viewholder.TopicSquareViewHolder
 import com.ekko.page.viewholder.TopicsListViewHolder
@@ -21,18 +27,17 @@ import com.ekko.page.viewholder.WaterfallCoverSmallVideoViewHolder
  * @Author Ekkoe
  * @Date 2023/9/28 15:14
  */
-class PageAdapter(private val jump: (String) -> Unit) :
-    PagingDataAdapter<ItemCard, com.ekko.page.viewholder.PageViewHolder>(
-        COMPARATOR
-    ) {
+class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCard, PageViewHolder>(
+    COMPARATOR
+) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): com.ekko.page.viewholder.PageViewHolder = ViewHolderFactory.create(viewType, parent, jump)
+    ): PageViewHolder = ViewHolderFactory.create(viewType, parent, jump)
 
     override fun onBindViewHolder(
-        holder: com.ekko.page.viewholder.PageViewHolder,
+        holder: PageViewHolder,
         position: Int,
     ) {
         getItem(position)?.let {
@@ -55,6 +60,10 @@ class PageAdapter(private val jump: (String) -> Unit) :
             CardType.ICON_GRID -> ViewType.ICON_GRID
             CardType.SLIDE_COVER_IMAGE_WITH_TITLE, CardType.SLIDE_COVER_IMAGE -> ViewType.SLIDE_COVER_IMAGE_WITH_TITLE
             CardType.STACKED_SLIDE_COVER_IMAGE -> ViewType.STACKED_SLIDE_COVER_IMAGE
+            CardType.FEED_USER -> ViewType.FEED_USER
+            CardType.SEARCH_RESULT_IMAGE -> ViewType.SEARCH_RESULT_IMAGE
+            CardType.FEED_COVER_DETAIL_TOPIC -> ViewType.FEED_COVER_DETAIL_TOPIC
+            CardType.SEARCH_RESULT_TEXT -> ViewType.SEARCH_RESULT_TEXT
             else -> ViewType.DEFAULT
         }
     }
@@ -92,7 +101,7 @@ object ViewHolderFactory {
         viewType: Int,
         parent: ViewGroup,
         jump: (String) -> Unit
-    ): com.ekko.page.viewholder.PageViewHolder {
+    ): PageViewHolder {
         return when (viewType) {
             ViewType.FEED_COVER_LARGE_VIDEO -> FeedCoverLargeViewHolder.create(parent, jump)
             ViewType.FEED_COVER_SMALL_VIDEO -> FeedCoverSmallViewHolder.create(parent, jump)
@@ -115,8 +124,11 @@ object ViewHolderFactory {
             )
 
             ViewType.STACKED_SLIDE_COVER_IMAGE -> TopicSquareViewHolder.create(parent, jump)
-
-            else -> com.ekko.page.viewholder.DefaultViewHolder.create(parent)
+            ViewType.FEED_USER -> FeedUserViewHolder.create(parent, jump)
+            ViewType.SEARCH_RESULT_IMAGE -> GraphicViewHolder.create(parent, jump)
+            ViewType.FEED_COVER_DETAIL_TOPIC -> FeedCoverTopicsViewHolder.create(parent, jump)
+            ViewType.SEARCH_RESULT_TEXT -> FeedTextViewHolder.create(parent, jump)
+            else -> DefaultViewHolder.create(parent)
         }
     }
 }

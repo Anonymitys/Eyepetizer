@@ -59,4 +59,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(projects.core.page)
+    implementation(projects.feature.search)
 }

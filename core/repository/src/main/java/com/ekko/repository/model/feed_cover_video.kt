@@ -35,9 +35,3 @@ data class VideoTag(
     val title: String = "",
     val link: String = "",
 )
-
-@Serializable
-data class Cover(
-    val url: String = "",
-    val img_info: ImageInfo? = null,
-)

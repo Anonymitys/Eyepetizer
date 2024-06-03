@@ -18,17 +18,3 @@ data class Author(
     val type: String = "",
     val followed: Boolean = false,
 )
-
-@Serializable
-data class Avatar(
-    val url: String = "",
-    val img_info: ImageInfo? = null,
-    val shape: String = "",
-)
-
-@Serializable
-data class ImageInfo(
-    val width: Double = 0.0,
-    val height: Double = 0.0,
-    val scale: Double = 0.0,
-)

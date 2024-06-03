@@ -11,15 +11,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ekko.eyepetizer.databinding.ActivityMainBinding
 import com.ekko.eyepetizer.ui.home.HomeFragment
 import com.ekko.eyepetizer.ui.home.MineFragment
-import com.ekko.eyepetizer.ui.home.SearchFragment
 import com.ekko.eyepetizer.ui.home.SquareFragment
+import com.ekko.search.ui.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var splashScreen: SplashScreen
+    private lateinit var splashScreen: SplashScreen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)

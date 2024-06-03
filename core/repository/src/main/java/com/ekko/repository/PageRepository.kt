@@ -17,27 +17,31 @@ import javax.inject.Inject
  * @Author Ekkoe
  * @Date 2023/9/26 16:49
  */
-
-@ViewModelScoped
-class PageRepository @Inject constructor(apiService: ApiService) : IPageRepository {
+class PageRepository @Inject constructor(apiService: ApiService) {
 
     private val pageApi = apiService.createApi<PageApi>()
 
-    override suspend fun getPageCardData(
+    suspend fun getPageCardData(
         url: String,
         params: MutableMap<String, Any>,
     ): CardList {
         return pageApi.getPageCardData(
-            url.ifEmpty { IPageRepository.GET_PAGE_URL }, params
+            url.ifEmpty { GET_PAGE_URL }, params
         )
     }
 
-    override suspend fun getPageMetroData(
+    suspend fun getPageMetroData(
         url: String,
         params: MutableMap<String, Any>,
     ): Metro {
         return pageApi.getPageMetroData(
-            url.ifEmpty { IPageRepository.GET_PAGE_URL }, params
+            url.ifEmpty { GET_PAGE_URL }, params
         )
+    }
+
+    companion object {
+        const val PAGE_TYPE = "page_type"
+        const val PAGE_LABEL = "page_label"
+        const val GET_PAGE_URL = "http://api.eyepetizer.net/v1/card/page/get_page"
     }
 }

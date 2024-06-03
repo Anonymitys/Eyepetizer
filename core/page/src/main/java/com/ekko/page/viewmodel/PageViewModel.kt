@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.ekko.repository.IPageRepository
+import com.ekko.page.paing3.PageRequest
+import com.ekko.page.paing3.PagingSource
 import com.ekko.repository.PageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -25,12 +26,12 @@ class PageViewModel @Inject constructor(private val repository: PageRepository) 
     ) = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false)
     ) {
-        com.ekko.page.paing3.PageResource(
-            repository, com.ekko.page.paing3.PageRequest(
-                url = IPageRepository.GET_PAGE_URL,
+        PagingSource(
+            repository, PageRequest(
+                url = PageRepository.GET_PAGE_URL,
                 mutableMapOf(
-                    IPageRepository.PAGE_TYPE to pageType,
-                    IPageRepository.PAGE_LABEL to pageLabel
+                    PageRepository.PAGE_TYPE to pageType,
+                    PageRepository.PAGE_LABEL to pageLabel
                 )
             )
         )
