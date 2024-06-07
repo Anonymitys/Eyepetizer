@@ -20,24 +20,10 @@ import kotlinx.serialization.json.jsonPrimitive
 class TopicSquareViewHolder(
     private val binding: LayoutTopicsSquareBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding) {
+) : PageViewHolder<TopicsSquare>(binding) {
 
-    override fun bind(card: ItemCard) {
-        val title = card.header?.left?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "text"
-        )?.jsonPrimitive?.content
-        val link = card.header?.right?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "link"
-        )?.jsonPrimitive?.content ?: ""
-        binding.title.text = title
-        binding.more.setOnClickListener {
-            jump(link)
-        }
-        binding.more.visibility = if (link.isEmpty()) View.GONE else View.VISIBLE
-
-        val list =
-            json.decodeFromJsonElement<TopicsSquare>(card.data[0].metro_data).item_list ?: return
-        val adapter = TopicSquareAdapter(list, jump)
+    override fun bind(card: TopicsSquare) {
+        val adapter = TopicSquareAdapter(card.item_list ?: return, jump)
         binding.list.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         if (binding.list.itemDecorationCount <= 0) {

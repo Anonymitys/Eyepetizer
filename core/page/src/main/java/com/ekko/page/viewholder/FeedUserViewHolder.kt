@@ -13,18 +13,14 @@ import kotlinx.serialization.json.decodeFromJsonElement
 class FeedUserViewHolder(
     private val binding: LayoutFeedUserBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : PageViewHolder<Uploader>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val user = json.decodeFromJsonElement<Uploader>(card.data[0].metro_data)
-        binding.avatar.load(user.avatar?.url) {
+    override fun bind(card: Uploader) {
+        binding.avatar.load(card.avatar?.url) {
             crossfade(true)
         }
-        binding.title.text = user.nick
-        binding.desc.text = user.description
-        binding.root.setOnClickListener {
-            jump(user.link)
-        }
+        binding.title.text = card.nick
+        binding.desc.text = card.description
     }
 
     companion object {

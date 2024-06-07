@@ -48,7 +48,7 @@ abstract class PageListFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2).also {
                 it.spanSizeLookup = object : SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
-                        return pageAdapter.convertViewType2SpanSize(position)
+                        return pageAdapter.convertViewType2SpanSize(position,2)
                     }
                 }
             }

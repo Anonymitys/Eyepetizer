@@ -26,9 +26,3 @@ data class MetroCard(
     val link: String = ""
 )
 
-@Serializable
-data class ApiRequest(
-    val url: String = "",
-    val params: JsonObject? = null,
-)
-

@@ -3,9 +3,14 @@ package com.ekko.page.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.ekko.base.json
 import com.ekko.page.CardType
 import com.ekko.page.ViewType
+import com.ekko.page.model.FooterItemCard
+import com.ekko.page.model.HeaderItemCard
 import com.ekko.page.model.ItemCard
+import com.ekko.page.model.MetroItemCard
+import com.ekko.page.model.SlideItemCard
 import com.ekko.page.viewholder.CommunityPgcVideoViewHolder
 import com.ekko.page.viewholder.DefaultViewHolder
 import com.ekko.page.viewholder.FeedCoverLargeViewHolder
@@ -13,7 +18,9 @@ import com.ekko.page.viewholder.FeedCoverSmallViewHolder
 import com.ekko.page.viewholder.FeedCoverTopicsViewHolder
 import com.ekko.page.viewholder.FeedTextViewHolder
 import com.ekko.page.viewholder.FeedUserViewHolder
+import com.ekko.page.viewholder.FooterViewHolder
 import com.ekko.page.viewholder.GraphicViewHolder
+import com.ekko.page.viewholder.HeaderViewHolder
 import com.ekko.page.viewholder.IconGridViewHolder
 import com.ekko.page.viewholder.PageViewHolder
 import com.ekko.page.viewholder.SlideCoverWithFooterViewHolder
@@ -21,27 +28,60 @@ import com.ekko.page.viewholder.TopicSquareViewHolder
 import com.ekko.page.viewholder.TopicsListViewHolder
 import com.ekko.page.viewholder.WaterfallCoverSmallImageViewHolder
 import com.ekko.page.viewholder.WaterfallCoverSmallVideoViewHolder
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.serializer
 
 /**
  *
  * @Author Ekkoe
  * @Date 2023/9/28 15:14
  */
-class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCard, PageViewHolder>(
+class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCard, PageViewHolder<Any>>(
     COMPARATOR
 ) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): PageViewHolder = ViewHolderFactory.create(viewType, parent, jump)
+    ): PageViewHolder<Any> = ViewHolderFactory.create(viewType, parent, jump)
 
     override fun onBindViewHolder(
-        holder: PageViewHolder,
+        holder: PageViewHolder<Any>,
         position: Int,
     ) {
-        getItem(position)?.let {
-            holder.bind(it)
+        if (holder is DefaultViewHolder) return
+        getItem(position)?.let { card ->
+            when (card) {
+                is MetroItemCard -> {
+                    val type =
+                        holder::class.supertypes[0].arguments[0].type ?: throw RuntimeException(
+                            "kType为空"
+                        )
+                    val data =
+                        json.decodeFromJsonElement(serializer(type), card.data.metro_data) ?: return
+                    holder.bind(data)
+                }
+
+                is SlideItemCard -> {
+                    val type =
+                        holder::class.supertypes[0].arguments[0].type ?: throw RuntimeException(
+                            "kType为空"
+                        )
+                    val data = card.data.mapNotNull {
+                        json.decodeFromJsonElement(serializer(type), it.metro_data)
+                    }
+                    holder.bind(data)
+                }
+
+                is FooterItemCard -> {
+                    holder.bind("")
+                }
+
+                is HeaderItemCard -> {
+                    holder.bind(card.left)
+                }
+
+            }
         }
     }
 
@@ -64,15 +104,20 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
             CardType.SEARCH_RESULT_IMAGE -> ViewType.SEARCH_RESULT_IMAGE
             CardType.FEED_COVER_DETAIL_TOPIC -> ViewType.FEED_COVER_DETAIL_TOPIC
             CardType.SEARCH_RESULT_TEXT -> ViewType.SEARCH_RESULT_TEXT
+            CardType.HEADER -> ViewType.HEADER
+            CardType.FOOTER -> ViewType.FOOTER
             else -> ViewType.DEFAULT
         }
     }
 
-    fun convertViewType2SpanSize(position: Int): Int {
-        if (position >= itemCount) return 2
+    fun convertViewType2SpanSize(
+        position: Int,
+        spanCount: Int
+    ): Int {
+        if (position >= itemCount) return spanCount
         return when (getItemViewType(position)) {
             ViewType.WATERFALL_COVER_SMALL_IMAGE, ViewType.WATERFALL_COVER_SMALL_VIDEO -> 1
-            else -> 2
+            else -> spanCount
         }
     }
 
@@ -82,7 +127,7 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
                 oldItem: ItemCard,
                 newItem: ItemCard,
             ): Boolean {
-                return oldItem.data[0].metro_id == newItem.data[0].metro_id
+                return oldItem.uniqueId == newItem.uniqueId
             }
 
             override fun areItemsTheSame(
@@ -101,7 +146,7 @@ object ViewHolderFactory {
         viewType: Int,
         parent: ViewGroup,
         jump: (String) -> Unit
-    ): PageViewHolder {
+    ): PageViewHolder<Any> {
         return when (viewType) {
             ViewType.FEED_COVER_LARGE_VIDEO -> FeedCoverLargeViewHolder.create(parent, jump)
             ViewType.FEED_COVER_SMALL_VIDEO -> FeedCoverSmallViewHolder.create(parent, jump)
@@ -128,6 +173,8 @@ object ViewHolderFactory {
             ViewType.SEARCH_RESULT_IMAGE -> GraphicViewHolder.create(parent, jump)
             ViewType.FEED_COVER_DETAIL_TOPIC -> FeedCoverTopicsViewHolder.create(parent, jump)
             ViewType.SEARCH_RESULT_TEXT -> FeedTextViewHolder.create(parent, jump)
+            ViewType.HEADER -> HeaderViewHolder.create(parent, jump)
+            ViewType.FOOTER -> FooterViewHolder.create(parent, jump)
             else -> DefaultViewHolder.create(parent)
         }
     }

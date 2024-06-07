@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.swiperefreshlayout)
     ksp(libs.hilt.android.compiler)
     implementation(libs.fragment.ktx)
+    implementation(kotlin("reflect"))
 }

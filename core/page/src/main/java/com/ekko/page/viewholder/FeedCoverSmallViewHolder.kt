@@ -16,14 +16,13 @@ class FeedCoverSmallViewHolder(
     private val binding: FeedCoverSmallItemBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder(binding, jump) {
+    PageViewHolder<FeedCoverVideo>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val data = json.decodeFromJsonElement<FeedCoverVideo>(card.data[0].metro_data)
+    override fun bind(card: FeedCoverVideo) {
         binding.cover.apply {
             layoutParams.width = (itemView.context.screenWidth - 32.dp) / 2
-            layoutParams.height = layoutParams.width.div(data.cover?.img_info?.scale ?: 1.0).toInt()
-        }.load(data.cover?.url) {
+            layoutParams.height = layoutParams.width.div(card.cover?.img_info?.scale ?: 1.0).toInt()
+        }.load(card.cover?.url) {
             crossfade(true)
             transformations(
                 RoundedCornersTransformation(
@@ -32,12 +31,9 @@ class FeedCoverSmallViewHolder(
                 )
             )
         }
-        binding.title.text = data.title
-        binding.tag.text = data.tags?.joinToString { it.title }
-        binding.duration.text = data.duration?.text?.trim()
-        binding.root.setOnClickListener {
-            jump.invoke(card.data[0].link)
-        }
+        binding.title.text = card.title
+        binding.tag.text = card.tags?.joinToString { it.title }
+        binding.duration.text = card.duration?.text?.trim()
     }
 
     companion object {

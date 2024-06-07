@@ -15,27 +15,23 @@ class FeedCoverLargeViewHolder(
     private val binding: FeedCoverLargeItemBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder(binding, jump) {
-    override fun bind(card: ItemCard) {
-        val data = json.decodeFromJsonElement<FeedCoverVideo>(card.data[0].metro_data)
+    PageViewHolder<FeedCoverVideo>(binding, jump) {
+    override fun bind(card: FeedCoverVideo) {
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth
             layoutParams.height =
-                itemView.context.screenWidth.div(data.cover?.img_info?.scale ?: 1.0).toInt()
-        }.load(data.cover?.url) {
+                itemView.context.screenWidth.div(card.cover?.img_info?.scale ?: 1.0).toInt()
+        }.load(card.cover?.url) {
 
         }
-        binding.avatar.load(data.author?.avatar?.url) {
+        binding.avatar.load(card.author?.avatar?.url) {
             transformations(CircleCropTransformation())
             crossfade(true)
         }
-        binding.title.text = data.title
-        binding.nickName.text = data.author?.nick
-        binding.tag.text = data.tags?.joinToString { it.title }
-        binding.duration.text = data.duration?.text
-        binding.root.setOnClickListener {
-            jump.invoke(card.data[0].link)
-        }
+        binding.title.text = card.title
+        binding.nickName.text = card.author?.nick
+        binding.tag.text = card.tags?.joinToString { it.title }
+        binding.duration.text = card.duration?.text
     }
 
     companion object {

@@ -6,6 +6,9 @@ object Scroll {
 }
 
 object CardType {
+    const val HEADER = "header"
+    const val FOOTER = "footer"
+
     const val FEED_COVER_LARGE_VIDEO = "feed_cover_large_video"
     const val FEED_COVER_SMALL_VIDEO = "feed_cover_small_video"
     const val SLIDE_COVER_IMAGE_WITH_FOOTER = "slide_cover_image_with_footer"
@@ -36,5 +39,7 @@ object ViewType {
     const val SEARCH_RESULT_IMAGE = 1011
     const val FEED_COVER_DETAIL_TOPIC = 1012
     const val SEARCH_RESULT_TEXT = 1013
+    const val HEADER = 1014
+    const val FOOTER = 1015
     const val DEFAULT = 100000
 }

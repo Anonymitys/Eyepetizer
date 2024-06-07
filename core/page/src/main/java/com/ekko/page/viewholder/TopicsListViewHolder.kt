@@ -20,22 +20,10 @@ import kotlinx.serialization.json.jsonPrimitive
 class TopicsListViewHolder(
     private val binding: LayoutTopicsListBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : SlideViewHolder<TopicsPlayList>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val title = card.header?.left?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "text"
-        )?.jsonPrimitive?.content
-        val link = card.header?.right?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "link"
-        )?.jsonPrimitive?.content ?: ""
-        binding.title.text = title
-        binding.more.setOnClickListener {
-            jump(link)
-        }
-        binding.more.visibility = if (link.isEmpty()) View.GONE else View.VISIBLE
-
-        val adapter = TopicsAdapter(card.data, jump)
+    override fun bind(card: List<TopicsPlayList>) {
+        val adapter = TopicsAdapter(card, jump)
         binding.list.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         if (binding.list.itemDecorationCount <= 0) {
@@ -57,7 +45,7 @@ class TopicsListViewHolder(
 }
 
 class TopicsAdapter(
-    private val data: List<MetroCard>,
+    private val data: List<TopicsPlayList>,
     private val jump: (String) -> Unit
 ) : RecyclerView.Adapter<TopicsViewHolder>() {
 
@@ -83,15 +71,14 @@ class TopicsViewHolder(
     binding.root
 ) {
 
-    fun bind(card: MetroCard) {
-        val data = json.decodeFromJsonElement<TopicsPlayList>(card.metro_data)
+    fun bind(card: TopicsPlayList) {
         binding.cover.apply {
-            layoutParams.width = data.cover?.img_info?.width?.toInt() ?: 500
-            layoutParams.height = layoutParams.width.div(data.cover?.img_info?.scale ?: 1.0).toInt()
-        }.load(data.cover?.url) {
+            layoutParams.width = card.cover?.img_info?.width?.toInt() ?: 500
+            layoutParams.height = layoutParams.width.div(card.cover?.img_info?.scale ?: 1.0).toInt()
+        }.load(card.cover?.url) {
             crossfade(true)
         }
-        binding.title.text = data.title
+        binding.title.text = card.title
         binding.root.setOnClickListener {
             jump(card.link)
         }

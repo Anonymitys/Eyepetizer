@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.ekko.page.databinding.DefaultItemBinding
 import com.ekko.page.model.ItemCard
 
-class DefaultViewHolder(binding: DefaultItemBinding) : PageViewHolder(binding) {
+class DefaultViewHolder(binding: DefaultItemBinding) : PageViewHolder<String>(binding) {
 
-    override fun bind(card: ItemCard) {
+    override fun bind(card: String) {
         //do nothing
     }
 

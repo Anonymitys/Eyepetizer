@@ -13,17 +13,13 @@ import kotlinx.serialization.json.decodeFromJsonElement
 class GraphicViewHolder(
     private val binding: LayoutGraphicItemBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : PageViewHolder<GraphicCard>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val data = json.decodeFromJsonElement<GraphicCard>(card.data[0].metro_data)
-        binding.cover.load(data.cover?.url)
-        binding.title.text = data.title
+    override fun bind(card: GraphicCard) {
+        binding.cover.load(card.cover?.url)
+        binding.title.text = card.title
         binding.consumption.text =
-            "${data.consumption?.like_count}人点赞｜${data.consumption?.collection_count}人收藏"
-        binding.root.setOnClickListener {
-            jump(card.data[0].link)
-        }
+            "${card.consumption?.like_count}人点赞｜${card.consumption?.collection_count}人收藏"
     }
 
     companion object {

@@ -11,20 +11,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.jsonPrimitive
 
-class PagingSourceWithData(
-    private val data: List<Card>,
+class PagingSourceWithInitData(
+    private val initData: List<Card>,
     private val repository: PageRepository
 ) : PagingSource<PageRequest, ItemCard>() {
 
     override suspend fun load(params: LoadParams<PageRequest>): LoadResult<PageRequest, ItemCard> {
         if (params.key == null) {
-            val apiRequest = data.last().card_data?.body?.api_request
+            val apiRequest = initData.last().card_data?.body?.api_request
             val nextKey = apiRequest?.let {
                 PageRequest(url = it.url, params = it.params?.mapValues { param ->
                     param.value.jsonPrimitive.content
                 }?.toMutableMap() ?: mutableMapOf())
             }
-            return LoadResult.Page(data = data.toItemCard(), prevKey = null, nextKey = nextKey)
+            return LoadResult.Page(data = initData.toItemCard(), prevKey = null, nextKey = nextKey)
         }
         val request = params.key?:throw RuntimeException("request empty")
         try {
@@ -42,13 +42,12 @@ class PagingSourceWithData(
     }
 
     override fun getRefreshKey(state: PagingState<PageRequest, ItemCard>): PageRequest? {
-        return null
-    }
-
-    private suspend fun loadFirst(data: List<Card>): List<Card> {
-        return withContext(Dispatchers.IO) {
-            delay(10)
-            data
+        return state.anchorPosition?.let { anchorPosition ->
+            // This loads starting from previous page, but since PagingConfig.initialLoadSize spans
+            // multiple pages, the initial load will still load items centered around
+            // anchorPosition. This also prevents needing to immediately launch prepend due to
+            // prefetchDistance.
+            state.closestPageToPosition(anchorPosition)?.prevKey
         }
     }
 

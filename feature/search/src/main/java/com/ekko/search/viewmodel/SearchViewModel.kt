@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import com.ekko.page.model.ItemCard
 import com.ekko.page.paing3.PageRequest
 import com.ekko.page.paing3.PagingSource
-import com.ekko.page.paing3.PagingSourceWithData
+import com.ekko.page.paing3.PagingSourceWithInitData
 import com.ekko.repository.PageRepository
 import com.ekko.repository.SearchRepository
 import com.ekko.repository.model.Card
@@ -53,7 +53,7 @@ class SearchViewModel @Inject constructor(
     fun getSearchItemResult(type: String) = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false)
     ) {
-        PagingSourceWithData(
+        PagingSourceWithInitData(
             cache[type] ?: emptyList(),
             pageRepository,
         )

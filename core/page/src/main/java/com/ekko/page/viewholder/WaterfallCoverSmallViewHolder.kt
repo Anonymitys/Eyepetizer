@@ -16,26 +16,21 @@ class WaterfallCoverSmallImageViewHolder(
     private val binding: WaterfallCoverSmallBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder(binding, jump) {
+    PageViewHolder<WaterfallCoverImage>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val waterfallCoverImage =
-            json.decodeFromJsonElement<WaterfallCoverImage>(card.data[0].metro_data)
+    override fun bind(card: WaterfallCoverImage) {
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth / 2
             layoutParams.height = layoutParams.width
-        }.load(waterfallCoverImage.cover?.url) {
+        }.load(card.cover?.url) {
             crossfade(true)
         }
 
-        binding.title.text = waterfallCoverImage.title
-        binding.avatar.load(waterfallCoverImage.author?.avatar?.url) {
+        binding.title.text = card.title
+        binding.avatar.load(card.author?.avatar?.url) {
             transformations(CircleCropTransformation())
         }
-        binding.nickName.text = waterfallCoverImage.author?.nick
-        binding.root.setOnClickListener {
-            jump.invoke(card.data[0].link)
-        }
+        binding.nickName.text = card.author?.nick
     }
 
     companion object {
@@ -57,26 +52,21 @@ class WaterfallCoverSmallVideoViewHolder(
     private val binding: WaterfallCoverSmallBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder(binding, jump) {
+    PageViewHolder<FeedCoverVideo>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val waterfallCoverVideo =
-            json.decodeFromJsonElement<FeedCoverVideo>(card.data[0].metro_data)
+    override fun bind(card: FeedCoverVideo) {
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth / 2
             layoutParams.height = layoutParams.width
-        }.load(waterfallCoverVideo.cover?.url) {
+        }.load(card.cover?.url) {
             crossfade(true)
         }
 
-        binding.title.text = waterfallCoverVideo.title
-        binding.avatar.load(waterfallCoverVideo.author?.avatar?.url) {
+        binding.title.text = card.title
+        binding.avatar.load(card.author?.avatar?.url) {
             transformations(CircleCropTransformation())
         }
-        binding.nickName.text = waterfallCoverVideo.author?.nick
-        binding.root.setOnClickListener {
-            jump.invoke(card.data[0].link)
-        }
+        binding.nickName.text = card.author?.nick
     }
 
     companion object {

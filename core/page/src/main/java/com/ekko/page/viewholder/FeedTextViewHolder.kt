@@ -11,16 +11,12 @@ import kotlinx.serialization.json.decodeFromJsonElement
 class FeedTextViewHolder(
     private val binding: LayoutFeedTextItemBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : PageViewHolder<FeedCoverText>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val data = json.decodeFromJsonElement<FeedCoverText>(card.data[0].metro_data)
-        binding.title.text = data.text
+    override fun bind(card: FeedCoverText) {
+        binding.title.text = card.text
         binding.consumption.text =
-            "${data.consumption?.like_count}人点赞｜${data.consumption?.collection_count}人收藏"
-        binding.root.setOnClickListener {
-            jump(card.data[0].link)
-        }
+            "${card.consumption?.like_count}人点赞｜${card.consumption?.collection_count}人收藏"
     }
 
     companion object {

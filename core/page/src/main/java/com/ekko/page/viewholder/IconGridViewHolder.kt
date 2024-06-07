@@ -20,29 +20,14 @@ import kotlinx.serialization.json.jsonPrimitive
 class IconGridViewHolder(
     private val binding: LayoutIconGridItemBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : PageViewHolder<Icons>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val title = card.header?.left?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "text"
-        )?.jsonPrimitive?.content
-        val link = card.header?.right?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
-            "link"
-        )?.jsonPrimitive?.content ?: ""
-        val list = json.decodeFromJsonElement<Icons>(card.data[0].metro_data).icons
-        binding.title.text = title
-        binding.more.setOnClickListener {
-            jump(link)
-        }
-        binding.more.visibility = if (link.isEmpty()) View.GONE else View.VISIBLE
-
-        binding.iconGrid.layoutManager = GridLayoutManager(itemView.context, 3).apply {
-
-        }
-        if (binding.iconGrid.itemDecorationCount<=0){
+    override fun bind(card: Icons) {
+        binding.iconGrid.layoutManager = GridLayoutManager(itemView.context, 3)
+        if (binding.iconGrid.itemDecorationCount <= 0) {
             binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))
         }
-        binding.iconGrid.adapter = IconAdapter(list, jump)
+        binding.iconGrid.adapter = IconAdapter(card.icons, jump)
     }
 
     companion object {

@@ -21,10 +21,9 @@ class SlideCoverWithFooterViewHolder(
     private val binding: SlideCoverWithFooterItemBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder(binding, jump) {
+    SlideViewHolder<SlideCover>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val list = card.data.map { json.decodeFromJsonElement<SlideCover>(it.metro_data) }
+    override fun bind(card: List<SlideCover>) {
         val indicator = IndicatorView(itemView.context)
             .setIndicatorColor(Color.DKGRAY)
             .setIndicatorSelectorColor(Color.WHITE)
@@ -33,15 +32,15 @@ class SlideCoverWithFooterViewHolder(
             isAutoPlay = false
             layoutParams.width = itemView.context.screenWidth
             layoutParams.height =
-                (layoutParams.width - 40.dp).div(list[0].cover?.img_info?.scale ?: 1.0).toInt()
+                (layoutParams.width - 40.dp).div(card[0].cover?.img_info?.scale ?: 1.0).toInt()
             setIndicator(indicator)
             setPageMargin(15.dp, 5.dp)
-            adapter = BannerAdapter(list) {
-                jump(list[binding.banner.currentPager].footer?.left?.link ?: "")
+            adapter = BannerAdapter(card) {
+                jump(card[binding.banner.currentPager].footer?.left?.link ?: "")
             }
         }
         binding.learnMore.apply {
-            val item = list[binding.banner.currentPager]
+            val item = card[binding.banner.currentPager]
             text = item.footer?.left?.text
             setOnClickListener {
                 jump("${item.footer?.left?.link}")

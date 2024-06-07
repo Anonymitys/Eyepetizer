@@ -16,23 +16,19 @@ import kotlinx.serialization.json.decodeFromJsonElement
 class FeedCoverTopicsViewHolder(
     private val binding: LayoutFeedCoverTopicItemBinding,
     private val jump: (String) -> Unit
-) : PageViewHolder(binding, jump) {
+) : PageViewHolder<FeedCoverTopic>(binding, jump) {
 
-    override fun bind(card: ItemCard) {
-        val data = json.decodeFromJsonElement<FeedCoverTopic>(card.data[0].metro_data)
-        binding.cover.load(data.cover?.url)
-        binding.title.text = data.title
-        binding.desc.text = data.description
+    override fun bind(card: FeedCoverTopic) {
+        binding.cover.load(card.cover?.url)
+        binding.title.text = card.title
+        binding.desc.text = card.description
         binding.tags.removeAllViews()
-        data.tags?.forEach { tag ->
+        card.tags?.forEach { tag ->
             val view =
                 TextView(itemView.context, null, R.attr.textAppearanceLabelSmall).also {
                     it.text = tag.title
                 }
             binding.tags.addView(view)
-        }
-        binding.root.setOnClickListener {
-            jump(card.data[0].link)
         }
     }
 
