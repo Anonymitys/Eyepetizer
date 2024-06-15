@@ -1,18 +1,16 @@
 package com.ekko.page.viewholder
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.ekko.base.dp
-import com.ekko.base.json
 import com.ekko.base.screenWidth
+import com.ekko.ksp.annotation.PagingViewHolder
+import com.ekko.page.CardType
 import com.ekko.page.databinding.FeedCoverSmallItemBinding
-import com.ekko.page.model.ItemCard
 import com.ekko.repository.model.FeedCoverVideo
-import kotlinx.serialization.json.decodeFromJsonElement
 
-class FeedCoverSmallViewHolder(
+@PagingViewHolder(CardType.FEED_COVER_SMALL_VIDEO)
+class FeedCoverSmallVideoViewHolder(
     private val binding: FeedCoverSmallItemBinding,
     private val jump: (String) -> Unit
 ) :
@@ -34,19 +32,5 @@ class FeedCoverSmallViewHolder(
         binding.title.text = card.title
         binding.tag.text = card.tags?.joinToString { it.title }
         binding.duration.text = card.duration?.text?.trim()
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-            jump: (String) -> Unit
-        ): FeedCoverSmallViewHolder {
-            val binding = FeedCoverSmallItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-            return FeedCoverSmallViewHolder(binding, jump)
-        }
     }
 }

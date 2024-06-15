@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.ekko.base.json
 import com.ekko.base.screenWidth
+import com.ekko.ksp.annotation.PagingViewHolder
+import com.ekko.page.CardType
 import com.ekko.page.databinding.WaterfallCoverSmallBinding
-import com.ekko.page.model.ItemCard
 import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.WaterfallCoverImage
-import kotlinx.serialization.json.decodeFromJsonElement
 
+@PagingViewHolder(CardType.WATERFALL_COVER_SMALL_IMAGE)
 class WaterfallCoverSmallImageViewHolder(
     private val binding: WaterfallCoverSmallBinding,
     private val jump: (String) -> Unit
@@ -47,7 +47,7 @@ class WaterfallCoverSmallImageViewHolder(
         }
     }
 }
-
+@PagingViewHolder(CardType.WATERFALL_COVER_SMALL_VIDEO)
 class WaterfallCoverSmallVideoViewHolder(
     private val binding: WaterfallCoverSmallBinding,
     private val jump: (String) -> Unit
@@ -67,19 +67,5 @@ class WaterfallCoverSmallVideoViewHolder(
             transformations(CircleCropTransformation())
         }
         binding.nickName.text = card.author?.nick
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup?,
-            jump: (String) -> Unit
-        ): WaterfallCoverSmallVideoViewHolder {
-            val binding = WaterfallCoverSmallBinding.inflate(
-                LayoutInflater.from(parent?.context),
-                parent,
-                false
-            )
-            return WaterfallCoverSmallVideoViewHolder(binding, jump)
-        }
     }
 }

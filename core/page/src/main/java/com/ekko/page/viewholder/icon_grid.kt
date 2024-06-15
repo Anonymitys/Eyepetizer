@@ -1,22 +1,20 @@
 package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ekko.base.dp
-import com.ekko.base.json
 import com.ekko.base.recyclerview.decoration.GridSpaceItemDecoration
+import com.ekko.ksp.annotation.PagingViewHolder
+import com.ekko.page.CardType
 import com.ekko.page.databinding.LayoutIconGridItemBinding
 import com.ekko.page.databinding.LayoutIconItemBinding
-import com.ekko.page.model.ItemCard
 import com.ekko.repository.model.Icon
 import com.ekko.repository.model.Icons
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonPrimitive
 
+@PagingViewHolder(CardType.ICON_GRID)
 class IconGridViewHolder(
     private val binding: LayoutIconGridItemBinding,
     private val jump: (String) -> Unit
@@ -28,18 +26,6 @@ class IconGridViewHolder(
             binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))
         }
         binding.iconGrid.adapter = IconAdapter(card.icons, jump)
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-            jump: (String) -> Unit
-        ): IconGridViewHolder {
-            val binding = LayoutIconGridItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-            return IconGridViewHolder(binding, jump)
-        }
     }
 }
 

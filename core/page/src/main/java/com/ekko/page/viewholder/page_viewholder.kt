@@ -2,7 +2,6 @@ package com.ekko.page.viewholder
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
-import com.ekko.page.model.ItemCard
 
 /**
  * @Author Ekkoe

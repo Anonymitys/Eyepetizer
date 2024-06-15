@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.eyepetizer.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
@@ -30,4 +29,6 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.fragment.ktx)
     implementation(kotlin("reflect"))
+    implementation(projects.ksp.annotation)
+    ksp(projects.ksp.processor)
 }

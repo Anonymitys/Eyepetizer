@@ -12,6 +12,7 @@ hiltAndroid = "2.51"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 kotlin = "1.9.23"
+kotlinpoetKsp = "1.17.0"
 kotlinxSerializationJson = "1.6.3"
 lifecycleRuntimeKtx = "2.7.0"
 material = "1.12.0"
@@ -20,10 +21,12 @@ pagingRuntimeKtx = "3.2.1"
 playServicesCronet = "18.0.1"
 retrofit = "2.9.0"
 swiperefreshlayout = "1.1.0"
+symbolProcessingApi = "2.0.0-1.0.21"
 window = "1.2.0"
 ksp = "1.9.23-1.0.20"
 
 androidTools = "31.3.2"
+jetbrainsKotlinJvm = "1.9.23"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -36,6 +39,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 eyepetizer-android-application = { id = "eyepetizer.android.application", version = 'unspecified' }
 eyepetizer-android-library = { id = "eyepetizer.android.library", version = 'unspecified' }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -50,6 +54,7 @@ fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragm
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoetKsp" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -58,6 +63,7 @@ paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.re
 play-services-cronet = { module = "com.google.android.gms:play-services-cronet", version.ref = "playServicesCronet" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "symbolProcessingApi" }
 window = { module = "androidx.window:window", version.ref = "window" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

@@ -1,48 +1,11 @@
-package com.ekko.page.viewholder
+package com.ekko.page.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.ekko.base.dp
-import com.ekko.base.json
-import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
 import com.ekko.page.databinding.LayoutTopicsItemBinding
-import com.ekko.page.databinding.LayoutTopicsListBinding
-import com.ekko.page.model.ItemCard
-import com.ekko.repository.model.MetroCard
 import com.ekko.repository.model.TopicsPlayList
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonPrimitive
-
-class TopicsListViewHolder(
-    private val binding: LayoutTopicsListBinding,
-    private val jump: (String) -> Unit
-) : SlideViewHolder<TopicsPlayList>(binding, jump) {
-
-    override fun bind(card: List<TopicsPlayList>) {
-        val adapter = TopicsAdapter(card, jump)
-        binding.list.layoutManager =
-            LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        if (binding.list.itemDecorationCount <= 0) {
-            binding.list.addItemDecoration(LineSpaceItemDecoration(16.dp))
-        }
-        binding.list.adapter = adapter
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-            jump: (String) -> Unit
-        ): TopicsListViewHolder {
-            val binding =
-                LayoutTopicsListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return TopicsListViewHolder(binding, jump)
-        }
-    }
-}
 
 class TopicsAdapter(
     private val data: List<TopicsPlayList>,

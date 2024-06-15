@@ -11,7 +11,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.ekko.repository.model.Card
 import com.ekko.repository.model.Nav
 import com.ekko.repository.model.SearchResult
@@ -57,7 +56,6 @@ class SearchResultFragment : Fragment() {
         val navs = result.item_list.map { it.nav }
         val items = result.item_list.map { it.card_list }
         binding.vp2.adapter = VpAdapter(this, items, navs)
-        binding.vp2.offscreenPageLimit
         TabLayoutMediator(binding.tab, binding.vp2) { tab, pos ->
             tab.text = navs[pos].title
         }.attach()

@@ -1,23 +1,21 @@
 package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ekko.base.dp
-import com.ekko.base.json
 import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
+import com.ekko.ksp.annotation.PagingViewHolder
+import com.ekko.page.CardType
 import com.ekko.page.databinding.LayoutTopicsSquareBinding
 import com.ekko.page.databinding.LayoutTopicsSquareItemBinding
-import com.ekko.page.model.ItemCard
 import com.ekko.repository.model.TopicsPlayList
 import com.ekko.repository.model.TopicsSquare
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonPrimitive
 
-class TopicSquareViewHolder(
+@PagingViewHolder(CardType.STACKED_SLIDE_COVER_IMAGE)
+class StackedSlideCoverImageViewHolder(
     private val binding: LayoutTopicsSquareBinding,
     private val jump: (String) -> Unit
 ) : PageViewHolder<TopicsSquare>(binding) {
@@ -30,18 +28,6 @@ class TopicSquareViewHolder(
             binding.list.addItemDecoration(LineSpaceItemDecoration(16.dp))
         }
         binding.list.adapter = adapter
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-            jump: (String) -> Unit
-        ): TopicSquareViewHolder {
-            val binding = LayoutTopicsSquareBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-            return TopicSquareViewHolder(binding, jump)
-        }
     }
 }
 

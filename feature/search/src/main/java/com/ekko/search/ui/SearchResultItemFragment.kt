@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.whenResumed
+import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekko.page.adapter.PageAdapter
 import com.ekko.page.adapter.PageLoadStateAdapter
@@ -46,9 +47,10 @@ class SearchResultItemFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = adapter.withLoadStateFooter(PageLoadStateAdapter(adapter))
         lifecycleScope.launch {
+            withResumed {  }
+            binding.list.layoutManager = LinearLayoutManager(context)
+            binding.list.adapter = adapter.withLoadStateFooter(PageLoadStateAdapter(adapter))
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 model.getSearchItemResult(type).collectLatest {
                     adapter.submitData(it)
