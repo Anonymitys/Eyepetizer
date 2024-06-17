@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class CommunityPgcCard(
+data class FeedItemDetailCard(
     val item_id: Long = 0,
     val publish_time: String = "",
     val raw_publish_time: String = "",

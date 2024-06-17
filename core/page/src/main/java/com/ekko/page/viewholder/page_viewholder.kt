@@ -11,7 +11,10 @@ abstract class PageViewHolder<out T:Any>(
     binding: ViewBinding,
     jump: ((String) -> Unit)? = null
 ) : ViewHolder(binding.root) {
-    abstract fun bind(card: @UnsafeVariance T)
+    abstract fun bind(
+        card: @UnsafeVariance T,
+        position: Int
+    )
 }
 
 abstract class SlideViewHolder<T>(

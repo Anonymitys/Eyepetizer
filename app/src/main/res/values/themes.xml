@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.Eyepetizer"
-        parent="Theme.Material3.DayNight.NoActionBar">
+        parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>

@@ -12,7 +12,10 @@ class FeedUserViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<Uploader>(binding, jump) {
 
-    override fun bind(card: Uploader) {
+    override fun bind(
+        card: Uploader,
+        position: Int
+    ) {
         binding.avatar.load(card.avatar?.url) {
             crossfade(true)
         }

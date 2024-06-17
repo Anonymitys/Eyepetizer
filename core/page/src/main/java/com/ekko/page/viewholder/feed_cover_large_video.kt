@@ -14,7 +14,10 @@ class FeedCoverLargeVideoViewHolder(
     private val jump: (String) -> Unit
 ) :
     PageViewHolder<FeedCoverVideo>(binding, jump) {
-    override fun bind(card: FeedCoverVideo) {
+    override fun bind(
+        card: FeedCoverVideo,
+        position: Int
+    ) {
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth
             layoutParams.height =

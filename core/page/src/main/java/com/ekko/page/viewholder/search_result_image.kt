@@ -12,7 +12,10 @@ class SearchResultImageViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<GraphicCard>(binding, jump) {
 
-    override fun bind(card: GraphicCard) {
+    override fun bind(
+        card: GraphicCard,
+        position: Int
+    ) {
         binding.cover.load(card.cover?.url)
         binding.title.text = card.title
         binding.consumption.text =

@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.ekko.page.adapter.PageAdapter
 import com.ekko.page.adapter.PageLoadStateAdapter
 import com.ekko.page.databinding.FragmentPageListBinding
@@ -26,7 +28,7 @@ import kotlinx.coroutines.launch
 abstract class PageListFragment : Fragment() {
 
     private val model: PageViewModel by viewModels()
-    private val pageAdapter = PageAdapter() {
+    protected val pageAdapter = PageAdapter() {
         Log.e("huqiang", "jump: $it")
     }
     protected lateinit var binding: FragmentPageListBinding
@@ -45,13 +47,7 @@ abstract class PageListFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         binding.list.apply {
-            layoutManager = GridLayoutManager(context, 2).also {
-                it.spanSizeLookup = object : SpanSizeLookup() {
-                    override fun getSpanSize(position: Int): Int {
-                        return pageAdapter.convertViewType2SpanSize(position,2)
-                    }
-                }
-            }
+            layoutManager = layoutManager()
             adapter = pageAdapter.withLoadStateFooter(
                 footer = PageLoadStateAdapter(pageAdapter)
             )
@@ -81,4 +77,6 @@ abstract class PageListFragment : Fragment() {
      * second:pageLabel
      */
     abstract val pageParams: Pair<String, String>
+
+    abstract fun layoutManager(): LayoutManager
 }

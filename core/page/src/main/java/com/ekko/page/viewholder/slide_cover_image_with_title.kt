@@ -20,12 +20,15 @@ class SlideCoverImageWithTitleViewHolder(
     private val jump: (String) -> Unit
 ) : SlideViewHolder<TopicsPlayList>(binding, jump) {
 
-    override fun bind(card: List<TopicsPlayList>) {
+    override fun bind(
+        card: List<TopicsPlayList>,
+        position: Int
+    ) {
         val adapter = TopicsAdapter(card, jump)
         binding.list.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         if (binding.list.itemDecorationCount <= 0) {
-            binding.list.addItemDecoration(LineSpaceItemDecoration(16.dp))
+            binding.list.addItemDecoration(LineSpaceItemDecoration(8.dp))
         }
         binding.list.adapter = adapter
     }

@@ -11,10 +11,10 @@ import com.ekko.repository.model.CardList
 import com.ekko.repository.model.Metro
 
 fun Metro.toItemCard(): List<ItemCard> {
-    return item_list?.map {
+    return item_list?.mapIndexed { index, metroCard ->
         MetroItemCard(
-            it.style?.tpl_label ?: "",
-            it
+            metroCard.style?.tpl_label ?: "",
+            metroCard, index
         )
     } ?: emptyList()
 }
@@ -33,9 +33,9 @@ fun CardList.toItemCard(): List<ItemCard> {
                 )
             )
         } else {
-            list.addAll(it.card_data?.body?.metro_list?.map { metroCard ->
+            list.addAll(it.card_data?.body?.metro_list?.mapIndexed { index, metroCard ->
                 MetroItemCard(
-                    metroCard.style?.tpl_label ?: "", metroCard,
+                    metroCard.style?.tpl_label ?: "", metroCard, index
                 )
             } ?: listOf())
         }
@@ -57,9 +57,9 @@ fun List<Card>.toItemCard(): List<ItemCard> {
                 )
             )
         } else {
-            list.addAll(it.card_data?.body?.metro_list?.map { metroCard ->
+            list.addAll(it.card_data?.body?.metro_list?.mapIndexed { index, metroCard ->
                 MetroItemCard(
-                    metroCard.style?.tpl_label ?: "", metroCard,
+                    metroCard.style?.tpl_label ?: "", metroCard, index
                 )
             } ?: listOf())
         }

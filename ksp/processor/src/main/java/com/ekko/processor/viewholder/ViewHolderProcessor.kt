@@ -39,13 +39,12 @@ class ViewHolderProcessor(
         val symbols = resolver.getSymbolsWithAnnotation(
             PagingViewHolder::class.qualifiedName ?: return emptyList()
         )
-        val result = symbols.filter { !it.validate() }.toList()
-        val list = symbols.filter { it.validate() }.toList()
+        val list = symbols.toList()
         symbolSize = list.size
         list.map {
             it.accept(visitor, Unit)
         }
-        return result
+        return list
     }
 
     inner class BuilderVisitor : KSVisitorVoid() {
@@ -98,7 +97,7 @@ class ViewHolderProcessor(
                 bindings.forEach {
                     fileSpecBuilder.addImport(it.packageName.asString(), it.simpleName.asString())
                 }
-                fileSpecBuilder.build().writeTo(codeGenerator, true)
+                fileSpecBuilder.build().writeTo(codeGenerator, false)
             }
         }
 
@@ -135,7 +134,8 @@ class ViewHolderProcessor(
                 )
             }
             funSpecBuilder.addStatement(
-                "else -> ViewHolderGenerator.createDefaultViewHolder(parent,jump)"
+                "else -> ViewHolderGenerator.create%N(parent,jump)",
+                classDeclarationMap.values.last().simpleName.asString()
             )
             val funSpec = funSpecBuilder.endControlFlow()
                 .build()

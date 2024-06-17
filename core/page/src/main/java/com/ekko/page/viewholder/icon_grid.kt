@@ -20,7 +20,10 @@ class IconGridViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<Icons>(binding, jump) {
 
-    override fun bind(card: Icons) {
+    override fun bind(
+        card: Icons,
+        position: Int
+    ) {
         binding.iconGrid.layoutManager = GridLayoutManager(itemView.context, 3)
         if (binding.iconGrid.itemDecorationCount <= 0) {
             binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))

@@ -2,6 +2,8 @@ package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.view.marginStart
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.ekko.base.dp
@@ -9,18 +11,17 @@ import com.ekko.base.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.WaterfallCoverSmallBinding
-import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.WaterfallCoverImage
 
-@PagingViewHolder(CardType.WATERFALL_COVER_SMALL_VIDEO)
-class WaterfallCoverSmallVideoViewHolder(
+@PagingViewHolder(CardType.WATERFALL_COVER_SMALL_IMAGE)
+class WaterfallCoverSmallImageViewHolder(
     private val binding: WaterfallCoverSmallBinding,
     private val jump: (String) -> Unit
 ) :
-    PageViewHolder<FeedCoverVideo>(binding, jump) {
+    PageViewHolder<WaterfallCoverImage>(binding, jump) {
 
     override fun bind(
-        card: FeedCoverVideo,
+        card: WaterfallCoverImage,
         position: Int
     ) {
         binding.cover.apply {
@@ -29,8 +30,7 @@ class WaterfallCoverSmallVideoViewHolder(
         }.load(card.cover?.url) {
             crossfade(true)
         }
-
-        val params = itemView.layoutParams as ViewGroup.MarginLayoutParams
+        val params = itemView.layoutParams as MarginLayoutParams
         when ((position + 1) % 2) {
             0 -> {
                 params.marginStart = 4.dp
@@ -47,5 +47,19 @@ class WaterfallCoverSmallVideoViewHolder(
             transformations(CircleCropTransformation())
         }
         binding.nickName.text = card.author?.nick
+    }
+
+    companion object {
+        fun create(
+            parent: ViewGroup?,
+            jump: (String) -> Unit
+        ): WaterfallCoverSmallImageViewHolder {
+            val binding = WaterfallCoverSmallBinding.inflate(
+                LayoutInflater.from(parent?.context),
+                parent,
+                false
+            )
+            return WaterfallCoverSmallImageViewHolder(binding, jump)
+        }
     }
 }

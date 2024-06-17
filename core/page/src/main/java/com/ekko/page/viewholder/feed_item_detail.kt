@@ -1,22 +1,28 @@
 package com.ekko.page.viewholder
 
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.ekko.base.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
-import com.ekko.page.databinding.CommunityPgcCardBinding
-import com.ekko.repository.model.CommunityPgcCard
+import com.ekko.page.R
+import com.ekko.page.databinding.FeedItemDetailItemBinding
+import com.ekko.repository.model.FeedItemDetailCard
+import com.google.android.material.chip.Chip
 
 @PagingViewHolder(CardType.FEED_ITEM_DETAIL)
-class FeedItemDetailViewHolder(private val binding: CommunityPgcCardBinding, private val jump:(String)->Unit) :
-    PageViewHolder<CommunityPgcCard>(binding,jump) {
+class FeedItemDetailViewHolder(
+    private val binding: FeedItemDetailItemBinding,
+    private val jump: (String) -> Unit
+) :
+    PageViewHolder<FeedItemDetailCard>(binding, jump) {
 
-    override fun bind(card: CommunityPgcCard) {
-        binding.avatar.load(card.author?.avatar?.url) {
-            transformations(CircleCropTransformation())
-        }
+    override fun bind(
+        card: FeedItemDetailCard,
+        position: Int
+    ) {
+        binding.avatar.load(card.author?.avatar?.url)
         binding.nickName.text = card.author?.nick
         binding.publishTime.text = card.publish_time
         binding.collect.isVisible = card.show_follow_btn
@@ -29,7 +35,15 @@ class FeedItemDetailViewHolder(private val binding: CommunityPgcCardBinding, pri
         }
 
         binding.desc.text = card.text
-        binding.tag.text = card.topics?.joinToString { it.title }
+        binding.tag.removeAllViews()
+        card.topics?.forEach {
+            val assist = Chip(
+                itemView.context
+            )
+            assist.text = it.title
+            assist.chipIcon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_tag_16px)
+            binding.tag.addView(assist)
+        }
 
         binding.like.text = card.consumption?.like_count.toString()
         binding.collected.text = card.consumption?.collection_count.toString()

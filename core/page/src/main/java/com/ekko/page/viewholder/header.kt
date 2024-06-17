@@ -6,13 +6,17 @@ import com.ekko.page.CardType
 import com.ekko.page.databinding.LayoutPageHeaderItemBinding
 import com.ekko.repository.model.Layout
 import kotlinx.serialization.json.jsonPrimitive
+
 @PagingViewHolder(CardType.HEADER)
 class HeaderViewHolder(
     private val binding: LayoutPageHeaderItemBinding,
     private val jump: (String) -> Unit
 ) : PageViewHolder<Layout>(binding) {
 
-    override fun bind(card: Layout) {
+    override fun bind(
+        card: Layout,
+        position: Int
+    ) {
         val title = card.left?.takeIf { it.isNotEmpty() }?.get(0)?.metro_data?.get(
             "text"
         )?.jsonPrimitive?.content ?: ""

@@ -22,7 +22,10 @@ class SlideCoverImageWithFooterViewHolder(
     private val jump: (String) -> Unit
 ) : SlideViewHolder<SlideCover>(binding, jump) {
 
-    override fun bind(card: List<SlideCover>) {
+    override fun bind(
+        card: List<SlideCover>,
+        position: Int
+    ) {
         val indicator = IndicatorView(itemView.context).setIndicatorColor(Color.DKGRAY)
             .setIndicatorSelectorColor(Color.WHITE)
 
@@ -32,7 +35,7 @@ class SlideCoverImageWithFooterViewHolder(
             layoutParams.height =
                 (layoutParams.width - 40.dp).div(card[0].cover?.img_info?.scale ?: 1.0).toInt()
             setIndicator(indicator)
-            setPageMargin(15.dp, 5.dp)
+            setPageMargin(8.dp, 4.dp)
             adapter = BannerAdapter(card) {
                 jump(card[binding.banner.currentPager].footer?.left?.link ?: "")
             }

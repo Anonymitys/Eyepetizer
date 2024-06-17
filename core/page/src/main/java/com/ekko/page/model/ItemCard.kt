@@ -20,7 +20,8 @@ data class HeaderItemCard(
 
 data class MetroItemCard(
     override val type: String,
-    val data: MetroCard
+    val data: MetroCard,
+    val index: Int,
 ) : ItemCard() {
     override val uniqueId: String
         get() = data.metro_unique_id

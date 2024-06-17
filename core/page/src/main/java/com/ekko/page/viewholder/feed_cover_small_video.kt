@@ -16,18 +16,15 @@ class FeedCoverSmallVideoViewHolder(
 ) :
     PageViewHolder<FeedCoverVideo>(binding, jump) {
 
-    override fun bind(card: FeedCoverVideo) {
+    override fun bind(
+        card: FeedCoverVideo,
+        position: Int
+    ) {
         binding.cover.apply {
             layoutParams.width = (itemView.context.screenWidth - 32.dp) / 2
             layoutParams.height = layoutParams.width.div(card.cover?.img_info?.scale ?: 1.0).toInt()
         }.load(card.cover?.url) {
             crossfade(true)
-            transformations(
-                RoundedCornersTransformation(
-                    topLeft = 4.dp.toFloat(),
-                    bottomLeft = 4.dp.toFloat()
-                )
-            )
         }
         binding.title.text = card.title
         binding.tag.text = card.tags?.joinToString { it.title }

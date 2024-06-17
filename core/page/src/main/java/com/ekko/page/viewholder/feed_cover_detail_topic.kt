@@ -14,7 +14,10 @@ class FeedCoverDetailTopicViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<FeedCoverTopic>(binding, jump) {
 
-    override fun bind(card: FeedCoverTopic) {
+    override fun bind(
+        card: FeedCoverTopic,
+        position: Int
+    ) {
         binding.cover.load(card.cover?.url)
         binding.title.text = card.title
         binding.desc.text = card.description

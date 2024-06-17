@@ -10,7 +10,10 @@ class DefaultViewHolder(
     val jump: (String) -> Unit
 ) : PageViewHolder<String>(binding) {
 
-    override fun bind(card: String) {
+    override fun bind(
+        card: String,
+        position: Int
+    ) {
         //do nothing
     }
 }

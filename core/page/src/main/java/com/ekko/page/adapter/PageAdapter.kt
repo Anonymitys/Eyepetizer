@@ -42,7 +42,7 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
                         holder::class.supertypes[0].arguments[0].type ?: return
                     val data =
                         json.decodeFromJsonElement(serializer(type), card.data.metro_data) ?: return
-                    holder.bind(data)
+                    holder.bind(data, card.index)
                 }
 
                 is SlideItemCard -> {
@@ -51,15 +51,15 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
                     val data = card.data.mapNotNull {
                         json.decodeFromJsonElement(serializer(type), it.metro_data)
                     }
-                    holder.bind(data)
+                    holder.bind(data, 0)
                 }
 
                 is FooterItemCard -> {
-                    holder.bind("")
+                    holder.bind("", 0)
                 }
 
                 is HeaderItemCard -> {
-                    holder.bind(card.left)
+                    holder.bind(card.left, 0)
                 }
 
             }

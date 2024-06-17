@@ -11,7 +11,10 @@ class SearchResultTextViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<FeedCoverText>(binding, jump) {
 
-    override fun bind(card: FeedCoverText) {
+    override fun bind(
+        card: FeedCoverText,
+        position: Int
+    ) {
         binding.title.text = card.text
         binding.consumption.text =
             "${card.consumption?.like_count}人点赞｜${card.consumption?.collection_count}人收藏"

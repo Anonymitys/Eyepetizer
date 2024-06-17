@@ -20,12 +20,15 @@ class StackedSlideCoverImageViewHolder(
     private val jump: (String) -> Unit
 ) : PageViewHolder<TopicsSquare>(binding) {
 
-    override fun bind(card: TopicsSquare) {
+    override fun bind(
+        card: TopicsSquare,
+        position: Int
+    ) {
         val adapter = TopicSquareAdapter(card.item_list ?: return, jump)
         binding.list.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         if (binding.list.itemDecorationCount <= 0) {
-            binding.list.addItemDecoration(LineSpaceItemDecoration(16.dp))
+            binding.list.addItemDecoration(LineSpaceItemDecoration(8.dp))
         }
         binding.list.adapter = adapter
     }
