@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
-import com.ekko.base.dp
-import com.ekko.base.json
+import com.ekko.base.ktx.dp
+import com.ekko.base.ktx.json
 import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.MetroCard
 import com.ekko.search.databinding.LayoutRecommendVideoItemBinding

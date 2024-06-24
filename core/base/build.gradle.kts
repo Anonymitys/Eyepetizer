@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "com.ekko.base"
+
+    viewBinding{
+        enable = true
+    }
 }
 
 dependencies {
@@ -13,6 +17,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.window)
+    implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

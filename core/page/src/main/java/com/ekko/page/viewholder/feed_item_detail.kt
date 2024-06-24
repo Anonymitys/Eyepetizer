@@ -3,7 +3,7 @@ package com.ekko.page.viewholder
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import coil.load
-import com.ekko.base.screenWidth
+import com.ekko.base.ktx.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.R

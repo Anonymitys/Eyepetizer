@@ -8,11 +8,11 @@ import com.ekko.api.core.constant.APP_ID
 import com.ekko.api.core.constant.SESSION_ID
 import com.ekko.api.core.constant.X_API_KEY
 import com.ekko.api.core.sign.AuthToken
-import com.ekko.base.networkName
-import com.ekko.base.screenHeight
-import com.ekko.base.screenWidth
-import com.ekko.base.versionCode
-import com.ekko.base.versionName
+import com.ekko.base.ktx.networkName
+import com.ekko.base.ktx.screenHeight
+import com.ekko.base.ktx.screenWidth
+import com.ekko.base.ktx.versionCode
+import com.ekko.base.ktx.versionName
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Locale
 import java.util.UUID

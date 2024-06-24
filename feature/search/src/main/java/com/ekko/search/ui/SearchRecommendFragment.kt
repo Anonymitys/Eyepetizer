@@ -1,7 +1,6 @@
 package com.ekko.search.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ekko.base.json
+import com.ekko.base.ktx.json
 import com.ekko.repository.model.CardHeader
 import com.ekko.search.adapter.HeaderAdapter
 import com.ekko.search.adapter.HotKeysAdapter

@@ -3,11 +3,10 @@ package com.ekko.page.viewholder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.view.marginStart
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.ekko.base.dp
-import com.ekko.base.screenWidth
+import com.ekko.base.ktx.dp
+import com.ekko.base.ktx.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.WaterfallCoverSmallBinding

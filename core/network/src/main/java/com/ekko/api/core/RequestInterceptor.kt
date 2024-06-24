@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Build
 import android.os.Build.VERSION
 import com.ekko.api.core.header.HeaderStorage
-import com.ekko.base.versionCode
-import com.ekko.base.versionName
+import com.ekko.base.ktx.versionCode
+import com.ekko.base.ktx.versionName
 import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.Request

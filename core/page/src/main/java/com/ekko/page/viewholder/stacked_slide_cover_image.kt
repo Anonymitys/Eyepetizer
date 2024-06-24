@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.ekko.base.dp
+import com.ekko.base.ktx.dp
 import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType

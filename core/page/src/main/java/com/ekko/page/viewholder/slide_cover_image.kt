@@ -1,7 +1,7 @@
 package com.ekko.page.viewholder
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ekko.base.dp
+import com.ekko.base.ktx.dp
 import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType

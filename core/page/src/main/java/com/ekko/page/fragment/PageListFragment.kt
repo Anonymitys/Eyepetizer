@@ -5,22 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.ekko.base.ktx.launchWhenStarted
+import com.ekko.base.view.ErrorView
 import com.ekko.page.adapter.PageAdapter
 import com.ekko.page.adapter.PageLoadStateAdapter
 import com.ekko.page.databinding.FragmentPageListBinding
+import com.ekko.page.model.ItemCard
 import com.ekko.page.viewmodel.PageViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * 通用列表Fragment
@@ -34,40 +33,53 @@ abstract class PageListFragment : Fragment() {
     protected lateinit var binding: FragmentPageListBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPageListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
+        view: View, savedInstanceState: Bundle?
     ) {
-        binding.list.apply {
-            layoutManager = layoutManager()
-            adapter = pageAdapter.withLoadStateFooter(
-                footer = PageLoadStateAdapter(pageAdapter)
-            )
-        }
-        binding.refresh.setOnRefreshListener { pageAdapter.refresh() }
+        binding.bindState(model.getPageData(pageParams.first, pageParams.second))
+    }
 
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                model.getPageData(pageParams.first, pageParams.second).collectLatest {
-                    pageAdapter.submitData(it)
-                }
+
+    private fun FragmentPageListBinding.bindState(pagingData: Flow<PagingData<ItemCard>>) {
+        list.layoutManager = layoutManager()
+        list.adapter = pageAdapter.withLoadStateFooter(
+            footer = PageLoadStateAdapter(pageAdapter)
+        )
+        refresh.setOnRefreshListener { pageAdapter.refresh() }
+
+        launchWhenStarted {
+            pagingData.collectLatest {
+                pageAdapter.submitData(it)
             }
         }
 
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                pageAdapter.loadStateFlow
-                    .collectLatest {
-                        binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
-                    }
+        launchWhenStarted {
+            pageAdapter.loadStateFlow.collectLatest {
+                refresh.isRefreshing =
+                    it.source.refresh is LoadState.Loading && pageAdapter.itemCount > 0
+                progress.isVisible =
+                    it.source.refresh is LoadState.Loading && pageAdapter.itemCount == 0
+                errorView.bindError(it.source.refresh)
+
+            }
+        }
+    }
+
+    private fun ErrorView.bindError(loadState: LoadState) {
+        val errorState = loadState as? LoadState.Error ?: run {
+            isVisible = false
+            return
+        }
+        if (pageAdapter.itemCount == 0) {
+            isVisible = true
+            bindErrorMsg(errorState.error.message.toString()) {
+                pageAdapter.refresh()
             }
         }
     }

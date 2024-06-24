@@ -2,8 +2,6 @@ package com.ekko.eyepetizer.ui.home
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ekko.base.dp
-import com.ekko.base.recyclerview.decoration.GridSpaceItemDecoration
 import com.ekko.page.fragment.PageListFragment
 import dagger.hilt.android.AndroidEntryPoint
 

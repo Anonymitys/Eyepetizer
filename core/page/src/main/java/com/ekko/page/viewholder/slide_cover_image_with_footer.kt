@@ -1,14 +1,8 @@
 package com.ekko.page.viewholder
 
 import android.graphics.Color
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import coil.load
-import com.ekko.base.dp
-import com.ekko.base.screenWidth
+import com.ekko.base.ktx.dp
+import com.ekko.base.ktx.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.adapter.BannerAdapter

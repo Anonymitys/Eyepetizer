@@ -1,4 +1,4 @@
-package com.ekko.base
+package com.ekko.base.ktx
 
 import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
@@ -13,11 +13,11 @@ val Context.versionName: String
         }
     }
 
-val Context.versionCode: Int
+val Context.versionCode: Long
     get() {
         return try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionCode
+            packageInfo.longVersionCode
         } catch (e: NameNotFoundException) {
             0
         }

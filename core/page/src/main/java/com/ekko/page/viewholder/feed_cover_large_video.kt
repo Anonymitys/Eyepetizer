@@ -1,8 +1,7 @@
 package com.ekko.page.viewholder
 
 import coil.load
-import coil.transform.CircleCropTransformation
-import com.ekko.base.screenWidth
+import com.ekko.base.ktx.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.FeedCoverLargeItemBinding

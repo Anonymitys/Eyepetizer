@@ -5,8 +5,8 @@ import android.util.Log
 import com.ekko.api.core.ApiResponse
 import com.ekko.api.core.constant.APP_ID
 import com.ekko.api.core.header.HeaderStorage
-import com.ekko.base.json
-import com.ekko.base.versionName
+import com.ekko.base.ktx.json
+import com.ekko.base.ktx.versionName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject

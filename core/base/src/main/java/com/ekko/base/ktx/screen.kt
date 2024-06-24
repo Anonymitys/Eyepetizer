@@ -1,12 +1,8 @@
-package com.ekko.base
+package com.ekko.base.ktx
 
-import android.app.Activity
 import android.content.Context
-import android.content.ContextWrapper
-import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import androidx.window.layout.WindowMetricsCalculator
 
 val Context.screenWidth: Int
     get() {

@@ -3,7 +3,7 @@ package com.ekko.page.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.ekko.base.json
+import com.ekko.base.ktx.json
 import com.ekko.page.CardType
 import com.ekko.page.model.FooterItemCard
 import com.ekko.page.model.HeaderItemCard

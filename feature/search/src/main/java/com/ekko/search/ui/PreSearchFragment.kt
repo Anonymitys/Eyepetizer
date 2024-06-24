@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ekko.base.hide
+import com.ekko.base.ktx.hide
 import com.ekko.search.adapter.RecommendKeyAdapter
 import com.ekko.search.databinding.FragmentPreSearchBinding
 import com.ekko.search.viewmodel.QuerySearchViewModel

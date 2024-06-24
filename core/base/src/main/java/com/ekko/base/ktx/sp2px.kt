@@ -1,4 +1,4 @@
-package com.ekko.base
+package com.ekko.base.ktx
 
 import android.content.res.Resources
 
