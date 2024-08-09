@@ -2,6 +2,7 @@ package com.ekko.repository.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 
 /**
  *
@@ -22,7 +23,7 @@ data class CardList(
 
 @Serializable
 data class Metro(
-    val item_list: List<MetroCard>? = null,
+    val item_list: List<MetroCard<JsonObject>>? = null,
     val item_count: Long = 0,
     val last_item_id: Long = 0,
 )
@@ -47,10 +48,10 @@ data class CardData(
 @Serializable
 data class Layout(
     val style: Style? = null,
-    val left: List<MetroCard>? = null,
-    val right: List<MetroCard>? = null,
-    val center: List<MetroCard>? = null,
-    val bottom: List<MetroCard>? = null,
+    val left: List<MetroCard<JsonObject>>? = null,
+    val right: List<MetroCard<JsonObject>>? = null,
+    val center: List<MetroCard<JsonObject>>? = null,
+    val bottom: List<MetroCard<JsonObject>>? = null,
 )
 
 @Serializable

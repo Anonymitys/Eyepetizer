@@ -1,6 +1,7 @@
 package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,28 +14,27 @@ import com.ekko.page.databinding.LayoutIconGridItemBinding
 import com.ekko.page.databinding.LayoutIconItemBinding
 import com.ekko.repository.model.Icon
 import com.ekko.repository.model.Icons
+import com.ekko.repository.model.MetroCard
 
 @PagingViewHolder(CardType.ICON_GRID)
 class IconGridViewHolder(
     private val binding: LayoutIconGridItemBinding,
-    private val jump: (String) -> Unit
-) : PageViewHolder<Icons>(binding, jump) {
+    private val jump: (View, String) -> Unit
+) : PageViewHolder<MetroCard<Icons>>(binding, jump) {
 
-    override fun bind(
-        card: Icons,
-        position: Int
-    ) {
+    override fun bind(card: MetroCard<Icons>, position: Int) {
+        val data = card.metro_data
         binding.iconGrid.layoutManager = GridLayoutManager(itemView.context, 3)
         if (binding.iconGrid.itemDecorationCount <= 0) {
             binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))
         }
-        binding.iconGrid.adapter = IconAdapter(card.icons, jump)
+        binding.iconGrid.adapter = IconAdapter(data.icons, jump)
     }
 }
 
 class IconAdapter(
     private val icons: List<Icon>,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) : RecyclerView.Adapter<IconViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -54,21 +54,21 @@ class IconAdapter(
 
 class IconViewHolder(
     private val binding: LayoutIconItemBinding,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(icon: Icon) {
         binding.icon.load(icon.icon)
         binding.title.text = icon.name
         binding.root.setOnClickListener {
-            jump(icon.link)
+            jump(it, icon.link)
         }
     }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            jump: (String) -> Unit
+            jump: (View, String) -> Unit
         ): IconViewHolder {
             val binding =
                 LayoutIconItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

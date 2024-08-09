@@ -1,5 +1,6 @@
 package com.ekko.page.viewholder
 
+import android.view.View
 import android.view.ViewGroup
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -9,22 +10,21 @@ import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.WaterfallCoverSmallBinding
 import com.ekko.repository.model.FeedCoverVideo
+import com.ekko.repository.model.MetroCard
 
 @PagingViewHolder(CardType.WATERFALL_COVER_SMALL_VIDEO)
 class WaterfallCoverSmallVideoViewHolder(
     private val binding: WaterfallCoverSmallBinding,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) :
-    PageViewHolder<FeedCoverVideo>(binding, jump) {
+    PageViewHolder<MetroCard<FeedCoverVideo>>(binding, jump) {
 
-    override fun bind(
-        card: FeedCoverVideo,
-        position: Int
-    ) {
+    override fun bind(card: MetroCard<FeedCoverVideo>, position: Int) {
+        val data = card.metro_data
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth / 2 - 12.dp
             layoutParams.height = layoutParams.width
-        }.load(card.cover?.url) {
+        }.load(data.cover?.url) {
             crossfade(true)
         }
 
@@ -40,10 +40,10 @@ class WaterfallCoverSmallVideoViewHolder(
                 params.marginEnd = 4.dp
             }
         }
-        binding.title.text = card.title
-        binding.avatar.load(card.author?.avatar?.url) {
+        binding.title.text = data.title
+        binding.avatar.load(data.author?.avatar?.url) {
             transformations(CircleCropTransformation())
         }
-        binding.nickName.text = card.author?.nick
+        binding.nickName.text = data.author?.nick
     }
 }

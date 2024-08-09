@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekko.base.ktx.json
+import com.ekko.base.ktx.launchWhenStarted
 import com.ekko.repository.model.CardHeader
 import com.ekko.search.adapter.HeaderAdapter
 import com.ekko.search.adapter.HotKeysAdapter
@@ -47,26 +48,22 @@ class SearchRecommendFragment : Fragment() {
     ) {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                val list = model.getHotQueries()
-                if (list.isNotEmpty()) {
-                    adapter.addAdapter(0, HeaderAdapter(CardHeader("推荐搜索")))
-                    adapter.addAdapter(1, HotKeysAdapter(list) {
-                        querySearchViewModel.submitSearchQuery(it)
-                    })
-                }
+        launchWhenStarted {
+            val list = model.getHotQueries()
+            if (list.isNotEmpty()) {
+                adapter.addAdapter(0, HeaderAdapter(CardHeader("推荐搜索")))
+                adapter.addAdapter(1, HotKeysAdapter(list) {
+                    querySearchViewModel.submitSearchQuery(it)
+                })
             }
         }
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                model.getRecommendList().firstOrNull()?.apply {
-                    card_data?.header?.left?.firstOrNull()?.let {
-                        adapter.addAdapter(HeaderAdapter(json.decodeFromJsonElement(it.metro_data)))
-                    }
-                    card_data?.body?.metro_list?.let {
-                        adapter.addAdapter(RecommendVideoAdapter(it))
-                    }
+        launchWhenStarted {
+            model.getRecommendList().firstOrNull()?.apply {
+                card_data?.header?.left?.firstOrNull()?.let {
+                    adapter.addAdapter(HeaderAdapter(json.decodeFromJsonElement(it.metro_data)))
+                }
+                card_data?.body?.metro_list?.let {
+                    adapter.addAdapter(RecommendVideoAdapter(it))
                 }
             }
         }

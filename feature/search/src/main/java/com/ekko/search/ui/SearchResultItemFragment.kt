@@ -25,8 +25,8 @@ class SearchResultItemFragment : Fragment() {
     private val model: SearchViewModel by viewModels({ requireParentFragment() })
     private lateinit var binding: FragmentSearchResultItemBinding
     private lateinit var type: String
-    private val adapter = PageAdapter {
-        Log.e("huqiang", "jump: $it")
+    private val adapter = PageAdapter { view, url ->
+        Log.e("huqiang", "jump: $url")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class SearchResultItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         lifecycleScope.launch {
-            withResumed {  }
+            withResumed { }
             binding.list.layoutManager = LinearLayoutManager(context)
             binding.list.adapter = adapter.withLoadStateFooter(PageLoadStateAdapter(adapter))
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {

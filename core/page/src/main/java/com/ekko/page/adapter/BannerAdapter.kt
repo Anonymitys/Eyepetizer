@@ -1,5 +1,6 @@
 package com.ekko.page.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import com.ekko.repository.model.SlideCover
 
 class BannerAdapter(
     private val list: List<SlideCover>,
-    private val jump: () -> Unit
+    private val jump: (View) -> Unit
 ) :
     RecyclerView.Adapter<BannerViewHolder>() {
     override fun onCreateViewHolder(
@@ -29,11 +30,11 @@ class BannerAdapter(
 
 class BannerViewHolder(
     private val view: ImageView,
-    jump: () -> Unit
+    jump: (View) -> Unit
 ) : RecyclerView.ViewHolder(view) {
 
     init {
-        itemView.setOnClickListener { jump() }
+        itemView.setOnClickListener { jump(it) }
     }
 
     fun bind(cover: SlideCover) {
@@ -45,7 +46,7 @@ class BannerViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            jump: () -> Unit
+            jump: (View) -> Unit
         ): BannerViewHolder {
             val imageView =
                 ImageView(parent.context).also {

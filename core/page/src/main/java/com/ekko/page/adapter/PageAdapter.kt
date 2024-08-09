@@ -1,5 +1,6 @@
 package com.ekko.page.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,6 +15,7 @@ import com.ekko.page.viewholder.Converter
 import com.ekko.page.viewholder.DefaultViewHolder
 import com.ekko.page.viewholder.PageViewHolder
 import com.ekko.page.viewholder.ViewHolderFactory
+import com.ekko.repository.model.toMetroCard
 import kotlinx.serialization.serializer
 
 /**
@@ -21,9 +23,10 @@ import kotlinx.serialization.serializer
  * @Author Ekkoe
  * @Date 2023/9/28 15:14
  */
-class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCard, PageViewHolder<Any>>(
-    COMPARATOR
-) {
+class PageAdapter(private val jump: (View, String) -> Unit) :
+    PagingDataAdapter<ItemCard, PageViewHolder<Any>>(
+        COMPARATOR
+    ) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -39,17 +42,20 @@ class PageAdapter(private val jump: (String) -> Unit) : PagingDataAdapter<ItemCa
             when (card) {
                 is MetroItemCard -> {
                     val type =
-                        holder::class.supertypes[0].arguments[0].type ?: return
-                    val data =
-                        json.decodeFromJsonElement(serializer(type), card.data.metro_data) ?: return
-                    holder.bind(data, card.index)
+                        holder::class.supertypes[0].arguments[0].type?.arguments?.get(0)?.type
+                            ?: return
+                    holder.bind(card.data.toMetroCard(type), card.index)
+                    holder.itemView.setOnClickListener {
+                        jump(holder.itemView, card.data.link)
+                    }
                 }
 
                 is SlideItemCard -> {
                     val type =
-                        holder::class.supertypes[0].arguments[0].type ?: return
-                    val data = card.data.mapNotNull {
-                        json.decodeFromJsonElement(serializer(type), it.metro_data)
+                        holder::class.supertypes[0].arguments[0].type?.arguments?.get(0)?.type
+                            ?: return
+                    val data = card.data.map {
+                        it.toMetroCard(type)
                     }
                     holder.bind(data, 0)
                 }

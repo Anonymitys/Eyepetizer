@@ -68,7 +68,10 @@ class ViewHolderProcessor(
                 .addParameter(
                     "jump",
                     LambdaTypeName.get(
-                        parameters = arrayOf(String::class.asTypeName()),
+                        parameters = arrayOf(
+                            ClassName("android.view", "View"),
+                            String::class.asTypeName()
+                        ),
                         returnType = Unit::class.asTypeName()
                     )
                 )
@@ -119,7 +122,10 @@ class ViewHolderProcessor(
                 .addParameter(
                     "jump",
                     LambdaTypeName.get(
-                        parameters = arrayOf(String::class.asTypeName()),
+                        parameters = arrayOf(
+                            ClassName("android.view", "View"),
+                            String::class.asTypeName()
+                        ),
                         returnType = Unit::class.asTypeName()
                     )
                 )

@@ -1,6 +1,7 @@
 package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import coil.load
@@ -10,23 +11,22 @@ import com.ekko.base.ktx.screenWidth
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.WaterfallCoverSmallBinding
+import com.ekko.repository.model.MetroCard
 import com.ekko.repository.model.WaterfallCoverImage
 
 @PagingViewHolder(CardType.WATERFALL_COVER_SMALL_IMAGE)
 class WaterfallCoverSmallImageViewHolder(
     private val binding: WaterfallCoverSmallBinding,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) :
-    PageViewHolder<WaterfallCoverImage>(binding, jump) {
+    PageViewHolder<MetroCard<WaterfallCoverImage>>(binding, jump) {
 
-    override fun bind(
-        card: WaterfallCoverImage,
-        position: Int
-    ) {
+    override fun bind(card: MetroCard<WaterfallCoverImage>, position: Int) {
+        val data = card.metro_data
         binding.cover.apply {
             layoutParams.width = itemView.context.screenWidth / 2 - 12.dp
             layoutParams.height = layoutParams.width
-        }.load(card.cover?.url) {
+        }.load(data.cover?.url) {
             crossfade(true)
         }
         val params = itemView.layoutParams as MarginLayoutParams
@@ -41,17 +41,17 @@ class WaterfallCoverSmallImageViewHolder(
                 params.marginEnd = 4.dp
             }
         }
-        binding.title.text = card.title
-        binding.avatar.load(card.author?.avatar?.url) {
+        binding.title.text = data.title
+        binding.avatar.load(data.author?.avatar?.url) {
             transformations(CircleCropTransformation())
         }
-        binding.nickName.text = card.author?.nick
+        binding.nickName.text = data.author?.nick
     }
 
     companion object {
         fun create(
             parent: ViewGroup?,
-            jump: (String) -> Unit
+            jump: (View, String) -> Unit
         ): WaterfallCoverSmallImageViewHolder {
             val binding = WaterfallCoverSmallBinding.inflate(
                 LayoutInflater.from(parent?.context),

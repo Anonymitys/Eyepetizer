@@ -63,6 +63,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
+            android:contentDescription="@string/follow"
             app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="12dp"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             app:layout_constraintTop_toBottomOf="@id/cover"
             tools:text="风筝手艺人们是如何制作、传承、创新风筝的? 不同流派的风筝又有哪些特色和寓意? 这期我们为大家讲述风筝手艺人及其背后的风筝文化，希望能带大家感受，中国传统艺术究竟有多美" />
 
@@ -96,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/desc" />
@@ -106,8 +107,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tag">

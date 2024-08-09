@@ -12,9 +12,10 @@ import com.ekko.base.ktx.json
 import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.MetroCard
 import com.ekko.search.databinding.LayoutRecommendVideoItemBinding
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class RecommendVideoAdapter(private val data: List<MetroCard>) : Adapter<RecommendVideoViewHolder>() {
+class RecommendVideoAdapter(private val data: List<MetroCard<JsonObject>>) : Adapter<RecommendVideoViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,7 +35,7 @@ class RecommendVideoViewHolder(private val binding: LayoutRecommendVideoItemBind
     binding.root
 ) {
 
-    fun bind(data: MetroCard) {
+    fun bind(data: MetroCard<JsonObject>) {
         val start = System.currentTimeMillis()
         Log.e("huqiang", "bind: $start")
         val video = json.decodeFromJsonElement<FeedCoverVideo>(data.metro_data)

@@ -39,9 +39,6 @@ class SearchFragment() : Fragment() {
     private val model: PageViewModel by viewModels()
     private val searchModel: SearchViewModel by viewModels()
     private val querySearchViewModel: QuerySearchViewModel by activityViewModels()
-    private val pageAdapter = PageAdapter {
-        Log.e("huqiang", "jump: $it")
-    }
     private lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
@@ -102,29 +99,8 @@ class SearchFragment() : Fragment() {
     }
 
     private fun loadPage() {
-        binding.list.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = pageAdapter.withLoadStateFooter(
-                footer = PageLoadStateAdapter(pageAdapter)
-            )
-        }
-        binding.refresh.setOnRefreshListener { pageAdapter.refresh() }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                model.getPageData(pageParams.first, pageParams.second).collectLatest {
-                    pageAdapter.submitData(it)
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                pageAdapter.loadStateFlow.collectLatest {
-                    binding.refresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
-                }
-            }
-        }
+        childFragmentManager.beginTransaction().replace(R.id.search_container, SubSearchFragment())
+            .commitAllowingStateLoss()
     }
 
     private fun preQuerySearch() {
@@ -158,7 +134,4 @@ class SearchFragment() : Fragment() {
             }
         }
     }
-
-    private val pageParams: Pair<String, String>
-        get() = Pair("card", "discover_v2")
 }

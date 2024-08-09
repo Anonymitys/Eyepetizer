@@ -1,5 +1,6 @@
 package com.ekko.page.viewholder
 
+import android.view.View
 import androidx.core.view.isVisible
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
@@ -10,7 +11,7 @@ import kotlinx.serialization.json.jsonPrimitive
 @PagingViewHolder(CardType.HEADER)
 class HeaderViewHolder(
     private val binding: LayoutPageHeaderItemBinding,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) : PageViewHolder<Layout>(binding) {
 
     override fun bind(
@@ -26,7 +27,7 @@ class HeaderViewHolder(
         binding.title.text = title
         binding.more.isVisible = link.isNotEmpty()
         binding.more.setOnClickListener {
-            jump(link)
+            jump(it, link)
         }
     }
 }

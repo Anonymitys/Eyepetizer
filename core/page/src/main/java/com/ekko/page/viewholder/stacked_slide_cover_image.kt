@@ -1,6 +1,7 @@
 package com.ekko.page.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,20 +12,19 @@ import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.LayoutTopicsSquareBinding
 import com.ekko.page.databinding.LayoutTopicsSquareItemBinding
+import com.ekko.repository.model.MetroCard
 import com.ekko.repository.model.TopicsPlayList
 import com.ekko.repository.model.TopicsSquare
 
 @PagingViewHolder(CardType.STACKED_SLIDE_COVER_IMAGE)
 class StackedSlideCoverImageViewHolder(
     private val binding: LayoutTopicsSquareBinding,
-    private val jump: (String) -> Unit
-) : PageViewHolder<TopicsSquare>(binding) {
+    private val jump: (View, String) -> Unit
+) : PageViewHolder<MetroCard<TopicsSquare>>(binding) {
 
-    override fun bind(
-        card: TopicsSquare,
-        position: Int
-    ) {
-        val adapter = TopicSquareAdapter(card.item_list ?: return, jump)
+    override fun bind(card: MetroCard<TopicsSquare>, position: Int) {
+        val data = card.metro_data
+        val adapter = TopicSquareAdapter(data.item_list ?: return, jump)
         binding.list.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         if (binding.list.itemDecorationCount <= 0) {
@@ -36,7 +36,7 @@ class StackedSlideCoverImageViewHolder(
 
 class TopicSquareAdapter(
     private val list: List<TopicsPlayList>,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) : RecyclerView.Adapter<TopicSquareItemViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -56,7 +56,7 @@ class TopicSquareAdapter(
 
 class TopicSquareItemViewHolder(
     private val binding: LayoutTopicsSquareItemBinding,
-    private val jump: (String) -> Unit
+    private val jump: (View, String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(data: TopicsPlayList) {
@@ -68,14 +68,14 @@ class TopicSquareItemViewHolder(
         }
         binding.title.text = data.title
         binding.root.setOnClickListener {
-            jump(data.link)
+            jump(it, data.link)
         }
     }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            jump: (String) -> Unit
+            jump: (View, String) -> Unit
         ): TopicSquareItemViewHolder {
             val binding = LayoutTopicsSquareItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false

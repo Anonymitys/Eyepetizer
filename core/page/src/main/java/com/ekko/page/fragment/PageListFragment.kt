@@ -1,7 +1,6 @@
 package com.ekko.page.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 abstract class PageListFragment : Fragment() {
 
     private val model: PageViewModel by viewModels()
-    protected val pageAdapter = PageAdapter() {
-        Log.e("huqiang", "jump: $it")
-    }
+    protected val pageAdapter = PageAdapter(::navigateTo)
     protected lateinit var binding: FragmentPageListBinding
 
     override fun onCreateView(
@@ -91,4 +88,6 @@ abstract class PageListFragment : Fragment() {
     abstract val pageParams: Pair<String, String>
 
     abstract fun layoutManager(): LayoutManager
+
+    abstract fun navigateTo(view: View, url: String)
 }
