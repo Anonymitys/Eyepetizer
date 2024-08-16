@@ -16,6 +16,6 @@ data class GraphicCard(
     val is_mine: Boolean = false,
     val show_follow_btn: Boolean = false,
     val consumption: Consumption? = null,
-    val topics: List<Topics>? = null
+    val topics: List<Topic>? = null
 
 )

@@ -10,7 +10,7 @@ import com.ekko.eyepetizer.ui.home.HomeFragment
 import com.ekko.eyepetizer.ui.home.MineFragment
 import com.ekko.eyepetizer.ui.home.SquareFragment
 import com.ekko.search.ui.SearchFragment
-import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.Hold
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -23,8 +23,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exitTransition = MaterialElevationScale(false)
-        reenterTransition = MaterialElevationScale(true)
+        exitTransition = Hold()
     }
 
     override fun onCreateView(

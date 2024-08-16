@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekko.base.ktx.json
-import com.ekko.base.ktx.launchWhenStarted
+import com.ekko.base.ktx.launchWhenCreated
 import com.ekko.repository.model.CardHeader
 import com.ekko.search.adapter.HeaderAdapter
 import com.ekko.search.adapter.HotKeysAdapter
@@ -22,7 +19,6 @@ import com.ekko.search.databinding.FragmentSearchRecommendListBinding
 import com.ekko.search.viewmodel.QuerySearchViewModel
 import com.ekko.search.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.decodeFromJsonElement
 
 @AndroidEntryPoint
@@ -48,7 +44,7 @@ class SearchRecommendFragment : Fragment() {
     ) {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
-        launchWhenStarted {
+        launchWhenCreated {
             val list = model.getHotQueries()
             if (list.isNotEmpty()) {
                 adapter.addAdapter(0, HeaderAdapter(CardHeader("推荐搜索")))
@@ -57,7 +53,7 @@ class SearchRecommendFragment : Fragment() {
                 })
             }
         }
-        launchWhenStarted {
+        launchWhenCreated {
             model.getRecommendList().firstOrNull()?.apply {
                 card_data?.header?.left?.firstOrNull()?.let {
                     adapter.addAdapter(HeaderAdapter(json.decodeFromJsonElement(it.metro_data)))

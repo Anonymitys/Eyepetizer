@@ -21,9 +21,13 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(projects.core.repository)
 
     // For media playback using ExoPlayer
     implementation(libs.media3.exoplayer)
+    implementation(libs.fragment.ktx)
+    implementation(projects.core.base)
+    implementation(libs.coil)
 
     // For DASH playback support with ExoPlayer
 //    implementation(libs.media3.exoplayer.dash)

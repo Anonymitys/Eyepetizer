@@ -6,23 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.WindowCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ekko.play.detail.databinding.FragmentPlayDetailBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class PlayDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.getInsetsController(
-            requireActivity().window,
-            requireActivity().window.decorView
-        ).apply {
-            isAppearanceLightStatusBars = false
-        }
         super.onCreate(savedInstanceState)
 
     }
@@ -39,7 +34,17 @@ class PlayDetailFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.list.adapter = StringAdapter(listOf("1", "2", "3", "4", "5", "6", "7", "8"))
+        val context = activity as? AppCompatActivity
+        context?.setSupportActionBar(binding.toolBar)
+        context?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.vp2.adapter =
+            VpAdapter(listOf(ContentFragment(), CommentFragment()), requireActivity())
+        TabLayoutMediator(binding.tabLayout, binding.vp2) { tab, position ->
+            when (position) {
+                0 -> tab.text = "简介"
+                1 -> tab.text = "评论"
+            }
+        }.attach()
     }
 
 
@@ -50,30 +55,11 @@ class PlayDetailFragment : Fragment() {
 }
 
 
-class StringAdapter(private val data: List<String>) : RecyclerView.Adapter<StringViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder =
-        StringViewHolder.create(parent)
+class VpAdapter(private val fragments: List<Fragment>, context: FragmentActivity) :
+    FragmentStateAdapter(context) {
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = fragments.size
 
-    override fun onBindViewHolder(holder: StringViewHolder, position: Int) {
-        holder.bind(data[position])
-    }
+    override fun createFragment(position: Int): Fragment = fragments[position]
 
-}
-
-
-class StringViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
-
-
-    fun bind(data: String) {
-        view.text = data
-    }
-
-
-    companion object {
-        fun create(parent: ViewGroup): StringViewHolder {
-            return StringViewHolder(TextView(parent.context))
-        }
-    }
 }

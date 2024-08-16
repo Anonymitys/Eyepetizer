@@ -12,7 +12,6 @@ import kotlinx.serialization.Serializable
 data class Style(
     val tpl_label: String = "",
     val padding: Params? = null,
-    val background: Background? = null,
 )
 
 @Serializable
@@ -21,10 +20,4 @@ data class Params(
     val right: Double = 0.0,
     val bottom: Double = 0.0,
     val left: Double = 0.0,
-)
-
-@Serializable
-data class Background(
-    val color: String = "",
-    val image: String = "",
 )

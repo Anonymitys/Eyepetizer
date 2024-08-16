@@ -16,7 +16,7 @@ data class FeedItemDetailCard(
     val is_mine: Boolean = false,
     val show_follow_btn: Boolean = false,
     val consumption: Consumption? = null,
-    val topics: List<Topics>? = null
+    val topics: List<Topic>? = null
 
 )
 
@@ -27,12 +27,4 @@ data class Consumption(
     val collection_count: Long = 0,
     val comment_count: Long = 0,
     val share_count: Long = 0
-)
-
-
-@Serializable
-data class Topics(
-    val id: Long = 0,
-    val title: String = "",
-    val link: String = ""
 )

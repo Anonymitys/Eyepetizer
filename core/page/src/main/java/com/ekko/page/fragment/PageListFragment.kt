@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.ekko.base.ktx.launchWhenStarted
+import com.ekko.base.ktx.launchWhenCreated
 import com.ekko.base.view.ErrorView
 import com.ekko.page.adapter.PageAdapter
 import com.ekko.page.adapter.PageLoadStateAdapter
@@ -50,13 +50,13 @@ abstract class PageListFragment : Fragment() {
         )
         refresh.setOnRefreshListener { pageAdapter.refresh() }
 
-        launchWhenStarted {
+        launchWhenCreated {
             pagingData.collectLatest {
                 pageAdapter.submitData(it)
             }
         }
 
-        launchWhenStarted {
+        launchWhenCreated {
             pageAdapter.loadStateFlow.collectLatest {
                 refresh.isRefreshing =
                     it.source.refresh is LoadState.Loading && pageAdapter.itemCount > 0

@@ -16,22 +16,10 @@ data class FeedCoverVideo(
     val play_url: String = "",
     val preview_url: String = "",
     val recommend_level: String = "",
-    val tags: List<VideoTag>? = null,
+    val tags: List<Tag>? = null,
     val cover: Cover? = null,
     val author: Author? = null,
     val resource_id: Long = 0,
     val resource_type: String = "",
 )
 
-@Serializable
-data class Duration(
-    val value: Long = 0,
-    val text: String = "",
-)
-
-@Serializable
-data class VideoTag(
-    val id: Long = 0,
-    val title: String = "",
-    val link: String = "",
-)
