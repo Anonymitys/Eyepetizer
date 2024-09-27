@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="foll">关注</string>
+    <string name="play_now">Play Now</string>
 </resources>

@@ -1,65 +1,51 @@
 package com.ekko.playdetail.ui
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ekko.play.detail.databinding.FragmentPlayDetailBinding
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.ekko.playdetail.arguments.ArgumentsParser
+import com.ekko.playdetail.di.anchor.ContainerPageScopeAnchor
+import com.ekko.playdetail.di.component.ContainerPageScopeEntryPoint
+import com.ekko.playdetail.di.component.PlayDetailFragmentComponentManager
+import dagger.hilt.EntryPoints
+import dagger.hilt.internal.GeneratedComponentManager
+import dagger.hilt.internal.GeneratedComponentManagerHolder
 
-class PlayDetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentPlayDetailBinding
+class PlayDetailFragment : Fragment(), GeneratedComponentManagerHolder {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private val componentManager: PlayDetailFragmentComponentManager by lazy {
+        val arguments = arguments?.let { ArgumentsParser().parse(it) }
+            ?: throw IllegalArgumentException("arguments is null")
+        PlayDetailFragmentComponentManager(this, arguments)
     }
 
+    val anchor: ContainerPageScopeAnchor by lazy {
+        EntryPoints.get(generatedComponent(), ContainerPageScopeEntryPoint::class.java).attach()
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPlayDetailBinding.inflate(inflater, container, false)
-        return binding.root
+        return anchor.containerViewTree.root()
     }
 
+    override fun generatedComponent(): Any = componentManager.generatedComponent()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val context = activity as? AppCompatActivity
-        context?.setSupportActionBar(binding.toolBar)
-        context?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.vp2.adapter =
-            VpAdapter(listOf(ContentFragment(), CommentFragment()), requireActivity())
-        TabLayoutMediator(binding.tabLayout, binding.vp2) { tab, position ->
-            when (position) {
-                0 -> tab.text = "简介"
-                1 -> tab.text = "评论"
+    override fun componentManager(): GeneratedComponentManager<*> = componentManager
+
+    override val defaultViewModelProviderFactory: ViewModelProvider.Factory
+        @Suppress("UNCHECKED_CAST")
+        get() = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return EntryPoints.get(
+                    generatedComponent(),
+                    ContainerPageScopeEntryPoint::class.java
+                ).viewModel() as T
             }
-        }.attach()
-    }
-
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.e("huqiang", "onConfigurationChanged: $newConfig")
-    }
-}
-
-
-class VpAdapter(private val fragments: List<Fragment>, context: FragmentActivity) :
-    FragmentStateAdapter(context) {
-
-    override fun getItemCount(): Int = fragments.size
-
-    override fun createFragment(position: Int): Fragment = fragments[position]
-
+        }
 }

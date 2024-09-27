@@ -1,5 +1,6 @@
 package com.ekko.eyepetizer.ui.home
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class SquareFragment : PageListFragment() {
     }
 
     override fun navigateTo(view: View, url: String) {
+        Log.e("huqiang", "navigateTo: $url", )
         parentFragment?.start(PlayDetailFragment(), view)
     }
 }

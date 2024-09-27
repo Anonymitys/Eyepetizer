@@ -7,29 +7,56 @@
     android:transitionName="shared_element_container">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
-            <ImageView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/background"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="wrap_content">
+
+                <androidx.media3.ui.PlayerView
+                    android:id="@+id/player_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="16:9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:show_buffering="always"
+                    app:shutter_background_color="@android:color/transparent"
+                    android:background="@android:color/black"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:title="hello world" />
+                app:navigationIcon="@drawable/play_detail_navigation_icon"
+                app:navigationIconTint="@android:color/white"
+                app:titleTextColor="@android:color/white">
+
+                <Button
+                    android:id="@+id/play_now"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="8dp"
+                    android:text="@string/play_now"
+                    android:visibility="gone"
+                    app:icon="@drawable/play_detail_topbar_play_icon" />
+            </com.google.android.material.appbar.MaterialToolbar>
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
