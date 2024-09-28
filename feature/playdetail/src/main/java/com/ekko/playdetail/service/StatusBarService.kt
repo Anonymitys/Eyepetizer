@@ -24,8 +24,6 @@ class StatusBarService @Inject constructor(
         activity.window, activity.window.decorView
     )
 
-    private var currentOffset = 0
-
     init {
         statusBar(true)
         val callback = object : FragmentLifecycleCallbacks() {
@@ -33,33 +31,18 @@ class StatusBarService @Inject constructor(
                 statusBar(false)
             }
         }
-        val offsetChangedListener =
-            AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-                //向下滑动
-                val down = currentOffset < verticalOffset
-                currentOffset = verticalOffset
-                if (100 + verticalOffset > 0 && down) {
-                    statusBar(true)
-                }
-            }
-
         fragment.lifecycleScope.launch {
             try {
                 fragment.parentFragmentManager.registerFragmentLifecycleCallbacks(callback, false)
-                appLayoutConfigureService.addOnOffsetChangedListener(offsetChangedListener)
                 awaitCancellation()
             } finally {
                 fragment.parentFragmentManager.unregisterFragmentLifecycleCallbacks(callback)
-                appLayoutConfigureService.removeOnOffsetChangedListener(offsetChangedListener)
             }
         }
 
         fragment.lifecycleScope.launch {
             appLayoutConfigureService.collapseState.collectLatest {
-                lightTheme(it)
-                if (it) {
-                    statusBar(false)
-                }
+                statusBar(!it)
             }
         }
     }
@@ -70,9 +53,5 @@ class StatusBarService @Inject constructor(
             activity,
             if (dark) android.R.color.black else android.R.color.transparent
         )
-    }
-
-    private fun lightTheme(light: Boolean) {
-        windowInsetsController.isAppearanceLightStatusBars = light
     }
 }

@@ -32,6 +32,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:show_buffering="always"
+                    app:auto_show="false"
                     app:shutter_background_color="@android:color/transparent"
                     android:background="@android:color/black"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

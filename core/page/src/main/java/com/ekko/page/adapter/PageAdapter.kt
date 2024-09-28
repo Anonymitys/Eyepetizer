@@ -1,10 +1,10 @@
 package com.ekko.page.adapter
 
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.ekko.base.ktx.json
 import com.ekko.page.CardType
 import com.ekko.page.model.FooterItemCard
 import com.ekko.page.model.HeaderItemCard
@@ -15,8 +15,8 @@ import com.ekko.page.viewholder.Converter
 import com.ekko.page.viewholder.DefaultViewHolder
 import com.ekko.page.viewholder.PageViewHolder
 import com.ekko.page.viewholder.ViewHolderFactory
+import com.ekko.repository.model.FeedCoverVideo
 import com.ekko.repository.model.toMetroCard
-import kotlinx.serialization.serializer
 
 /**
  *
@@ -44,9 +44,13 @@ class PageAdapter(private val jump: (View, String) -> Unit) :
                     val type =
                         holder::class.supertypes[0].arguments[0].type?.arguments?.get(0)?.type
                             ?: return
-                    holder.bind(card.data.toMetroCard(type), card.index)
+                    val metroCard = card.data.toMetroCard(type)
+                    holder.bind(metroCard, card.index)
                     holder.itemView.setOnClickListener {
-                        jump(holder.itemView, card.data.link)
+                        val playUrl = (metroCard.metro_data as? FeedCoverVideo)?.play_url ?: ""
+                        val uri = Uri.parse(card.data.link).buildUpon()
+                            .appendQueryParameter("play_url", playUrl).build()
+                        jump(holder.itemView, uri.toString())
                     }
                 }
 

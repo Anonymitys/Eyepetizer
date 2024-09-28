@@ -1,5 +1,6 @@
 package com.ekko.eyepetizer.ui.home
 
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
@@ -26,8 +27,9 @@ class HomeFragment : PageListFragment() {
         Log.e("huqiang", "navigateTo: $url")
         val regex = "\\d+".toRegex()
         val resourceId = regex.find(url)?.value?.toLong() ?: 0
+        val playUrl = Uri.parse(url).getQueryParameter("play_url")?:""
         parentFragment?.start(PlayDetailFragment().apply {
-            arguments = bundleOf(ArgumentsKeys.RESOURCE_ID to resourceId)
+            arguments = bundleOf(ArgumentsKeys.RESOURCE_ID to resourceId,ArgumentsKeys.PLAY_URL to playUrl)
         }, view)
     }
 

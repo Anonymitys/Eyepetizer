@@ -10,6 +10,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MergingMediaSource
+import com.ekko.playdetail.model.Arguments
 import com.ekko.repository.model.VideoItemCard
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.awaitCancellation
@@ -19,28 +20,32 @@ import javax.inject.Inject
 
 @FragmentScoped
 class VideoPlayer @Inject constructor(
+    private val arguments: Arguments,
     private val fragment: Fragment,
     containerViewTree: ContainerViewTree
 ) {
     private val player = ExoPlayer.Builder(fragment.requireContext()).build()
     val playerView = containerViewTree.binding.playerView.also { it.player = player }
 
-    init {
-        val callback = object : FragmentLifecycleCallbacks() {
-            override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
-                player.pause()
-            }
-
-            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
-                player.play()
-            }
-
-            override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-                player.release()
-                playerView.player = null
-            }
+   private val callback = object : FragmentLifecycleCallbacks() {
+        override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
+            player.pause()
         }
 
+        override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+            player.play()
+        }
+
+        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+            player.release()
+            playerView.player = null
+        }
+    }
+
+
+
+    init {
+        fastPlay()
         fragment.lifecycleScope.launch {
             try {
                 fragment.parentFragmentManager.registerFragmentLifecycleCallbacks(callback, false)
@@ -48,6 +53,18 @@ class VideoPlayer @Inject constructor(
             } finally {
                 fragment.parentFragmentManager.unregisterFragmentLifecycleCallbacks(callback)
             }
+        }
+    }
+
+
+    @OptIn(UnstableApi::class)
+    fun fastPlay(){
+        arguments.playUrl.takeIf { it.isNotEmpty() }?.let {
+            val mediaSource = DefaultMediaSourceFactory(fragment.requireContext()).createMediaSource(
+                MediaItem.fromUri(it))
+            player.setMediaSource(mediaSource)
+            player.playWhenReady = true
+            player.prepare()
         }
     }
 
