@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.window)
     ksp(libs.hilt.android.compiler)
     implementation(projects.core.repository)
 

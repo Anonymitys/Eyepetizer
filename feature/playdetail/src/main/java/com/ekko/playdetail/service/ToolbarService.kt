@@ -3,11 +3,11 @@ package com.ekko.playdetail.service
 import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -22,6 +22,7 @@ class ToolbarService @Inject constructor(
     activity: FragmentActivity,
     private val appLayoutConfigureService: AppLayoutConfigureService,
     fragment: Fragment,
+    private val player: VideoPlayer,
 ) {
     private val toolbar = containerVIewTree.binding.toolBar
     private val playNow = containerVIewTree.binding.playNow
@@ -45,8 +46,9 @@ class ToolbarService @Inject constructor(
 
         fragment.lifecycleScope.launch {
             appLayoutConfigureService.collapseState.collectLatest {
-                val color = ContextCompat.getColor(
-                    activity, if (it) android.R.color.black else android.R.color.white
+                val color = MaterialColors.getColor(
+                    toolbar,
+                    if (it) com.google.android.material.R.attr.colorOnSurface else com.google.android.material.R.attr.colorSurface
                 )
                 navigationIconTint(color)
                 playNow.isVisible = it
@@ -61,6 +63,7 @@ class ToolbarService @Inject constructor(
     private suspend fun playCurrent() {
         appLayoutConfigureService.setExpanded(true)
         appLayoutConfigureService.awaitCompleteExpand()
+        player.playCurrent()
     }
 
 

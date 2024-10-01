@@ -1,7 +1,9 @@
 package com.ekko.playdetail.di.anchor
 
+import com.ekko.playdetail.service.ConfigurationService
 import com.ekko.playdetail.service.ContainerViewTree
 import com.ekko.playdetail.service.ContentService
+import com.ekko.playdetail.service.ScrollModeService
 import com.ekko.playdetail.service.StatusBarService
 import com.ekko.playdetail.service.TabService
 import com.ekko.playdetail.service.ToolbarService
@@ -16,5 +18,7 @@ class ContainerPageScopeAnchor @Inject constructor(
     val toolbarService: ToolbarService,
     val statusBarService: StatusBarService,
     val tabService: TabService,
-    val contentService: ContentService
+    val contentService: ContentService,
+    val scrollModeService: ScrollModeService,
+    val configurationService: ConfigurationService
 )

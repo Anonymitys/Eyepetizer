@@ -13,7 +13,8 @@ class PlayDetailFragmentComponentManager(fragment: Fragment, arguments: Argument
 
     private val component by lazy {
         EntryPoints.get(fragment.requireHost(), PlayDetailFragmentComponentEntryPoint::class.java)
-            .componentBuilder().fragment(fragment).arguments(arguments).build()
+            .componentBuilder().fragment(fragment).context(fragment.requireContext())
+            .arguments(arguments).build()
     }
 
     @EntryPoint
