@@ -35,7 +35,7 @@ dependencies {
 //    // For loading data using librtmp
 //    implementation(libs.androidx.media3.datasource.rtmp)
 //    // For building media playback UIs
-//    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.ui)
 //    // For exposing and controlling media sessions
 //    implementation(libs.androidx.media3.session)
 //    // For extracting data from media containers

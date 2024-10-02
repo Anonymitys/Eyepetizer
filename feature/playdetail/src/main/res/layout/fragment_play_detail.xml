@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             app:titleEnabled="false">
 
-            <androidx.media3.ui.PlayerView
+            <com.ekko.player.VideoPanel
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"

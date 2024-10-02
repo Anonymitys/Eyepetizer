@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true">
+
+    <com.ekko.player.render.VideoPlayerView
+        android:id="@+id/hello_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.ekko.player.gesture.PlayerGestureView
+        android:id="@+id/gesture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.ekko.player.controller.VideoPlayControlView
+        android:id="@+id/controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.ekko.player.functionwidget.FunctionWidgetContainer
+        android:id="@+id/function_widget_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

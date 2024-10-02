@@ -7,7 +7,7 @@ val Context.versionName: String
     get() {
         return try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionName
+            packageInfo.versionName?:""
         } catch (e: NameNotFoundException) {
             ""
         }

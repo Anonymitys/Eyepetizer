@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.androidx.window)
     ksp(libs.hilt.android.compiler)
     implementation(projects.core.repository)
+    implementation(projects.core.player)
 
     // For media playback using ExoPlayer
     implementation(libs.media3.exoplayer)

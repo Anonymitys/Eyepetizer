@@ -12,22 +12,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.common.Player.Listener
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MergingMediaSource
 import androidx.media3.ui.PlayerView
 import com.ekko.base.ktx.screenHeight
 import com.ekko.base.ktx.screenWidth
 import com.ekko.playdetail.model.Arguments
+import com.ekko.player.render.PlayState
 import com.ekko.repository.model.VideoItemCard
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,10 +40,8 @@ class VideoPlayer @Inject constructor(
     private val configurationService: ConfigurationService,
     private val activity: Activity,
 ) {
-    private val player = ExoPlayer.Builder(fragment.requireContext()).build()
-    val playerView = containerViewTree.binding.playerView.also {
-        it.player = player
-    }
+
+    val playerView = containerViewTree.binding.playerView
 
     private val windowInsetsController =
         WindowCompat.getInsetsController(
@@ -57,41 +52,20 @@ class VideoPlayer @Inject constructor(
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-    private val _playerState = MutableStateFlow(PlayState.Idle)
-
-
-    val playState = _playerState.asStateFlow()
+    val playState:StateFlow<PlayState>
+        get() = playerView.player().playState
 
     private val callback = object : FragmentLifecycleCallbacks() {
         override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
-            player.pause()
+            playerView.player().pause()
         }
 
         override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
-            player.play()
+            playerView.player().play()
         }
 
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-            player.release()
-            playerView.player = null
-        }
-    }
-
-    private val listener = object : Listener {
-        override fun onPlaybackStateChanged(playbackState: Int) {
-            if (playbackState == Player.STATE_ENDED) {
-                _playerState.value = PlayState.Completed
-            }
-        }
-
-        override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-            if (playWhenReady) {
-                _playerState.value = PlayState.Playing
-                playerView.keepScreenOn = true
-            } else {
-                _playerState.value = PlayState.Paused
-                playerView.keepScreenOn = false
-            }
+            playerView.player().release()
         }
     }
 
@@ -108,14 +82,10 @@ class VideoPlayer @Inject constructor(
         // fastPlay()
         fragment.lifecycleScope.launch {
             try {
-                player.addListener(listener)
                 fragment.parentFragmentManager.registerFragmentLifecycleCallbacks(callback, false)
-                playerView.setFullscreenButtonClickListener(fullScreenClickListener)
                 awaitCancellation()
             } finally {
-                player.removeListener(listener)
                 fragment.parentFragmentManager.unregisterFragmentLifecycleCallbacks(callback)
-                playerView.setFullscreenButtonClickListener(null)
             }
         }
 
@@ -135,9 +105,7 @@ class VideoPlayer @Inject constructor(
                 DefaultMediaSourceFactory(fragment.requireContext()).createMediaSource(
                     MediaItem.fromUri(it)
                 )
-            player.setMediaSource(mediaSource)
-            player.playWhenReady = true
-            player.prepare()
+            playerView.player().setMediaSource(mediaSource)
         }
     }
 
@@ -155,14 +123,12 @@ class VideoPlayer @Inject constructor(
             )
         )
         val mediaSource = MergingMediaSource(true, true, *list.toTypedArray())
-        player.setMediaSource(mediaSource)
-        player.playWhenReady = true
-        player.prepare()
+        playerView.player().setMediaSource(mediaSource)
     }
 
 
     fun playCurrent() {
-        player.play()
+        playerView.player().play()
     }
 
     private fun updateViewPort(orientation: Int) {
@@ -215,9 +181,3 @@ class VideoPlayer @Inject constructor(
     }
 }
 
-enum class PlayState {
-    Idle,
-    Playing,
-    Paused,
-    Completed
-}
