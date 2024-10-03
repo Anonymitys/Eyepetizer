@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
+import androidx.core.content.ContextCompat
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
 import androidx.media3.common.util.UnstableApi
@@ -23,7 +24,11 @@ class VideoPlayerView @JvmOverloads constructor(
 
     private val player = ExoPlayer.Builder(context).build()
 
-    private val playerView: PlayerView by lazy { findViewById<PlayerView?>(R.id.video_view).also { it.player = player } }
+    private val playerView: PlayerView by lazy {
+        findViewById<PlayerView?>(R.id.video_view).also {
+            it.player = player
+        }
+    }
 
     private val _playerState = MutableStateFlow(PlayState.Idle)
 
@@ -49,6 +54,7 @@ class VideoPlayerView @JvmOverloads constructor(
     }
 
     init {
+        setBackgroundColor(ContextCompat.getColor(context, android.R.color.black))
         LayoutInflater.from(context).inflate(R.layout.video_player_view, this)
         player.addListener(listener)
     }

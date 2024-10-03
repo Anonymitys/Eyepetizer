@@ -49,9 +49,9 @@ class StatusBarService @Inject constructor(
 
     private fun statusBar(dark: Boolean) {
         windowInsetsController.isAppearanceLightStatusBars = !dark
-        activity.window.statusBarColor = ContextCompat.getColor(
-            activity,
-            if (dark) android.R.color.black else android.R.color.transparent
-        )
+//        activity.window.statusBarColor = ContextCompat.getColor(
+//            activity,
+//            if (dark) android.R.color.black else android.R.color.transparent
+//        )
     }
 }

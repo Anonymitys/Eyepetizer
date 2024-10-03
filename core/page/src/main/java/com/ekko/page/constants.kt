@@ -23,6 +23,8 @@ object CardType {
     const val SEARCH_RESULT_IMAGE = "search_result_image"
     const val FEED_COVER_DETAIL_TOPIC = "feed_cover_detail_topic"
     const val SEARCH_RESULT_TEXT = "search_result_text"
+    const val FEED_COVER_LARGE_IMAGE = "feed_cover_large_image"
+    const val SLIDE_USER = "slide_user"
 
     const val DEFAULT = ""
 }

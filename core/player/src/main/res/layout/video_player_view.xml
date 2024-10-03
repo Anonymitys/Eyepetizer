@@ -6,4 +6,7 @@
     android:id="@+id/video_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
+    app:auto_show="false"
+    app:shutter_background_color="@android:color/transparent"
     app:show_buffering="always" />

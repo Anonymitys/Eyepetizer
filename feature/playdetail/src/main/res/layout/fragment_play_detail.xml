@@ -15,17 +15,14 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapse"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
             app:titleEnabled="false">
 
             <com.ekko.player.VideoPanel
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@android:color/black"
-                app:auto_show="false"
-                app:show_buffering="always"
-                app:shutter_background_color="@android:color/transparent" />
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"/>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/tool_bar"

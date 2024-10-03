@@ -2,4 +2,5 @@
 <resources>
     <string name="cover">cover</string>
     <string name="follow">follow</string>
+    <string name="login">login</string>
 </resources>

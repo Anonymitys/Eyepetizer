@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(projects.core.base)
     // For media playback using ExoPlayer
     implementation(libs.media3.exoplayer)
     // For DASH playback support with ExoPlayer

@@ -7,6 +7,7 @@ import androidx.annotation.OptIn
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
@@ -18,10 +19,11 @@ import androidx.media3.exoplayer.source.MergingMediaSource
 import androidx.media3.ui.PlayerView
 import com.ekko.base.ktx.screenHeight
 import com.ekko.base.ktx.screenWidth
+import com.ekko.base.ktx.statusBarHeight
 import com.ekko.playdetail.model.Arguments
 import com.ekko.player.render.PlayState
 import com.ekko.repository.model.VideoItemCard
-import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.StateFlow
@@ -42,6 +44,10 @@ class VideoPlayer @Inject constructor(
 ) {
 
     val playerView = containerViewTree.binding.playerView
+    val collapse = containerViewTree.binding.collapse
+    val statusBarHeight by lazy {
+        fragment.requireActivity().statusBarHeight
+    }
 
     private val windowInsetsController =
         WindowCompat.getInsetsController(
@@ -52,7 +58,7 @@ class VideoPlayer @Inject constructor(
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-    val playState:StateFlow<PlayState>
+    val playState: StateFlow<PlayState>
         get() = playerView.player().playState
 
     private val callback = object : FragmentLifecycleCallbacks() {
@@ -142,7 +148,8 @@ class VideoPlayer @Inject constructor(
                     fragment.requireActivity().screenWidth,
                     fragment.requireActivity().screenHeight
                 )
-                playerView.layoutParams = CollapsingToolbarLayout.LayoutParams(
+                playerView.player().updatePadding(top = 0)
+                collapse.layoutParams = AppBarLayout.LayoutParams(
                     width,
                     height
                 )
@@ -154,10 +161,12 @@ class VideoPlayer @Inject constructor(
                     fragment.requireActivity().screenHeight
                 )
                 val height = width * 9 / 16
-                playerView.layoutParams = CollapsingToolbarLayout.LayoutParams(
+                playerView.player().updatePadding(top = statusBarHeight)
+                collapse.layoutParams = AppBarLayout.LayoutParams(
                     width,
                     height
                 )
+
             }
 
             else -> {
