@@ -3,14 +3,14 @@
 
     <style name="Theme.Eyepetizer"
         parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>-->
     </style>
 
 
-    <style name="Theme.AppScreenStart"
-        parent="Theme.SplashScreen">
+    <style name="Theme.AppScreenStart" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar">true</item>
         <item name="windowSplashScreenBackground">#3DDC84</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.Eyepetizer</item>

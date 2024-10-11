@@ -1,13 +1,11 @@
 package com.ekko.playdetail.service
 
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.collectLatest
@@ -48,7 +46,7 @@ class StatusBarService @Inject constructor(
     }
 
     private fun statusBar(dark: Boolean) {
-        windowInsetsController.isAppearanceLightStatusBars = !dark
+   //     windowInsetsController.isAppearanceLightStatusBars = !dark
 //        activity.window.statusBarColor = ContextCompat.getColor(
 //            activity,
 //            if (dark) android.R.color.black else android.R.color.transparent

@@ -1,10 +1,12 @@
 package com.ekko.eyepetizer
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import com.ekko.base.navigator.RootFragment
 import com.ekko.eyepetizer.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +16,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.dark(
+                Color.TRANSPARENT,
+                //   Color.TRANSPARENT
+            )
+        )
+        // WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
