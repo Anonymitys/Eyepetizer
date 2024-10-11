@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ekko.play.detail"
+    namespace = "com.ekko.play"
 
     viewBinding {
         enable = true

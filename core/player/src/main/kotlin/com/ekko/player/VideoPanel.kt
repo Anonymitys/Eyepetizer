@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowInsets
 import android.widget.FrameLayout
-import com.ekko.play.detail.R
+import com.ekko.play.R
 import com.ekko.player.render.VideoPlayerView
 
 class VideoPanel @JvmOverloads constructor(
