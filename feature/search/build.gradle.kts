@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.fragment.ktx)
     implementation(libs.paging.runtime.ktx)
     implementation(libs.kotlinx.serialization.json)
+    implementation(kotlin("reflect"))
 }

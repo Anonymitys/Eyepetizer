@@ -3,6 +3,7 @@ package com.ekko.page.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ekko.page.databinding.LayoutTopicsItemBinding
@@ -44,6 +45,7 @@ class TopicsViewHolder(
         }.load(data.cover?.url) {
             crossfade(true)
         }
+        binding.title.isVisible = data.title.isNotEmpty()
         binding.title.text = data.title
         binding.root.setOnClickListener {
             jump(it, card.link)

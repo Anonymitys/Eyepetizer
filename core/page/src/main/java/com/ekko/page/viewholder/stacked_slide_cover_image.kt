@@ -3,11 +3,9 @@ package com.ekko.page.viewholder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.ekko.base.ktx.dp
-import com.ekko.base.recyclerview.decoration.LineSpaceItemDecoration
+import com.ekko.base.recyclerview.layoutmanager.StackLayoutManager
 import com.ekko.ksp.annotation.PagingViewHolder
 import com.ekko.page.CardType
 import com.ekko.page.databinding.LayoutTopicsSquareBinding
@@ -25,11 +23,10 @@ class StackedSlideCoverImageViewHolder(
     override fun bind(card: MetroCard<TopicsSquare>, position: Int) {
         val data = card.metro_data
         val adapter = TopicSquareAdapter(data.item_list ?: return, jump)
-        binding.list.layoutManager =
-            LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        if (binding.list.itemDecorationCount <= 0) {
-            binding.list.addItemDecoration(LineSpaceItemDecoration(8.dp))
-        }
+        binding.list.layoutManager = StackLayoutManager()
+//        if (binding.list.itemDecorationCount <= 0) {
+//            binding.list.addItemDecoration(LineSpaceItemDecoration(8.dp))
+//        }
         binding.list.adapter = adapter
     }
 }
@@ -61,8 +58,8 @@ class TopicSquareItemViewHolder(
 
     fun bind(data: TopicsPlayList) {
         binding.cover.apply {
-            layoutParams.width = (data.cover?.img_info?.width?.toInt() ?: 500).coerceAtLeast(160.dp)
-            layoutParams.height = layoutParams.width.div(data.cover?.img_info?.scale ?: 1.0).toInt()
+          //  layoutParams.width = (data.cover?.img_info?.width?.toInt() ?: 500).coerceAtLeast(160.dp)
+         //   layoutParams.height = layoutParams.width.div(data.cover?.img_info?.scale ?: 1.0).toInt()
         }.load(data.cover?.url) {
             crossfade(true)
         }

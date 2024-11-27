@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchFragment() : Fragment() {
 
-    private val model: PageViewModel by viewModels()
     private val searchModel: SearchViewModel by viewModels()
     private val querySearchViewModel: QuerySearchViewModel by activityViewModels()
     private lateinit var binding: FragmentSearchBinding

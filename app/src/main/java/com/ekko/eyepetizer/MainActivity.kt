@@ -17,12 +17,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge(
-            navigationBarStyle = SystemBarStyle.dark(
+            navigationBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
-                //   Color.TRANSPARENT
+                Color.TRANSPARENT
             )
         )
-        // WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

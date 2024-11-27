@@ -17,7 +17,7 @@ val Context.versionCode: Long
     get() {
         return try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.longVersionCode
+            packageInfo.versionCode.toLong()
         } catch (e: NameNotFoundException) {
             0
         }

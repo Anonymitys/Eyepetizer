@@ -1,6 +1,5 @@
 package com.ekko.search.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -36,15 +35,12 @@ class RecommendVideoViewHolder(private val binding: LayoutRecommendVideoItemBind
 ) {
 
     fun bind(data: MetroCard<JsonObject>) {
-        val start = System.currentTimeMillis()
-        Log.e("huqiang", "bind: $start")
         val video = json.decodeFromJsonElement<FeedCoverVideo>(data.metro_data)
         binding.cover.load(video.cover?.url) {
             crossfade(true)
             transformations(RoundedCornersTransformation(4.dp.toFloat()))
         }
         binding.title.text = video.title
-        Log.e("huqiang", "bind: ${System.currentTimeMillis() - start}")
     }
 
     companion object {

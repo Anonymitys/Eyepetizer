@@ -24,6 +24,7 @@ class IconGridViewHolder(
 
     override fun bind(card: MetroCard<Icons>, position: Int) {
         val data = card.metro_data
+        binding.iconGrid.isNestedScrollingEnabled = false
         binding.iconGrid.layoutManager = GridLayoutManager(itemView.context, 3)
         if (binding.iconGrid.itemDecorationCount <= 0) {
             binding.iconGrid.addItemDecoration(GridSpaceItemDecoration(3, 10.dp))

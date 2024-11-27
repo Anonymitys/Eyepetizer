@@ -1,5 +1,6 @@
 package com.ekko.repository.model
 
+import com.ekko.base.ktx.NumberOrStringSerializer
 import com.ekko.base.ktx.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -27,6 +28,7 @@ data class MetroCard<T>(
     val style: Style? = null,
     val metro_unique_id: String = "",
     val metro_data: T,
+    @Serializable(with = NumberOrStringSerializer::class)
     val link: String = ""
 )
 
