@@ -16,3 +16,4 @@
 local.properties
 package-release
 app/release
+.kotlin
