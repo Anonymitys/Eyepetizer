@@ -16,7 +16,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.window)
+    implementation(libs.androidx.window)
     implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)

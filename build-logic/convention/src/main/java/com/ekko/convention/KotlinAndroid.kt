@@ -8,14 +8,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
-        compileSdk = 34
+        compileSdk = 35
         defaultConfig {
             minSdk = 27
 
         }
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
         }
     }
     configureKotlin()
@@ -23,8 +23,9 @@ fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, 
 
 private fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+        compilerOptions {
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
         }
     }
 }

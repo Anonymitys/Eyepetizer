@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ekko.eyepetizer"
-        targetSdk = 34
+        targetSdk = 35
         versionCode = providers.gradleProperty("version.code").get().toInt()
         versionName = providers.gradleProperty("version.name").get()
 
