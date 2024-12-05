@@ -11,11 +11,13 @@ import com.ekko.playdetail.arguments.ArgumentsParser
 import com.ekko.playdetail.di.anchor.ContainerPageScopeAnchor
 import com.ekko.playdetail.di.component.ContainerPageScopeEntryPoint
 import com.ekko.playdetail.di.component.PlayDetailFragmentComponentManager
+import com.therouter.router.Route
 import dagger.hilt.EntryPoints
 import dagger.hilt.internal.GeneratedComponentManager
 import dagger.hilt.internal.GeneratedComponentManagerHolder
 
 
+@Route(path = "eyepetizer://detail/\\\\d+")
 class PlayDetailFragment : Fragment(), GeneratedComponentManagerHolder {
 
     private val componentManager: PlayDetailFragmentComponentManager by lazy {

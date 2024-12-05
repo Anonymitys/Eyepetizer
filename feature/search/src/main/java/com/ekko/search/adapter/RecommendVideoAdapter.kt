@@ -1,6 +1,7 @@
 package com.ekko.search.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -14,11 +15,14 @@ import com.ekko.search.databinding.LayoutRecommendVideoItemBinding
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class RecommendVideoAdapter(private val data: List<MetroCard<JsonObject>>) : Adapter<RecommendVideoViewHolder>() {
+class RecommendVideoAdapter(
+    private val data: List<MetroCard<JsonObject>>,
+    private val jump: (View, String) -> Unit
+) : Adapter<RecommendVideoViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecommendVideoViewHolder = RecommendVideoViewHolder.create(parent)
+    ): RecommendVideoViewHolder = RecommendVideoViewHolder.create(parent, jump)
 
     override fun onBindViewHolder(
         holder: RecommendVideoViewHolder,
@@ -30,7 +34,10 @@ class RecommendVideoAdapter(private val data: List<MetroCard<JsonObject>>) : Ada
     override fun getItemCount(): Int = data.size
 }
 
-class RecommendVideoViewHolder(private val binding: LayoutRecommendVideoItemBinding) : ViewHolder(
+class RecommendVideoViewHolder(
+    private val binding: LayoutRecommendVideoItemBinding,
+    private val jump: (View, String) -> Unit
+) : ViewHolder(
     binding.root
 ) {
 
@@ -41,14 +48,17 @@ class RecommendVideoViewHolder(private val binding: LayoutRecommendVideoItemBind
             transformations(RoundedCornersTransformation(4.dp.toFloat()))
         }
         binding.title.text = video.title
+        binding.root.setOnClickListener {
+            jump(it, data.link)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup): RecommendVideoViewHolder {
+        fun create(parent: ViewGroup, jump: (View, String) -> Unit): RecommendVideoViewHolder {
             val binding = LayoutRecommendVideoItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
-            return RecommendVideoViewHolder(binding)
+            return RecommendVideoViewHolder(binding, jump)
         }
     }
 }

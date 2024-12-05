@@ -1,6 +1,7 @@
 package com.ekko.search.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekko.base.ktx.json
 import com.ekko.base.ktx.launchWhenCreated
+import com.ekko.base.navigator.navigateTo
 import com.ekko.repository.model.CardHeader
 import com.ekko.search.adapter.HeaderAdapter
 import com.ekko.search.adapter.HotKeysAdapter
@@ -28,6 +30,11 @@ class SearchRecommendFragment : Fragment() {
     private val querySearchViewModel: QuerySearchViewModel by activityViewModels()
     private lateinit var binding: FragmentSearchRecommendListBinding
     private val adapter: ConcatAdapter = ConcatAdapter()
+
+    private val jump: (View, String) -> Unit = { itemView, url ->
+        Log.e("huqiang", "navigateTo: $url")
+        navigateTo(url)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +66,7 @@ class SearchRecommendFragment : Fragment() {
                     adapter.addAdapter(HeaderAdapter(json.decodeFromJsonElement(it.metro_data)))
                 }
                 card_data?.body?.metro_list?.let {
-                    adapter.addAdapter(RecommendVideoAdapter(it))
+                    adapter.addAdapter(RecommendVideoAdapter(it, jump))
                 }
             }
         }

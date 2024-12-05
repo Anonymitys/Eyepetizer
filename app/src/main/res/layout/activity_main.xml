@@ -3,4 +3,5 @@
     android:id="@+id/container"
     android:name="com.ekko.base.navigator.RootFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:tag="RootFragment::Tag" />

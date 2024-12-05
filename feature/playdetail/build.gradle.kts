@@ -30,6 +30,9 @@ dependencies {
     implementation(libs.fragment.ktx)
     implementation(projects.core.base)
     implementation(libs.coil)
+    ksp(libs.router.apt)
+    implementation(libs.router)
+    implementation(projects.core.base)
 
     // For DASH playback support with ExoPlayer
 //    implementation(libs.media3.exoplayer.dash)

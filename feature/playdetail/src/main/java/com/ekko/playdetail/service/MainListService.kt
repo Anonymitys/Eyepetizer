@@ -2,6 +2,7 @@ package com.ekko.playdetail.service
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.ekko.base.navigator.navigateTo
 import com.ekko.playdetail.adapter.ContentAdapter
 import com.ekko.playdetail.adapter.PlayItemCard
 import com.ekko.playdetail.di.scope.VideoPageScope
@@ -17,7 +18,9 @@ class MainListService @Inject constructor(
     recommendService: RecommendService,
     videoDetailService: VideoDetailService
 ) {
-    private val adapter = ContentAdapter()
+    private val adapter = ContentAdapter {
+        fragment.navigateTo(it)
+    }
 
     init {
         introComponent.binding.list.adapter = adapter

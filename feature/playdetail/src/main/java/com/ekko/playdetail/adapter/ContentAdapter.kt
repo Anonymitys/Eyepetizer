@@ -11,7 +11,8 @@ import com.ekko.play.detail.databinding.ViewHolderPlayContentBinding
 import com.ekko.play.detail.databinding.ViewHolderPlayRecommendBinding
 import com.ekko.repository.model.VideoItemCard
 
-class ContentAdapter : ListAdapter<PlayItemCard, PlayViewHolder<out ViewBinding>>(COMPARATOR) {
+class ContentAdapter(private val jump: (String) -> Unit) :
+    ListAdapter<PlayItemCard, PlayViewHolder<out ViewBinding>>(COMPARATOR) {
 
 
     companion object {
@@ -35,11 +36,11 @@ class ContentAdapter : ListAdapter<PlayItemCard, PlayViewHolder<out ViewBinding>
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): PlayViewHolder<out ViewBinding> {
         return when (viewType) {
-            RECOMMEND -> PlayRecommendViewHolder.create(parent)
-            CONTENT -> PlayContentViewHolder.create(parent)
+            RECOMMEND -> PlayRecommendViewHolder.create(parent, jump)
+            CONTENT -> PlayContentViewHolder.create(parent, jump)
             else -> throw IllegalArgumentException("viewType error")
         }
     }
@@ -65,13 +66,16 @@ abstract class PlayViewHolder<T : ViewBinding>(binding: T) : RecyclerView.ViewHo
 }
 
 
-class PlayContentViewHolder(private val binding: ViewHolderPlayContentBinding) :
+class PlayContentViewHolder(
+    private val binding: ViewHolderPlayContentBinding,
+    private val jump: (String) -> Unit
+) :
     PlayViewHolder<ViewHolderPlayContentBinding>(binding) {
 
     override fun bind(videoItemCard: VideoItemCard) {
         binding.title.text = videoItemCard.video?.title
         binding.desc.text = videoItemCard.text
-        binding.avatar.load(videoItemCard.author?.avatar?.url){
+        binding.avatar.load(videoItemCard.author?.avatar?.url) {
             allowHardware(false)
         }
         binding.author.text = videoItemCard.author?.nick
@@ -80,18 +84,21 @@ class PlayContentViewHolder(private val binding: ViewHolderPlayContentBinding) :
     }
 
     companion object {
-        fun create(parent: ViewGroup): PlayContentViewHolder {
+        fun create(parent: ViewGroup, jump: (String) -> Unit): PlayContentViewHolder {
             val binding = ViewHolderPlayContentBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return PlayContentViewHolder(binding)
+            return PlayContentViewHolder(binding, jump)
         }
     }
 }
 
-class PlayRecommendViewHolder(private val binding: ViewHolderPlayRecommendBinding) :
+class PlayRecommendViewHolder(
+    private val binding: ViewHolderPlayRecommendBinding,
+    private val jump: (String) -> Unit
+) :
     PlayViewHolder<ViewHolderPlayRecommendBinding>(binding) {
 
     override fun bind(videoItemCard: VideoItemCard) {
@@ -102,17 +109,20 @@ class PlayRecommendViewHolder(private val binding: ViewHolderPlayRecommendBindin
         binding.title.text = video.title
         binding.tag.text = video.tags.joinToString { it.title }
         binding.duration.text = video.duration?.text?.trim()
+        binding.root.setOnClickListener {
+            jump(videoItemCard.link)
+        }
     }
 
 
     companion object {
-        fun create(parent: ViewGroup): PlayRecommendViewHolder {
+        fun create(parent: ViewGroup, jump: (String) -> Unit): PlayRecommendViewHolder {
             val binding = ViewHolderPlayRecommendBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return PlayRecommendViewHolder(binding)
+            return PlayRecommendViewHolder(binding, jump)
         }
     }
 }

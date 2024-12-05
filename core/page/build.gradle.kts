@@ -31,4 +31,6 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(projects.ksp.annotation)
     ksp(projects.ksp.processor)
+    ksp(libs.router.apt)
+    implementation(libs.router)
 }

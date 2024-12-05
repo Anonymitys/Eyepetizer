@@ -4,24 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.ekko.page.model.ItemCard
-import com.ekko.page.paing3.PageRequest
-import com.ekko.page.paing3.PagingSource
 import com.ekko.page.paing3.PagingSourceWithInitData
+import com.ekko.repository.NavRepository
 import com.ekko.repository.PageRepository
 import com.ekko.repository.SearchRepository
 import com.ekko.repository.model.Card
 import com.ekko.repository.model.SearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
-    private val pageRepository: PageRepository
+    private val pageRepository: PageRepository,
+    private val navRepository: NavRepository
 ) :
     ViewModel() {
 
@@ -58,4 +55,14 @@ class SearchViewModel @Inject constructor(
             pageRepository,
         )
     }.flow.cachedIn(viewModelScope)
+
+
+    suspend fun defaultWord(): String {
+        return try {
+            navRepository.nav("discovery").nav_item.left.takeIf { it.isNotEmpty() }?.get(0)?.text
+                ?: ""
+        } catch (e: Exception) {
+            ""
+        }
+    }
 }

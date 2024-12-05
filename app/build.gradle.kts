@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
+    id("therouter")
 }
 
 android {
@@ -61,4 +62,6 @@ dependencies {
     implementation(projects.core.page)
     implementation(projects.feature.search)
     implementation(projects.feature.playdetail)
+    ksp(libs.router.apt)
+    implementation(libs.router)
 }

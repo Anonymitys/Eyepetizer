@@ -2,6 +2,7 @@ package com.ekko.page.fragment
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ekko.base.ktx.launchWhenCreated
+import com.ekko.base.navigator.navigateTo
 import com.ekko.page.databinding.FragmentScrollListBinding
 import com.ekko.page.model.FooterItemCard
 import com.ekko.page.model.HeaderItemCard
@@ -28,7 +30,8 @@ abstract class ScrollListFragment : Fragment() {
     private lateinit var binding: FragmentScrollListBinding
     private val model by viewModels<ScrollListViewModel>()
     private val jump: (View, String) -> Unit = { itemView, url ->
-
+        Log.e("huqiang", "navigateTo: $url")
+        navigateTo(url)
     }
 
     override fun onCreateView(

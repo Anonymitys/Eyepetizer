@@ -10,12 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.whenResumed
 import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ekko.base.navigator.navigateTo
 import com.ekko.page.adapter.PageAdapter
 import com.ekko.page.adapter.PageLoadStateAdapter
-import com.ekko.search.databinding.FragmentSearchResultBinding
 import com.ekko.search.databinding.FragmentSearchResultItemBinding
 import com.ekko.search.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -26,7 +25,8 @@ class SearchResultItemFragment : Fragment() {
     private lateinit var binding: FragmentSearchResultItemBinding
     private lateinit var type: String
     private val adapter = PageAdapter { view, url ->
-        Log.e("huqiang", "jump: $url")
+        Log.e("huqiang", "navigateTo: $url")
+        navigateTo(url)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

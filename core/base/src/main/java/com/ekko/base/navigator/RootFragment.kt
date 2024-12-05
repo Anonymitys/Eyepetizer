@@ -10,13 +10,13 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     fun fill(fragment: Fragment) {
         childFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
+            .replace(ROOT_ID, fragment)
             .commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val onBackPressedCallback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true) {
+            object : OnBackPressedCallback(false) {
                 override fun handleOnBackPressed() {
                     childFragmentManager.popBackStack()
                 }
@@ -26,4 +26,18 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             onBackPressedCallback.isEnabled = childFragmentManager.backStackEntryCount > 0
         }
     }
+
+    fun navigation(destination: Fragment) {
+        childFragmentManager.beginTransaction()
+            // .addSharedElement(shareElementView, "shared_element_container")
+            .add(ROOT_ID, destination)
+            .addToBackStack(destination.toString())
+            .commit()
+    }
+
+    companion object {
+        private val ROOT_ID = R.id.container
+    }
+
+
 }

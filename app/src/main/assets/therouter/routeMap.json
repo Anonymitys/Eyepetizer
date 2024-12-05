@@ -1,0 +1,9 @@
+[
+  {
+    "path": "eyepetizer://detail/\\d+",
+    "className": "com.ekko.playdetail.ui.PlayDetailFragment",
+    "action": "",
+    "description": "",
+    "params": {}
+  }
+]

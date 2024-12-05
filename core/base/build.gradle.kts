@@ -2,12 +2,13 @@ plugins {
     alias(libs.plugins.eyepetizer.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.ekko.base"
 
-    viewBinding{
+    viewBinding {
         enable = true
     }
 }
@@ -22,4 +23,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    ksp(libs.router.apt)
+    implementation(libs.router)
 }

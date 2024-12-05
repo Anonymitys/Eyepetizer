@@ -30,4 +30,6 @@ dependencies {
     implementation(libs.paging.runtime.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(kotlin("reflect"))
+    implementation(libs.router)
+    ksp(libs.router.apt)
 }
