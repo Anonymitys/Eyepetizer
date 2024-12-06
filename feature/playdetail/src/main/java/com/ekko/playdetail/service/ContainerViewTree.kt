@@ -1,18 +1,19 @@
 package com.ekko.playdetail.service
 
-import android.view.View
-import androidx.fragment.app.Fragment
-import com.ekko.play.detail.databinding.FragmentPlayDetailBinding
-import dagger.hilt.android.scopes.FragmentScoped
+import androidx.fragment.app.FragmentActivity
+import com.ekko.play.detail.databinding.ActivityPlayDetailBinding
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 
-@FragmentScoped
-class ContainerViewTree @Inject constructor(fragment: Fragment) {
+@ActivityScoped
+class ContainerViewTree @Inject constructor(activity: FragmentActivity) {
 
-    val binding: FragmentPlayDetailBinding =
-        FragmentPlayDetailBinding.inflate(fragment.layoutInflater)
+    val binding: ActivityPlayDetailBinding =
+        ActivityPlayDetailBinding.inflate(activity.layoutInflater)
 
 
-    fun root(): View = binding.root
+    init {
+        activity.setContentView(binding.root)
+    }
 }

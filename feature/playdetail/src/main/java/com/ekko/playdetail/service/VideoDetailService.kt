@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 @VideoPageScope
 class VideoDetailService @Inject constructor(
-    private val fragment: Fragment,
     videoPageData: VideoPageData
 ) {
     private val _videoDetailFlow = MutableStateFlow<VideoItemCard?>(null)

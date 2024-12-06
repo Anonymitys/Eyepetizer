@@ -25,4 +25,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     ksp(libs.router.apt)
     implementation(libs.router)
+    implementation(libs.core.splashscreen)
 }

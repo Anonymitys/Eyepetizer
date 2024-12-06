@@ -1,12 +1,13 @@
 package com.ekko.playdetail.service
 
 import android.content.res.Configuration
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-@FragmentScoped
+@ActivityScoped
 class OrientationService @Inject constructor() {
     private val _orientationFlow = MutableStateFlow<Int>(Configuration.ORIENTATION_PORTRAIT)
 

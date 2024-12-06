@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.ekko.play.detail.databinding.FragmentPlayCommentBinding
 import com.ekko.playdetail.interfaces.IContent
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
-@FragmentScoped
+@ActivityScoped
 class CommentComponent @Inject constructor() : IContent {
     private lateinit var binding: FragmentPlayCommentBinding
 

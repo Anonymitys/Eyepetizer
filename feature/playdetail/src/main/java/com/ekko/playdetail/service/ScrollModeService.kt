@@ -2,9 +2,13 @@ package com.ekko.playdetail.service
 
 import android.content.res.Configuration
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.ekko.player.render.PlayState
 import com.google.android.material.appbar.AppBarLayout
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -12,11 +16,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-@FragmentScoped
+@ActivityScoped
 class ScrollModeService @Inject constructor(
     containerViewTree: ContainerViewTree,
     private val player: VideoPlayer,
-    private val fragment: Fragment,
+    private val activity: FragmentActivity,
     private val configurationService: ConfigurationService
 ) {
 
@@ -24,7 +28,7 @@ class ScrollModeService @Inject constructor(
 
 
     init {
-        fragment.lifecycleScope.launch {
+        activity.lifecycleScope.launch {
             player.playState.combine(configurationService.orientationFlow) { state, orientation ->
                 Pair(state, orientation)
             }.collectLatest {

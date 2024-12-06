@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ekko.playdetail.constants.Type
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
-@FragmentScoped
+@ActivityScoped
 class ContentService @Inject constructor(
     private val introService: IntroComponent,
     private val commentService: CommentComponent

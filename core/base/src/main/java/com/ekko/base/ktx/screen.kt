@@ -21,11 +21,11 @@ val Context.screenHeight: Int
 
 val Activity.statusBarHeight: Int
     get() {
-//        val metrics =
-//            WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
-//        val insets = metrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())
-        val insets = WindowInsetsCompat.toWindowInsetsCompat(window.decorView.rootWindowInsets)
-            .getInsets(WindowInsetsCompat.Type.systemBars())
+        val metrics =
+            WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+        val insets = metrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())
+//        val insets = WindowInsetsCompat.toWindowInsetsCompat(window.decorView.rootWindowInsets)
+//            .getInsets(WindowInsetsCompat.Type.systemBars())
         return insets.top
     }
 

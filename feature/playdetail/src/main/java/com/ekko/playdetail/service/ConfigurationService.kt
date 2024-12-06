@@ -4,7 +4,9 @@ import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.res.Configuration
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-@FragmentScoped
-class ConfigurationService @Inject constructor(fragment: Fragment, context: Context) {
+@ActivityScoped
+class ConfigurationService @Inject constructor(activity: FragmentActivity) {
 
     private val _orientationFlow = MutableStateFlow<Int>(Configuration.ORIENTATION_PORTRAIT)
 
@@ -32,12 +34,12 @@ class ConfigurationService @Inject constructor(fragment: Fragment, context: Cont
             }
 
         }
-        fragment.lifecycleScope.launch {
+        activity.lifecycleScope.launch {
             try {
-                context.registerComponentCallbacks(callback)
+                activity.registerComponentCallbacks(callback)
                 awaitCancellation()
             } finally {
-                context.unregisterComponentCallbacks(callback)
+                activity.unregisterComponentCallbacks(callback)
             }
         }
     }

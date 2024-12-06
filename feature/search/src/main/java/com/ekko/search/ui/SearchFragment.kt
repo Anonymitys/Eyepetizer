@@ -6,6 +6,7 @@ import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -72,7 +73,16 @@ class SearchFragment() : Fragment() {
         searchView.editText.doAfterTextChanged {
             querySearchViewModel.submitPreSearchQuery(it.toString())
         }
+        val onBackPressedCallback: OnBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                   searchView.hide()
+                }
+            }
+        activity?.onBackPressedDispatcher?.addCallback(requireActivity(), onBackPressedCallback)
         searchView.addTransitionListener { _, _, newState: SearchView.TransitionState ->
+            onBackPressedCallback.isEnabled =
+                newState == SearchView.TransitionState.SHOWN
             if (newState == SearchView.TransitionState.SHOWN) {
                 childFragmentManager.showFragment<SearchRecommendFragment>(
                     R.id.search_view_container

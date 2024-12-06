@@ -15,7 +15,7 @@
   limitations under the License.
   -->
 <resources>
-  <string name="cat_searchbar_hint">hello</string>
+  <string name="cat_searchbar_hint">搜索视频，作者，用户及标签</string>
 
 
 </resources>

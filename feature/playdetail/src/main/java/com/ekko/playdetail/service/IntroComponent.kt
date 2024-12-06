@@ -6,19 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.ekko.base.ktx.launchWhenCreated
 import com.ekko.play.detail.databinding.FragmentPlayContentBinding
 import com.ekko.playdetail.di.component.VideoPageComponentBuilder
 import com.ekko.playdetail.di.component.VideoPageComponentEntryPoint
 import com.ekko.playdetail.interfaces.IContent
 import dagger.hilt.EntryPoints
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@FragmentScoped
+@ActivityScoped
 class IntroComponent @Inject constructor(
-    private val fragment: Fragment,
+    private val activity: FragmentActivity,
     private val pageLoaderService: PageLoaderService,
     private val componentBuilder: VideoPageComponentBuilder
 ) : IContent {
@@ -34,7 +40,7 @@ class IntroComponent @Inject constructor(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragment.launchWhenCreated {
+       activity.lifecycleScope.launch {
             pageLoaderService
                 .uiState
                 .collectLatest {
