@@ -2,15 +2,12 @@ package com.ekko.playdetail.service
 
 import android.util.Log
 import android.view.View
-import androidx.annotation.ColorInt
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import com.ekko.base.ktx.isDark
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.scopes.ActivityScoped
-import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -21,8 +18,9 @@ import javax.inject.Inject
 @ActivityScoped
 class ToolbarService @Inject constructor(
     containerVIewTree: ContainerViewTree,
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val appLayoutConfigureService: AppLayoutConfigureService,
+    private val statusBarService: StatusBarService,
     private val player: VideoPlayer,
 ) {
     private val toolbar = containerVIewTree.binding.toolBar
@@ -30,6 +28,7 @@ class ToolbarService @Inject constructor(
 
 
     init {
+        navigationIconTint(false)
         toolbar.setNavigationOnClickListener {
             activity.onBackPressedDispatcher.onBackPressed()
         }
@@ -47,18 +46,24 @@ class ToolbarService @Inject constructor(
 
         activity.lifecycleScope.launch {
             appLayoutConfigureService.collapseState.collectLatest {
-                val color = MaterialColors.getColor(
-                    toolbar,
-                    if (it) com.google.android.material.R.attr.colorOnSurface else com.google.android.material.R.attr.colorSurface
-                )
-                navigationIconTint(color)
                 playNow.isVisible = it
+                //只有在非暗黑模式下才需要单独处理相关颜色
+                if (activity.isDark.not()) {
+                    statusBarService.lightTheme(it)
+                    navigationIconTint(it)
+                }
             }
         }
     }
 
-    private fun navigationIconTint(@ColorInt navigationIconTint: Int) {
-        toolbar.setNavigationIconTint(navigationIconTint)
+    private fun navigationIconTint(collapse: Boolean) {
+        val color = MaterialColors.getColor(
+            toolbar,
+            if (collapse) com.google.android.material.R.attr.colorOnSurface
+            else if (activity.isDark) com.google.android.material.R.attr.colorOnSurface
+            else com.google.android.material.R.attr.colorSurface
+        )
+        toolbar.setNavigationIconTint(color)
     }
 
     private suspend fun playCurrent() {

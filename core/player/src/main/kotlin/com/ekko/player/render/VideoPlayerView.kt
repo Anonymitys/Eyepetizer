@@ -5,14 +5,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
-import androidx.core.content.ContextCompat
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.ui.PlayerView
-import com.ekko.play.R
+import com.ekko.play.databinding.EyepetizerVideoPlayerViewBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -21,19 +20,6 @@ class VideoPlayerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-
-    private val player = ExoPlayer.Builder(context).build()
-
-    private val playerView: PlayerView by lazy {
-        findViewById<PlayerView?>(R.id.video_view).also {
-            it.player = player
-        }
-    }
-
-    private val _playerState = MutableStateFlow(PlayState.Idle)
-
-
-    val playState = _playerState.asStateFlow()
 
     private val listener = object : Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
@@ -53,12 +39,18 @@ class VideoPlayerView @JvmOverloads constructor(
         }
     }
 
-    init {
-        setBackgroundColor(ContextCompat.getColor(context, android.R.color.black))
-        LayoutInflater.from(context).inflate(R.layout.video_player_view, this)
-        player.addListener(listener)
-    }
+    private val player = ExoPlayer.Builder(context).build().also { it.addListener(listener) }
 
+    private val binding =
+        EyepetizerVideoPlayerViewBinding.inflate(LayoutInflater.from(context), this, true)
+
+    private val playerView: PlayerView = binding.surfaceVideoView.also { it.player = player }
+
+
+    private val _playerState = MutableStateFlow(PlayState.Idle)
+
+
+    val playState = _playerState.asStateFlow()
 
     fun play() {
         player.play()

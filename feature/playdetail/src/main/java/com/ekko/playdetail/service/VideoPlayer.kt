@@ -162,7 +162,7 @@ class VideoPlayer @Inject constructor(
                     activity.screenWidth,
                     activity.screenHeight
                 )
-                playerView.player().updatePadding(top = 0)
+               // playerView.player().updatePadding(top = 0)
                 collapse.layoutParams = AppBarLayout.LayoutParams(
                     width,
                     height
@@ -175,7 +175,7 @@ class VideoPlayer @Inject constructor(
                     activity.screenHeight
                 )
                 val height = width * 9 / 16
-                playerView.player().updatePadding(top = statusBarHeight)
+             //   playerView.player().updatePadding(top = statusBarHeight)
                 collapse.layoutParams = AppBarLayout.LayoutParams(
                     width,
                     height

@@ -7,7 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowInsets
 import android.widget.FrameLayout
-import com.ekko.play.R
+import androidx.core.view.ViewCompat
+import com.ekko.play.databinding.EyepetizerPlayerViewBinding
 import com.ekko.player.render.VideoPlayerView
 
 class VideoPanel @JvmOverloads constructor(
@@ -17,15 +18,18 @@ class VideoPanel @JvmOverloads constructor(
 ) :
     FrameLayout(context, attrs, defStyleAttr) {
 
-    private var playerView: VideoPlayerView
+    private val binding =
+        EyepetizerPlayerViewBinding.inflate(LayoutInflater.from(context), this, true)
+
+    private val applyWindowInsetsListener =
+        androidx.core.view.OnApplyWindowInsetsListener { v, insets ->
+            Log.e(TAG, "onApplyWindowInsets: $insets")
+            insets
+        }
+
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.eyepetizer_player_view, this)
-        playerView = findViewById(R.id.hello_view)
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+        ViewCompat.setOnApplyWindowInsetsListener(this, applyWindowInsetsListener)
     }
 
 
@@ -34,22 +38,22 @@ class VideoPanel @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-      //  Log.e(TAG, "onMeasure: $widthMeasureSpec $heightMeasureSpec")
+        //  Log.e(TAG, "onMeasure: $widthMeasureSpec $heightMeasureSpec")
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
-        Log.e(TAG, "onConfigurationChanged: $newConfig", )
+        Log.e(TAG, "onConfigurationChanged: $newConfig")
         super.onConfigurationChanged(newConfig)
     }
 
     override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
-       // Log.e(TAG, "onApplyWindowInsets: $insets")
+        // Log.e(TAG, "onApplyWindowInsets: $insets")
         return super.onApplyWindowInsets(insets)
     }
 
-    fun player(): VideoPlayerView = playerView
+    fun player(): VideoPlayerView = binding.videoPlayerView
 
 
     companion object {

@@ -1,6 +1,7 @@
 package com.ekko.playdetail.ui
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
@@ -29,6 +30,7 @@ class PlayDetailActivity : AppCompatActivity(), GeneratedComponentManagerHolder 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
                 Color.TRANSPARENT

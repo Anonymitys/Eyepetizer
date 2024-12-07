@@ -14,6 +14,7 @@
             android:id="@+id/collapse"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            app:forceApplySystemWindowInsetTop="false"
             app:titleEnabled="false">
 
             <com.ekko.player.VideoPanel

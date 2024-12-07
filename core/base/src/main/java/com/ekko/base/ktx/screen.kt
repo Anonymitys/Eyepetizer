@@ -2,6 +2,7 @@ package com.ekko.base.ktx
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.core.view.WindowInsetsCompat
 import androidx.window.layout.WindowMetricsCalculator
 

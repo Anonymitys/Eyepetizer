@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name="com.ekko.playdetail.ui.PlayDetailActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Eyepetizer" />
