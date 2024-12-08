@@ -5,6 +5,7 @@ import com.ekko.playdetail.service.ContainerViewTree
 import com.ekko.playdetail.service.ContentService
 import com.ekko.playdetail.service.IntentParseService
 import com.ekko.playdetail.service.ScrollModeService
+import com.ekko.playdetail.service.SystemBarsService
 import com.ekko.playdetail.service.TabService
 import com.ekko.playdetail.service.ToolbarService
 import com.ekko.playdetail.service.VideoPlayer
@@ -14,12 +15,13 @@ import javax.inject.Inject
 
 @ActivityScoped
 class ActivityScopedAnchor @Inject constructor(
-    val intent:IntentParseService,
+    val intent: IntentParseService,
     val containerViewTree: ContainerViewTree,
     val videoPlayer: VideoPlayer,
     val toolbarService: ToolbarService,
     val tabService: TabService,
     val contentService: ContentService,
     val scrollModeService: ScrollModeService,
-    val configurationService: ConfigurationService
+    val configurationService: ConfigurationService,
+    val systemBarsService: SystemBarsService
 )

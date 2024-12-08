@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowInsets
 import android.widget.FrameLayout
-import androidx.core.view.ViewCompat
+import com.ekko.base.ktx.displayCutout
 import com.ekko.play.databinding.EyepetizerPlayerViewBinding
 import com.ekko.player.render.VideoPlayerView
 
@@ -21,36 +21,18 @@ class VideoPanel @JvmOverloads constructor(
     private val binding =
         EyepetizerPlayerViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private val applyWindowInsetsListener =
-        androidx.core.view.OnApplyWindowInsetsListener { v, insets ->
-            Log.e(TAG, "onApplyWindowInsets: $insets")
-            insets
-        }
-
-
     init {
-        ViewCompat.setOnApplyWindowInsetsListener(this, applyWindowInsetsListener)
-    }
-
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        //  Log.e(TAG, "onMeasure: $widthMeasureSpec $heightMeasureSpec")
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        context.displayCutout?.let {
+            setPadding(0, it.safeInsetTop,0, 0)
+        }
     }
 
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         Log.e(TAG, "onConfigurationChanged: $newConfig")
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
-        // Log.e(TAG, "onApplyWindowInsets: $insets")
-        return super.onApplyWindowInsets(insets)
+        context.displayCutout?.let {
+            setPadding(0, it.safeInsetTop,0, 0)
+        }
     }
 
     fun player(): VideoPlayerView = binding.videoPlayerView

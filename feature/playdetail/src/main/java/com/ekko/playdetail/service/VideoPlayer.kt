@@ -6,10 +6,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.annotation.OptIn
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updatePadding
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
@@ -17,9 +14,9 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MergingMediaSource
 import androidx.media3.ui.PlayerView
+import com.ekko.base.ktx.displayCutout
 import com.ekko.base.ktx.screenHeight
 import com.ekko.base.ktx.screenWidth
-import com.ekko.base.ktx.statusBarHeight
 import com.ekko.player.render.PlayState
 import com.ekko.repository.model.VideoItemCard
 import com.google.android.material.appbar.AppBarLayout
@@ -40,23 +37,17 @@ class VideoPlayer @Inject constructor(
     private val activity: FragmentActivity,
 ) {
 
-    val playerView = containerViewTree.binding.playerView
-    val collapse = containerViewTree.binding.collapse
-    val statusBarHeight by lazy {
-        activity.statusBarHeight
-    }
-
-    private val windowInsetsController =
-        WindowCompat.getInsetsController(
-            activity.window,
-            activity.window.decorView
-        ).also {
-            it.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
+    private val playerView
+        get() = containerViewTree.binding.playerView
+    private val collapse
+        get() = containerViewTree.binding.collapse
 
     val playState: StateFlow<PlayState>
         get() = playerView.player().playState
+
+    val controllerVisibilityState
+        get() = playerView.player().controllerVisibilityState
+
 
     private val callback = object : ActivityLifecycleCallbacks {
 
@@ -111,7 +102,6 @@ class VideoPlayer @Inject constructor(
 
         activity.lifecycleScope.launch {
             configurationService.orientationFlow.collectLatest {
-                fullScreen(it)
                 updateViewPort(it)
             }
         }
@@ -162,11 +152,10 @@ class VideoPlayer @Inject constructor(
                     activity.screenWidth,
                     activity.screenHeight
                 )
-               // playerView.player().updatePadding(top = 0)
-                collapse.layoutParams = AppBarLayout.LayoutParams(
-                    width,
-                    height
-                )
+                collapse.updateLayoutParams<AppBarLayout.LayoutParams> {
+                    this.width = width
+                    this.height = height
+                }
             }
 
             Configuration.ORIENTATION_PORTRAIT -> {
@@ -175,29 +164,16 @@ class VideoPlayer @Inject constructor(
                     activity.screenHeight
                 )
                 val height = width * 9 / 16
-             //   playerView.player().updatePadding(top = statusBarHeight)
-                collapse.layoutParams = AppBarLayout.LayoutParams(
-                    width,
-                    height
-                )
-
+                collapse.updateLayoutParams<AppBarLayout.LayoutParams> {
+                    this.width = width
+                    this.height =
+                        height + (activity.displayCutout?.safeInsetTop
+                            ?: 0)
+                }
             }
 
             else -> {
 
-            }
-        }
-
-    }
-
-    private fun fullScreen(orientation: Int) {
-        when (orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
-            }
-
-            Configuration.ORIENTATION_PORTRAIT -> {
-                windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
             }
         }
 

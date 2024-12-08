@@ -72,6 +72,10 @@ class ToolbarService @Inject constructor(
         player.playCurrent()
     }
 
+    fun showToolBar(show: Boolean) {
+        toolbar.isVisible = show
+    }
+
 
     companion object {
         private const val TAG = "ToolbarService"

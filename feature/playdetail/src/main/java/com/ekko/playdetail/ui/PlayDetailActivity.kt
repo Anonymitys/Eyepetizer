@@ -7,7 +7,10 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.ekko.play.detail.R
 import com.ekko.playdetail.di.anchor.ActivityScopedAnchor
 import com.ekko.playdetail.di.component.ActivityScopedEntryPoint
 import com.therouter.router.Route

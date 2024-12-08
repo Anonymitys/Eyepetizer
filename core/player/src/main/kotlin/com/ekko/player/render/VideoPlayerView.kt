@@ -11,6 +11,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.ui.PlayerView
+import androidx.media3.ui.PlayerView.ControllerVisibilityListener
 import com.ekko.play.databinding.EyepetizerVideoPlayerViewBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,18 +40,30 @@ class VideoPlayerView @JvmOverloads constructor(
         }
     }
 
+    private val controllerVisibilityListener = ControllerVisibilityListener {
+        _controllerVisibilityFlow.value = it
+    }
+
     private val player = ExoPlayer.Builder(context).build().also { it.addListener(listener) }
 
     private val binding =
         EyepetizerVideoPlayerViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private val playerView: PlayerView = binding.surfaceVideoView.also { it.player = player }
+    private val playerView: PlayerView = binding.surfaceVideoView.also {
+        it.setControllerVisibilityListener(controllerVisibilityListener)
+        it.player = player
+    }
 
 
     private val _playerState = MutableStateFlow(PlayState.Idle)
+    val playState
+        get() = _playerState.asStateFlow()
 
 
-    val playState = _playerState.asStateFlow()
+    private var _controllerVisibilityFlow = MutableStateFlow(GONE)
+
+    val controllerVisibilityState
+        get() = _controllerVisibilityFlow.asStateFlow()
 
     fun play() {
         player.play()
@@ -73,6 +86,10 @@ class VideoPlayerView @JvmOverloads constructor(
         playerView.player = null
         player.removeListener(listener)
         player.release()
+    }
+
+    fun setControllerVisibilityListener(listener: ControllerVisibilityListener?) {
+        playerView.setControllerVisibilityListener(listener)
     }
 
 
