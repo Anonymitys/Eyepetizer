@@ -1,16 +1,12 @@
 package com.ekko.playdetail.ui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.ekko.play.detail.R
 import com.ekko.playdetail.di.anchor.ActivityScopedAnchor
 import com.ekko.playdetail.di.component.ActivityScopedEntryPoint
 import com.therouter.router.Route
@@ -33,9 +29,8 @@ class PlayDetailActivity : AppCompatActivity(), GeneratedComponentManagerHolder 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.light(
-                Color.TRANSPARENT,
+            statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(
                 Color.TRANSPARENT
             )
         )

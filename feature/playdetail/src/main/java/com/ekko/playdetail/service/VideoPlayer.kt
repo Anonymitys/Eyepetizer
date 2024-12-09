@@ -11,8 +11,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
-import androidx.media3.exoplayer.source.MergingMediaSource
 import androidx.media3.ui.PlayerView
 import com.ekko.base.ktx.displayCutout
 import com.ekko.base.ktx.screenHeight
@@ -121,19 +119,14 @@ class VideoPlayer @Inject constructor(
 
     @OptIn(UnstableApi::class)
     fun updateMediaSource(itemCard: VideoItemCard) {
-        val list = itemCard.video?.play_info?.map {
-            DefaultMediaSourceFactory(activity).createMediaSource(
-                MediaItem.fromUri(it.url)
-            )
+        val mediaItems = itemCard.video?.play_info?.map {
+            MediaItem.fromUri(it.url)
         }.takeIf {
             !it.isNullOrEmpty()
         } ?: listOf(
-            DefaultMediaSourceFactory(activity).createMediaSource(
-                MediaItem.fromUri(itemCard.video?.play_url ?: "")
-            )
+            MediaItem.fromUri(itemCard.video?.play_url ?: "")
         )
-        val mediaSource = MergingMediaSource(true, true, *list.toTypedArray())
-        playerView.player().setMediaSource(mediaSource)
+        playerView.player().setMediaItems(mediaItems)
     }
 
 

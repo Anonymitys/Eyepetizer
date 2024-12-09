@@ -4,17 +4,24 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import androidx.annotation.OptIn
+import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
-import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cronet.CronetDataSource
+import androidx.media3.datasource.cronet.CronetUtil
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import androidx.media3.ui.PlayerView.ControllerVisibilityListener
 import com.ekko.play.databinding.EyepetizerVideoPlayerViewBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.net.CookieHandler
+import java.net.CookieManager
+import java.net.CookiePolicy
+import java.util.concurrent.Executors
 
 class VideoPlayerView @JvmOverloads constructor(
     context: Context,
@@ -44,7 +51,12 @@ class VideoPlayerView @JvmOverloads constructor(
         _controllerVisibilityFlow.value = it
     }
 
-    private val player = ExoPlayer.Builder(context).build().also { it.addListener(listener) }
+    private val player = ExoPlayer
+        .Builder(context)
+        .setMediaSourceFactory(
+            DefaultMediaSourceFactory(context)
+                .setDataSourceFactory(httpDataSourceFactory())
+        ).build().also { it.addListener(listener) }
 
     private val binding =
         EyepetizerVideoPlayerViewBinding.inflate(LayoutInflater.from(context), this, true)
@@ -74,9 +86,8 @@ class VideoPlayerView @JvmOverloads constructor(
         player.pause()
     }
 
-    @OptIn(UnstableApi::class)
-    fun setMediaSource(mediaSource: MediaSource) {
-        player.setMediaSource(mediaSource)
+    fun setMediaItems(items: List<MediaItem>) {
+        player.setMediaItems(items)
         player.playWhenReady = true
         player.prepare()
     }
@@ -88,10 +99,13 @@ class VideoPlayerView @JvmOverloads constructor(
         player.release()
     }
 
-    fun setControllerVisibilityListener(listener: ControllerVisibilityListener?) {
-        playerView.setControllerVisibilityListener(listener)
+    private fun httpDataSourceFactory(): DataSource.Factory {
+        CronetUtil.buildCronetEngine(context)?.let { engine ->
+            return CronetDataSource.Factory(engine, Executors.newSingleThreadExecutor())
+        }
+        CookieHandler.setDefault(CookieManager().also { it.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER) })
+        return DefaultHttpDataSource.Factory()
     }
-
 
 }
 

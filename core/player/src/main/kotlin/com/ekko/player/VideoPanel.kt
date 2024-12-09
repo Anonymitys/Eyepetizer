@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.WindowInsets
 import android.widget.FrameLayout
 import com.ekko.base.ktx.displayCutout
 import com.ekko.play.databinding.EyepetizerPlayerViewBinding
@@ -23,7 +22,7 @@ class VideoPanel @JvmOverloads constructor(
 
     init {
         context.displayCutout?.let {
-            setPadding(0, it.safeInsetTop,0, 0)
+            binding.root.setPadding(0, it.safeInsetTop, 0, 0)
         }
     }
 
@@ -31,7 +30,7 @@ class VideoPanel @JvmOverloads constructor(
     override fun onConfigurationChanged(newConfig: Configuration?) {
         Log.e(TAG, "onConfigurationChanged: $newConfig")
         context.displayCutout?.let {
-            setPadding(0, it.safeInsetTop,0, 0)
+            binding.root.setPadding(0, it.safeInsetTop, 0, 0)
         }
     }
 

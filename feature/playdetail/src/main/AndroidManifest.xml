@@ -7,7 +7,7 @@
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.Eyepetizer" />
+            android:theme="@style/Theme.PlayDetail" />
     </application>
 
 </manifest>
