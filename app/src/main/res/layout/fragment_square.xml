@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        app:elevation="0dp"
         app:liftOnScrollTargetViewId="@id/list">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -15,9 +16,9 @@
             android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
             app:collapsedTitleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
             app:expandedTitleTextAppearance="@style/TextAppearance.Material3.Expand.Title"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:title="@string/title_square"
-            app:titleCollapseMode="fade"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:titleCollapseMode="fade">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"

@@ -86,8 +86,8 @@ class VideoPlayerView @JvmOverloads constructor(
         player.pause()
     }
 
-    fun setMediaItems(items: List<MediaItem>) {
-        player.setMediaItems(items)
+    fun setMediaItem(item: MediaItem) {
+        player.setMediaItem(item)
         player.playWhenReady = true
         player.prepare()
     }

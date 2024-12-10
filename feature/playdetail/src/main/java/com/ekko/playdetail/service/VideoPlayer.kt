@@ -1,20 +1,19 @@
 package com.ekko.playdetail.service
 
-import android.app.Activity
-import android.app.Application.ActivityLifecycleCallbacks
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.os.Bundle
 import androidx.annotation.OptIn
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
+import com.ekko.base.ktx.deviceHeight
+import com.ekko.base.ktx.deviceWidth
 import com.ekko.base.ktx.displayCutout
-import com.ekko.base.ktx.screenHeight
-import com.ekko.base.ktx.screenWidth
 import com.ekko.player.render.PlayState
 import com.ekko.repository.model.VideoItemCard
 import com.google.android.material.appbar.AppBarLayout
@@ -47,33 +46,17 @@ class VideoPlayer @Inject constructor(
         get() = playerView.player().controllerVisibilityState
 
 
-    private val callback = object : ActivityLifecycleCallbacks {
+    private val observer = object : DefaultLifecycleObserver {
 
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            //
-        }
-
-        override fun onActivityStarted(activity: Activity) {
-            //
-        }
-
-        override fun onActivityResumed(activity: Activity) {
+        override fun onResume(owner: LifecycleOwner) {
             playerView.player().play()
         }
 
-        override fun onActivityPaused(activity: Activity) {
+        override fun onPause(owner: LifecycleOwner) {
             playerView.player().pause()
         }
 
-        override fun onActivityStopped(activity: Activity) {
-            //
-        }
-
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-            //
-        }
-
-        override fun onActivityDestroyed(activity: Activity) {
+        override fun onDestroy(owner: LifecycleOwner) {
             playerView.player().release()
         }
     }
@@ -91,10 +74,10 @@ class VideoPlayer @Inject constructor(
         // fastPlay()
         activity.lifecycleScope.launch {
             try {
-                activity.registerActivityLifecycleCallbacks(callback)
+                activity.lifecycle.addObserver(observer)
                 awaitCancellation()
             } finally {
-                activity.unregisterActivityLifecycleCallbacks(callback)
+                activity.lifecycle.removeObserver(observer)
             }
         }
 
@@ -119,14 +102,10 @@ class VideoPlayer @Inject constructor(
 
     @OptIn(UnstableApi::class)
     fun updateMediaSource(itemCard: VideoItemCard) {
-        val mediaItems = itemCard.video?.play_info?.map {
+        val mediaItem = itemCard.video?.play_info?.firstOrNull()?.let {
             MediaItem.fromUri(it.url)
-        }.takeIf {
-            !it.isNullOrEmpty()
-        } ?: listOf(
-            MediaItem.fromUri(itemCard.video?.play_url ?: "")
-        )
-        playerView.player().setMediaItems(mediaItems)
+        } ?: MediaItem.fromUri(itemCard.video?.play_url ?: "")
+        playerView.player().setMediaItem(mediaItem)
     }
 
 
@@ -135,15 +114,17 @@ class VideoPlayer @Inject constructor(
     }
 
     private fun updateViewPort(orientation: Int) {
+        val deviceWidth = activity.deviceWidth
+        val deviceHeight = activity.deviceHeight
         when (orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 val width = max(
-                    activity.screenWidth,
-                    activity.screenHeight
+                    deviceWidth,
+                    deviceHeight
                 )
                 val height = min(
-                    activity.screenWidth,
-                    activity.screenHeight
+                    deviceWidth,
+                    deviceHeight
                 )
                 collapse.updateLayoutParams<AppBarLayout.LayoutParams> {
                     this.width = width
@@ -153,8 +134,8 @@ class VideoPlayer @Inject constructor(
 
             Configuration.ORIENTATION_PORTRAIT -> {
                 val width = min(
-                    activity.screenWidth,
-                    activity.screenHeight
+                    deviceWidth,
+                    deviceHeight
                 )
                 val height = width * 9 / 16
                 collapse.updateLayoutParams<AppBarLayout.LayoutParams> {

@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.res.Configuration
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.view.DisplayCutoutCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.window.core.ExperimentalWindowApi
 import androidx.window.layout.WindowMetricsCalculator
 
@@ -24,7 +25,7 @@ val Context.versionCode: Long
     get() {
         return try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.longVersionCode
+            packageInfo.versionCode.toLong()
         } catch (e: NameNotFoundException) {
             0
         }
@@ -40,7 +41,7 @@ val Context.isDark: Boolean
 val Context.screenWidth: Int
     get() {
         if (this is Activity) {
-            val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+            val metrics = WindowMetricsCalculator.getOrCreate().computeMaximumWindowMetrics(this)
             return metrics.bounds.width()
         }
         return resources.displayMetrics.widthPixels
@@ -49,25 +50,15 @@ val Context.screenWidth: Int
 val Context.screenHeight: Int
     get() {
         if (this is Activity) {
-            val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+            val metrics = WindowMetricsCalculator.getOrCreate().computeMaximumWindowMetrics(this)
             return metrics.bounds.height()
         }
         return resources.displayMetrics.heightPixels
-
-    }
-
-@OptIn(ExperimentalWindowApi::class)
-val Activity.statusBarHeight: Int
-    get() {
-        val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
-        val insets = metrics.getWindowInsets()
-            .getInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars())
-        Log.e("huqiang", "statusBarHeight:${insets.top} ")
-        return insets.top
     }
 
 @OptIn(ExperimentalWindowApi::class)
 val Context.displayCutout: DisplayCutoutCompat?
+    @RequiresApi(Build.VERSION_CODES.R)
     get() {
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
         val displayCutout = metrics.getWindowInsets().displayCutout
@@ -77,6 +68,7 @@ val Context.displayCutout: DisplayCutoutCompat?
 
 @OptIn(ExperimentalWindowApi::class)
 val Context.isDisplayCutout: Boolean
+    @RequiresApi(Build.VERSION_CODES.R)
     get() {
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
         return metrics.getWindowInsets().displayCutout != null
