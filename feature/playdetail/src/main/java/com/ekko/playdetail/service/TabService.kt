@@ -1,15 +1,13 @@
 package com.ekko.playdetail.service
 
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.ekko.playdetail.adapter.VpAdapter
+import com.ekko.base.viewpager.VpAdapter
 import com.ekko.playdetail.constants.ArgumentsKeys
 import com.ekko.playdetail.constants.Type
 import com.ekko.playdetail.ui.ContentFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.scopes.ActivityScoped
-import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 

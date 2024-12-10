@@ -31,5 +31,8 @@ class FeedCoverLargeVideoViewHolder(
         binding.nickName.text = video.author?.nick
         binding.tag.text = video.tags?.joinToString { it.title }
         binding.duration.text = video.duration?.text
+        binding.avatar.setOnClickListener {
+            jump(it, video.author?.link ?: "")
+        }
     }
 }

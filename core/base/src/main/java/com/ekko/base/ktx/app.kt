@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.res.Configuration
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import android.view.View
 import androidx.core.view.DisplayCutoutCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.window.core.ExperimentalWindowApi
 import androidx.window.layout.WindowMetricsCalculator
 
@@ -56,9 +57,16 @@ val Context.screenHeight: Int
         return resources.displayMetrics.heightPixels
     }
 
+val View.statusBarHeight: Int
+    get() {
+        val height = ViewCompat.getRootWindowInsets(this)
+            ?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+        Log.e("huqiang", "statusBarHeight: $height", )
+        return height
+    }
+
 @OptIn(ExperimentalWindowApi::class)
 val Context.displayCutout: DisplayCutoutCompat?
-    @RequiresApi(Build.VERSION_CODES.R)
     get() {
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
         val displayCutout = metrics.getWindowInsets().displayCutout
@@ -68,7 +76,6 @@ val Context.displayCutout: DisplayCutoutCompat?
 
 @OptIn(ExperimentalWindowApi::class)
 val Context.isDisplayCutout: Boolean
-    @RequiresApi(Build.VERSION_CODES.R)
     get() {
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
         return metrics.getWindowInsets().displayCutout != null

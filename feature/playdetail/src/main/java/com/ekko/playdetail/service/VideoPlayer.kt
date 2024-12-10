@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
-import com.ekko.base.ktx.deviceHeight
-import com.ekko.base.ktx.deviceWidth
 import com.ekko.base.ktx.displayCutout
+import com.ekko.base.ktx.screenHeight
+import com.ekko.base.ktx.screenWidth
 import com.ekko.player.render.PlayState
 import com.ekko.repository.model.VideoItemCard
 import com.google.android.material.appbar.AppBarLayout
@@ -114,8 +114,8 @@ class VideoPlayer @Inject constructor(
     }
 
     private fun updateViewPort(orientation: Int) {
-        val deviceWidth = activity.deviceWidth
-        val deviceHeight = activity.deviceHeight
+        val deviceWidth = activity.screenWidth
+        val deviceHeight = activity.screenHeight
         when (orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 val width = max(

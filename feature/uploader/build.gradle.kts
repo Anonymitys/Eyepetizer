@@ -2,12 +2,12 @@ plugins {
     alias(libs.plugins.eyepetizer.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.ekko.play.detail"
+    namespace = "com.ekko.uploader"
 
     viewBinding {
         enable = true
@@ -21,15 +21,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(projects.core.repository)
-    implementation(projects.core.player)
-
-    // For media playback using ExoPlayer
-    implementation(libs.media3.exoplayer)
-    implementation(libs.fragment.ktx)
     implementation(projects.core.base)
     implementation(libs.coil)
     ksp(libs.router.apt)
     implementation(libs.router)
-    implementation(libs.androidx.media3.ui)
+    implementation(projects.core.repository)
+    implementation(libs.fragment.ktx)
 }

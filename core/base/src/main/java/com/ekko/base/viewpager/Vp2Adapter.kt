@@ -1,4 +1,4 @@
-package com.ekko.playdetail.adapter
+package com.ekko.base.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

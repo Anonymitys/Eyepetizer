@@ -62,6 +62,7 @@ dependencies {
     implementation(projects.core.page)
     implementation(projects.feature.search)
     implementation(projects.feature.playdetail)
+    implementation(projects.feature.uploader)
     ksp(libs.router.apt)
     implementation(libs.router)
 }

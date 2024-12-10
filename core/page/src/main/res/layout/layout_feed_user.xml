@@ -11,13 +11,13 @@
         android:id="@+id/avatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:scaleType="centerCrop"
-        app:shapeAppearance="@style/CircleStyle"
-        app:strokeWidth="1dp"
         android:padding="0.5dp"
-        app:strokeColor="?attr/colorOnSecondaryContainer"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/CircleStyle"
+        app:strokeColor="?attr/colorOnSecondaryContainer"
+        app:strokeWidth="1dp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -52,11 +52,12 @@
     </LinearLayout>
 
 
-    <TextView
+    <Button
         android:id="@+id/describe"
+        style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="describe"
+        android:text="@string/follow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
