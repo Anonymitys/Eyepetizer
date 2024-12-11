@@ -26,5 +26,6 @@ dependencies {
     ksp(libs.router.apt)
     implementation(libs.router)
     implementation(projects.core.repository)
+    implementation(projects.core.page)
     implementation(libs.fragment.ktx)
 }

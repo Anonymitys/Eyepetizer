@@ -23,7 +23,7 @@ class PagingSource(
         return try {
             val pair = if (request.url.contains(CALL_METRO_LIST)) {
                 val metro = repository.getPageMetroData(request.url, request.params)
-                val requestParams = metro.last_item_id.takeIf { it > 0 }?.let {
+                val requestParams = metro.last_item_id.takeIf { it.isNotEmpty() }?.let {
                     PageRequest(request.url, HashMap<String, Any>().apply {
                         putAll(request.params)
                         put(LAST_ITEM_ID, it)
@@ -39,7 +39,7 @@ class PagingSource(
                         params = HashMap<String, Any>().apply {
                             putAll(paramsField)
                         })
-                } ?: card.last_item_id.takeIf { it > 0 }?.let { lastItemId ->
+                } ?: card.last_item_id.takeIf { it.isNotEmpty() }?.let { lastItemId ->
                     PageRequest(url = request.url,
                         params = request.params.also {
                             it[LAST_ITEM_ID] = lastItemId

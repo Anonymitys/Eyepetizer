@@ -1,6 +1,6 @@
 package com.ekko.repository.model
 
-import kotlinx.serialization.SerialName
+import com.ekko.base.ktx.NumberOrStringSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
@@ -15,7 +15,8 @@ data class CardList(
     private val card_list: List<Card>? = null,
     private val item_list: List<Card>? = null,
     val item_count: Long = 0,
-    val last_item_id: Long = 0,
+    @Serializable(with = NumberOrStringSerializer::class)
+    val last_item_id: String = "",
 ) {
     val list: List<Card>?
         get() = card_list ?: item_list
@@ -25,7 +26,8 @@ data class CardList(
 data class Metro(
     val item_list: List<MetroCard<JsonObject>>? = null,
     val item_count: Long = 0,
-    val last_item_id: Long = 0,
+    @Serializable(with = NumberOrStringSerializer::class)
+    val last_item_id: String = "",
 )
 
 @Serializable

@@ -1,5 +1,12 @@
 [
   {
+    "path": "eyepetizer://page/userProfile",
+    "className": "com.ekko.uploader.ui.UserCenterFragment",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
     "path": "eyepetizer://pgc/detail/\\d+",
     "className": "com.ekko.uploader.ui.UploaderActivity",
     "action": "",

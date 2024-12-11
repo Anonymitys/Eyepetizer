@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -19,13 +20,13 @@
         android:id="@+id/cover"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="140dp"
         android:padding="0.5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearance="@style/CircleStyle"
-        app:strokeColor="?colorSurface"
+        app:strokeColor="@android:color/white"
         app:strokeWidth="1dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,17 +56,18 @@
             <TextView
                 android:id="@+id/fans"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="345"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:layout_height="match_parent"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="345" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="粉丝"
-                android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,16 +87,17 @@
                 android:id="@+id/follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="345"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="345" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="关注"
-                android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,16 +118,17 @@
                 android:id="@+id/media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="345"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="345" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="徽章"
-                android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,47 +151,50 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="全球旅行视频精选"
-        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cover" />
+        app:layout_constraintTop_toBottomOf="@id/cover"
+        tools:text="全球旅行视频精选" />
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="一个影视相关内容的大杂谈！"
-        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name" />
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="一个影视相关内容的大杂谈！" />
 
     <TextView
         android:id="@+id/brife"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="被收藏 67.7w 次 · 被分享 45.6w 次"
-        android:textAppearance="?attr/textAppearanceLabelSmall"
+        android:textAppearance="?attr/textAppearanceBodySmall"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/desc" />
+        app:layout_constraintTop_toBottomOf="@id/desc"
+        tools:text="被收藏 67.7w 次 · 被分享 45.6w 次" />
 
     <TextView
         android:id="@+id/location"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="IP属地：北京"
-        android:textAppearance="?attr/textAppearanceLabelSmall"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/brife" />
+        app:layout_constraintTop_toBottomOf="@id/brife"
+        tools:text="IP属地：北京" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

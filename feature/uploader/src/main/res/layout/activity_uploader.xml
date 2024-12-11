@@ -15,21 +15,14 @@
             android:id="@+id/collapse_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:scrimVisibleHeightTrigger="180dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:scrimVisibleHeightTrigger="180dp"
             app:titleEnabled="false">
 
-            <FrameLayout
+            <com.ekko.uploader.view.HeaderView
+                android:id="@+id/header_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <fragment
-                    android:id="@+id/header"
-                    android:name="com.ekko.uploader.ui.HeaderFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </FrameLayout>
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/tool_bar"
@@ -46,7 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
@@ -61,12 +53,5 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

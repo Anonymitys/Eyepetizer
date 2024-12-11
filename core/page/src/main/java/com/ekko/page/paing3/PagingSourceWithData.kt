@@ -6,9 +6,6 @@ import com.ekko.page.ktx.toItemCard
 import com.ekko.page.model.ItemCard
 import com.ekko.repository.PageRepository
 import com.ekko.repository.model.Card
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.jsonPrimitive
 
 class PagingSourceWithInitData(
@@ -29,7 +26,7 @@ class PagingSourceWithInitData(
         val request = params.key?:throw RuntimeException("request empty")
         try {
             val card = repository.getPageMetroData(request.url, request.params)
-            val nextKey = card.last_item_id.takeIf { it > 0 }?.let { lastItemId ->
+            val nextKey = card.last_item_id.takeIf { it.isNotEmpty() }?.let { lastItemId ->
                 PageRequest(url = request.url,
                     params = request.params.also {
                         it[LAST_ITEM_ID] = lastItemId
