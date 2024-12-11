@@ -29,7 +29,7 @@ class IntentParseService @Inject constructor() {
         val url = extra.getString(KEY_PATH) ?: ""
         val path = Uri.parse(url).path ?: ""
         val resourceId = "\\d+".toRegex().find(path)?.value?.toLong() ?: 0
-        val title = extra.getString(TITLE) ?: ""
+        val title = Uri.decode(extra.getString(TITLE) ?: "")
         val userType = extra.getString(USER_TYPE) ?: ""
         val tabIndex = extra.getString(TAB_INDEX)
         val parameter = IntentParameter(resourceId, title, userType, tabIndex?.toIntOrNull() ?: 0)

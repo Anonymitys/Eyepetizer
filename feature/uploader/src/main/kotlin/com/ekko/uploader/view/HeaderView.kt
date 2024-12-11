@@ -3,10 +3,12 @@ package com.ekko.uploader.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import coil.load
 import com.ekko.repository.model.UserInfo
+import com.ekko.uploader.R
 import com.ekko.uploader.databinding.HeaderViewBinding
 
 class HeaderView @JvmOverloads constructor(
@@ -20,7 +22,9 @@ class HeaderView @JvmOverloads constructor(
 
     @SuppressLint("SetTextI18n")
     fun updateHeader(userInfo: UserInfo) {
-        binding.background.load(userInfo.cover)
+        binding.background.load(userInfo.cover){
+            placeholder(R.drawable.uploader_background)
+        }
         binding.cover.load(userInfo.avatar.url)
         binding.name.text = userInfo.nick
         binding.fans.text = userInfo.fans_count.toString()

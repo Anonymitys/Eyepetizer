@@ -7,11 +7,12 @@ import javax.inject.Inject
 
 @ActivityScoped
 class StatusBarService @Inject constructor(
-    private val activity: FragmentActivity
+    private val activity: FragmentActivity,
 ) {
     private val windowInsetsController = WindowCompat.getInsetsController(
         activity.window, activity.window.decorView
     )
+
 
     fun lightTheme(light: Boolean) {
         windowInsetsController.isAppearanceLightStatusBars = light

@@ -8,9 +8,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.ekko.base.ktx.isDark
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.scopes.ActivityScoped
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -19,7 +22,8 @@ class ToolBarService @Inject constructor(
     private val activity: FragmentActivity,
     private val containerTree: ContainerTree,
     appLayoutConfigureService: AppLayoutConfigureService,
-    statusBarService: StatusBarService
+    private val statusBarService: StatusBarService,
+    private val intentParseService: IntentParseService
 ) {
 
     private val toolBar: MaterialToolbar
@@ -31,7 +35,6 @@ class ToolBarService @Inject constructor(
     private var insetsTop = 0
 
     init {
-        navigationIconTint()
         ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
             val inset = insets.getInsets(WindowInsetsCompat.Type.statusBars())
             insetsTop.takeIf { it <= 0 }?.let {
@@ -45,6 +48,16 @@ class ToolBarService @Inject constructor(
             activity.onBackPressedDispatcher.onBackPressed()
         }
 
+        activity.lifecycleScope.launch {
+            appLayoutConfigureService.collapseState.collectLatest {
+                toolBar.title = if (it) intentParseService.arguments.title else ""
+                navigationIconTint(it)
+                if (activity.isDark.not()) {
+                    statusBarService.lightTheme(it)
+                }
+            }
+        }
+
     }
 
     private fun MaterialToolbar.updateParams(insets: Insets) {
@@ -54,9 +67,10 @@ class ToolBarService @Inject constructor(
         }
     }
 
-    private fun navigationIconTint() {
+    private fun navigationIconTint(collapse: Boolean) {
         val color = if (activity.isDark) Color.WHITE
-        else Color.BLACK
+        else if (collapse) Color.BLACK
+        else Color.WHITE
         toolBar.setNavigationIconTint(color)
     }
 }
