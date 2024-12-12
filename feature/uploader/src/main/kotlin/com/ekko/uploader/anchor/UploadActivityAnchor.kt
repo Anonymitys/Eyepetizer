@@ -3,6 +3,7 @@ package com.ekko.uploader.anchor
 
 import com.ekko.uploader.service.ContainerTree
 import com.ekko.uploader.service.IntentParseService
+import com.ekko.uploader.service.LoadingViewService
 import com.ekko.uploader.service.PageLoadService
 import com.ekko.uploader.service.ToolBarService
 import dagger.hilt.android.scopes.ActivityScoped
@@ -14,5 +15,6 @@ class UploadActivityAnchor @Inject constructor(
     val intentService: IntentParseService,
     containerTree: ContainerTree,
     toolBarService: ToolBarService,
-    pageLoadService: PageLoadService
+    pageLoadService: PageLoadService,
+    loadingViewService: LoadingViewService
 )

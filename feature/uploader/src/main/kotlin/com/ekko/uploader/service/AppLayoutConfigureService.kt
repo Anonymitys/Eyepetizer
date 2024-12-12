@@ -3,7 +3,7 @@ package com.ekko.uploader.service
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class AppLayoutConfigureService @Inject constructor(
 
     private val _collapseState = MutableStateFlow(false)
     val collapseState
-        get() = _collapseState.asSharedFlow()
+        get() = _collapseState.asStateFlow()
 
     private val currentOffsetFlow = MutableStateFlow(0)
 

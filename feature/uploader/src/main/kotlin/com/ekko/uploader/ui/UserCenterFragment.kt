@@ -37,6 +37,11 @@ class UserCenterFragment : PageListFragment() {
         TheRouter.build(url).navigation()
     }
 
+    override fun loadingType(): Int {
+        return REFRESH_LOADING
+    }
+
+
     companion object {
         const val PAGE_TYPE = "page_type"
         const val PAGE_LABEL = "page_label"

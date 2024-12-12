@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class PageLoadService @Inject constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val intentParseService: IntentParseService,
     private val componentBuilder: VideoPageComponentBuilder
 ) {
@@ -54,6 +54,13 @@ class PageLoadService @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+
+    fun reload() {
+        activity.lifecycleScope.launch {
+            model.load(intentParseService.arguments.resourceId)
         }
     }
 }

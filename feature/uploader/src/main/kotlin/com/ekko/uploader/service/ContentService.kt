@@ -40,7 +40,7 @@ class ContentService @Inject constructor(
             TabLayoutMediator(tabs, vp2) { tab, position ->
                 tab.text = navList[position].title
             }.attach()
-            vp2.currentItem = intentParameter.tabIndex
+            // vp2.currentItem = intentParameter.tabIndex
         }
     }
 }

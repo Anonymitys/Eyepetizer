@@ -22,7 +22,6 @@ class ToolBarService @Inject constructor(
     private val activity: FragmentActivity,
     private val containerTree: ContainerTree,
     appLayoutConfigureService: AppLayoutConfigureService,
-    private val statusBarService: StatusBarService,
     private val intentParseService: IntentParseService
 ) {
 
@@ -52,9 +51,6 @@ class ToolBarService @Inject constructor(
             appLayoutConfigureService.collapseState.collectLatest {
                 toolBar.title = if (it) intentParseService.arguments.title else ""
                 navigationIconTint(it)
-                if (activity.isDark.not()) {
-                    statusBarService.lightTheme(it)
-                }
             }
         }
 

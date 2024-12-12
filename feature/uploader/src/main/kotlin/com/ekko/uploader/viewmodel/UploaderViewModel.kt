@@ -20,10 +20,10 @@ class UploaderViewModel @Inject constructor(private val userInfoRepository: User
     suspend fun load(uid: Long) {
         try {
             val data = userInfoRepository.userInfo(uid)
-            _uiState.value = UIState.Success(data)
+            _uiState.emit(UIState.Success(data))
 
         } catch (e: Exception) {
-            _uiState.value = UIState.Error(e.message ?: "")
+            _uiState.emit(UIState.Error(e.message ?: ""))
         }
     }
 }

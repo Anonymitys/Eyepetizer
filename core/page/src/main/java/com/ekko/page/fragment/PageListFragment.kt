@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
@@ -58,26 +57,36 @@ abstract class PageListFragment : Fragment() {
 
         launchWhenCreated {
             pageAdapter.loadStateFlow.collectLatest {
-                refresh.isRefreshing =
-                    it.source.refresh is LoadState.Loading && pageAdapter.itemCount > 0
-                progress.isVisible =
-                    it.source.refresh is LoadState.Loading && pageAdapter.itemCount == 0
-                errorView.bindError(it.source.refresh)
+                when (loadingType()) {
+                    CENTER_LOADING -> {
+                        refresh.isRefreshing =
+                            it.source.refresh is LoadState.Loading && pageAdapter.itemCount > 0
+                    }
 
+                    REFRESH_LOADING -> {
+                        refresh.isRefreshing = it.source.refresh is LoadState.Loading
+                    }
+                }
+                errorView.bindLoadingError(it.source.refresh)
             }
         }
     }
 
-    private fun ErrorView.bindError(loadState: LoadState) {
-        val errorState = loadState as? LoadState.Error ?: run {
-            isVisible = false
-            return
-        }
-        if (pageAdapter.itemCount == 0) {
-            isVisible = true
-            bindErrorMsg(errorState.error.message.toString()) {
+    private fun ErrorView.bindLoadingError(loadState: LoadState) {
+        when (loadState) {
+            is LoadState.Loading -> {
+                if (loadingType() == CENTER_LOADING) {
+                    setLoading()
+                } else {
+                    setComplete()
+                }
+            }
+
+            is LoadState.Error -> bindErrorMsg(loadState.error.message.toString()) {
                 pageAdapter.refresh()
             }
+
+            else -> setComplete()
         }
     }
 
@@ -90,4 +99,13 @@ abstract class PageListFragment : Fragment() {
     abstract fun layoutManager(): LayoutManager
 
     abstract fun navigateTo(view: View, url: String)
+
+    open fun loadingType(): Int {
+        return CENTER_LOADING
+    }
+
+    companion object {
+        const val CENTER_LOADING = 1
+        const val REFRESH_LOADING = 2
+    }
 }
