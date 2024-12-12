@@ -1,7 +1,6 @@
 package com.ekko.page.ktx
 
 import com.ekko.page.Scroll
-import com.ekko.page.model.FooterItemCard
 import com.ekko.page.model.HeaderItemCard
 import com.ekko.page.model.ItemCard
 import com.ekko.page.model.MetroItemCard
@@ -39,6 +38,11 @@ fun CardList.toItemCard(): List<ItemCard> {
                 )
             } ?: listOf())
         }
+        list.addAll(it.card_data?.footer?.left?.mapIndexed { index, metroCard ->
+            MetroItemCard(
+                metroCard.style?.tpl_label ?: "", metroCard, index
+            )
+        } ?: listOf())
         list
     } ?: emptyList()
 }
@@ -63,6 +67,11 @@ fun List<Card>.toItemCard(): List<ItemCard> {
                 )
             } ?: listOf())
         }
+        list.addAll(it.card_data?.footer?.left?.mapIndexed { index, metroCard ->
+            MetroItemCard(
+                metroCard.style?.tpl_label ?: "", metroCard, index
+            )
+        } ?: listOf())
         list
     }
 }

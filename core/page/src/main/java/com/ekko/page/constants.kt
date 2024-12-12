@@ -25,6 +25,10 @@ object CardType {
     const val SEARCH_RESULT_TEXT = "search_result_text"
     const val FEED_COVER_LARGE_IMAGE = "feed_cover_large_image"
     const val SLIDE_USER = "slide_user"
+    const val SLIDE_COVER_VIDEO_WITH_AUTHOR = "slide_cover_video_with_author"
+    const val CARD_USER = "card_user"
+    const val SLIDE_COVER_VIDEO = "slide_cover_video"
+    const val DESCRIPTION_TEXT = "description_text"
 
     const val DEFAULT = ""
 }
